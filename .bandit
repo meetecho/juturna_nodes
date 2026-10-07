@@ -1,0 +1,4 @@
+[bandit]
+targets = src,tests
+skips = B101
+recursive = true
