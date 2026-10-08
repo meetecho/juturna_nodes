@@ -35,6 +35,9 @@ Sources
     * - :ref:`JsonWebsocket <node-json-websocket>`
       - Expose a websocket server, and receive data from it
       - --
+    * - :ref:`BrowserInput <node-browser-input>`
+      - Receive messages from the web page hosting a browser pipeline
+      - --
 
 Processing
 ----------
@@ -83,4 +86,7 @@ Sinks
       - --
     * - :ref:`NotifierUDP <node-notifier-udp>`
       - Send messages to a UDP socket
+      - --
+    * - :ref:`BrowserOutput <node-browser-output>`
+      - Send messages to the web page hosting a browser pipeline
       - --
