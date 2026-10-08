@@ -10,6 +10,7 @@ _AVAILABLE_PLUGINS: dict[str, str] = {
     'FileWatcher': '._file_watcher.file_watcher',
     'JsonHTTP': '._json_http.json_http',
     'JsonWebsocket': '._json_websocket.json_websocket',
+    'BrowserInput': '._browser_input.browser_input',
     # processing nodes
     'VadSilero': '._vad_silero.vad_silero',
     'TranscriberWhisper': '._transcriber_whisper.transcriber_whisper',
@@ -21,6 +22,7 @@ _AVAILABLE_PLUGINS: dict[str, str] = {
     'NotifierMongo': '._notifier_mongo.notifier_mongo',
     'NotifierHTTP': '._notifier_http.notifier_http',
     'NotifierUDP': '._notifier_udp.notifier_udp',
+    'BrowserOutput': '._browser_output.browser_output',
 }
 
 
