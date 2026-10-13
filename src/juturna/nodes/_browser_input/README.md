@@ -15,7 +15,7 @@ The node sets no source function. The page hands a message over to the
 Worker, the Worker calls `feed(js_message)` on the node, and the node puts
 the decoded message on its own queue, like `file_watcher` does with
 filesystem events. The wire format is defined in
-`juturna/transport/_browser_io.py`.
+`juturna/transport/browser/_io.py`.
 
 `feed()` blocks when the queue is full, so it must be invoked through
 `.callPromising()`. Concurrent `feed()` calls may be reordered: the host

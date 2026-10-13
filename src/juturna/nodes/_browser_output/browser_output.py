@@ -11,7 +11,7 @@ pipeline, as ``{type: 'output', node, message}`` through ``postMessage``.
 from juturna.components import Node
 from juturna.components import Message
 
-from juturna.transport._browser_io import message_to_js
+from juturna.transport.browser._io import message_to_js
 
 
 class BrowserOutput(Node[object, None]):

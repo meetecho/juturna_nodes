@@ -7,14 +7,14 @@ BrowserInput
 Source node fed by the web page hosting the pipeline.
 
 It sets no source function: the host calls ``feed()`` with a message in the
-wire format of ``juturna.transport._browser_io`` and the node puts it on its
+wire format of ``juturna.transport.browser._io`` and the node puts it on its
 own queue, like ``file_watcher`` does with filesystem events.
 """
 
 from juturna.components import Node
 from juturna.components import Message
 
-from juturna.transport._browser_io import message_from_js
+from juturna.transport.browser._io import message_from_js
 
 
 class BrowserInput(Node[object, object]):

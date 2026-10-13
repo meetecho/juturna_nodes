@@ -12,7 +12,7 @@ browser-only pipeline (Pyodide + `BrowserTransport`).
 ## How it works
 
 `update()` encodes the message in the wire format of
-`juturna/transport/_browser_io.py` and posts it to the page with the
+`juturna/transport/browser/_io.py` and posts it to the page with the
 Worker's `postMessage`. Arrays reach the page as typed arrays.
 
 ## Arguments

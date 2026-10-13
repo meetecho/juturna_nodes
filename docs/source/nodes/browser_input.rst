@@ -18,7 +18,7 @@ Receive the messages that the web page hosting the pipeline hands over.
 
 The node runs only in a Pyodide Worker, with the browser transport of juturna.
 The host calls ``feed()`` with a message in the wire format of
-``juturna.transport._browser_io`` (a JS object ``{kind, payload, meta}``), and
+``juturna.transport.browser._io`` (a JS object ``{kind, payload, meta}``), and
 the node puts the decoded message on its own queue. ``feed()`` blocks when the
 queue is full, so it must be invoked through ``.callPromising()``.
 

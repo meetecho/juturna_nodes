@@ -18,7 +18,7 @@ Hand the messages of the pipeline over to the web page hosting it.
 
 The node runs only in a Pyodide Worker, with the browser transport of juturna.
 It encodes each message in the wire format of
-``juturna.transport._browser_io`` and posts
+``juturna.transport.browser._io`` and posts
 ``{type: 'output', node, message}`` to the page with the ``postMessage`` of the
 Worker. Any other payload type is logged and counted as an update failure.
 
