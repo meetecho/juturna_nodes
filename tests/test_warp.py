@@ -130,18 +130,35 @@ def test_sticky_warp_recovers_after_a_service_restart(services):
     warp.destroy()
 
 
-def test_sticky_state_that_cannot_be_sent_leaves_no_copy(services):
+def test_sticky_state_that_cannot_be_sent_is_copied_without_it(services):
     warp = _warp(services[0].port, sticky=True)
     state = State()
 
     _send(warp, state, 1)
     _send(warp, state, 0)
 
-    assert dict(state) == {}
+    assert dict(state) == {'pending': [1, 0], 'scratch': 0}
 
     _send(warp, state, 2)
 
     assert [m.payload['sum'] for m in warp.sent] == [3]
+
+    warp.destroy()
+
+
+def test_input_values_that_cannot_be_sent_are_left_out(services, caplog):
+    warp = _warp(services[0].port, sticky=False)
+    state = State()
+
+    for n in (1, 2):
+        message = Message(creator='src', payload=ObjectPayload(n=n))
+        message.meta['ids'] = {n}
+        warp.update(message, state=state)
+
+    assert state['pending'] == [1, 2]
+    warnings = [r for r in caplog.records if 'cannot be sent' in r.message]
+    assert len(warnings) == 1, [r.message for r in warnings]
+    assert "message.meta['ids'] (set)" in warnings[0].message
 
     warp.destroy()
 

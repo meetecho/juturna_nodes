@@ -26,10 +26,7 @@ node state lives:
   unless the service answers `FAILED_PRECONDITION` because it does not know
   this node (it restarted, or dropped an idle state): then the request is
   sent again with the copy kept by the warp node, and the service starts
-  again from it. Each response carries the updated copy. When the remote
-  state holds values that cannot be sent, responses carry none, the warp
-  node keeps no copy, and a service that loses the state starts again from
-  an empty one.
+  again from it. Each response carries the updated copy.
 - **not sticky**: the service keeps nothing, so `grpc_host` can be a load
   balancer, or a name that resolves to several replicas. The state travels
   with every request and is replaced by the one in the response. Requests
@@ -38,6 +35,12 @@ node state lives:
 
 A response from a service that does not support the `sticky` option raises
 `RuntimeError`.
+
+Values of types the remote protocol cannot carry are left out of what is
+sent, and reported with a warning the first time for each path, both here and
+on the remote service. A service started with `--strict` fails the request
+with `DATA_LOSS` instead: the update fails, is counted in the node health, and
+the next message goes on.
 
 ## Arguments
 
@@ -53,10 +56,9 @@ A response from a service that does not support the `sticky` option raises
 ## Input message
 
 Any message, sent unchanged to the remote node: every payload type is
-supported, and `meta` values must be of types the remote protocol carries
-(`None`, booleans, numbers, strings, bytes, lists, tuples, frozensets, dicts,
-numpy arrays and scalars, messages). A message with other `meta` values fails
-the update.
+supported. `meta` and `ObjectPayload` values of types the remote protocol
+cannot carry are left out (it carries `None`, booleans, numbers, strings,
+bytes, lists, tuples, frozensets, dicts, numpy arrays and scalars, messages).
 
 ## Output message
 
@@ -67,8 +69,7 @@ when the remote node kept the input without producing a message.
 ## State
 
 The warp node state is the copy of the remote node state, as described
-above. In stateless mode it must hold only values the remote protocol
-carries, or the request fails.
+above, without the values the remote protocol cannot carry.
 
 ## Extra
 

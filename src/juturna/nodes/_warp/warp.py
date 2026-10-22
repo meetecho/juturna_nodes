@@ -95,6 +95,7 @@ class Warp[T_Input, T_Output](Node[T_Input, T_Output]):
         self._remote_config = remote_config
         self._sticky = sticky
         self.channel = None
+        self._dropped_paths: set[str] = set()
 
         self.logger.info('warp node initialized')
 
@@ -156,9 +157,7 @@ class Warp[T_Input, T_Output](Node[T_Input, T_Output]):
             self.logger.error(f'gRPC error: {e.code()} - {e.details()}')
             raise
 
-        # replaced, not merged, or keys the remote node deleted would come
-        # back; a sticky response without state cannot carry it, and the
-        # service keeps the only copy
+        # replaced, not merged, or keys the remote node deleted would come back
         state.clear()
         state.update(response['state'] or dict())
 
@@ -179,8 +178,9 @@ class Warp[T_Input, T_Output](Node[T_Input, T_Output]):
         return self._send(message, dict(state))
 
     def _send(self, message: Message, state: dict | None) -> dict:
+        dropped = list()
         envelope = create_envelope(
-            message=message_to_proto(message),
+            message=message_to_proto(message, dropped),
             creator=self.name,
             pipe_id=self.pipe_id,
             state=state,
@@ -189,7 +189,10 @@ class Warp[T_Input, T_Output](Node[T_Input, T_Output]):
             configuration=self._remote_config,
             metadata={},
             stateless=not self._sticky,
+            dropped=dropped,
         )
+
+        self._warn_dropped(dropped)
 
         self.logger.debug(f'sending message {message.id} ({envelope.id})')
 
@@ -204,3 +207,10 @@ class Warp[T_Input, T_Output](Node[T_Input, T_Output]):
             )
 
         return response
+
+    def _warn_dropped(self, dropped: list[str]):
+        # values that cannot be sent are left out, reported the first time
+        for path in dropped:
+            if path not in self._dropped_paths:
+                self._dropped_paths.add(path)
+                self.logger.warning(f'{path} cannot be sent, it is left out')
