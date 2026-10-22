@@ -2,6 +2,7 @@
 grpc_host = "localhost"
 grpc_port = 50080
 timeout = 30
+sticky = true
 
   [arguments.remote_config]
 

@@ -28,12 +28,26 @@ them can be overridden in the node ``configuration`` of a pipeline.
 Pipeline usage
 --------------
 
+A pipeline does not list ``Warp`` itself: a node with ``"warped": true`` is
+replaced by a ``Warp`` built from its ``warp_configuration``. The ``sticky``
+key of the warped node (default ``true``) tells whether the remote service
+keeps the node state (``true``), or the state travels with every request so
+that ``grpc_host`` can point to a load balancer in front of several replicas
+(``false``).
+
 .. code-block:: json
 
     {
-      "name": "warp",
-      "type": "Warp",
-      "configuration": {}
+      "name": "transcriber",
+      "type": "TranscriberWhisper",
+      "configuration": { "model_name": "large-v3" },
+      "warped": true,
+      "sticky": false,
+      "warp_configuration": {
+        "grpc_host": "transcribers.internal",
+        "grpc_port": 45000,
+        "timeout": 10
+      }
     }
 
 Reference
