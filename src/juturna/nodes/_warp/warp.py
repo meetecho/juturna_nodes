@@ -7,6 +7,8 @@ Warp Node
 Generic gRPC remote node using Juturna's protobuf messaging.
 """
 
+import json
+
 import grpc
 
 from juturna.remotizer.c_protos import messaging_service_pb2_grpc
@@ -20,6 +22,31 @@ from juturna.remotizer.utils import (
 from juturna.components import Message
 from juturna.components import Node
 from juturna.components import State
+
+
+MAX_MESSAGE_LENGTH = 100 * 1024 * 1024
+
+# a stateless request can be sent again safely: the state it carries is only
+# replaced once a response arrives, so a retry starts from the same one
+STATELESS_SERVICE_CONFIG = json.dumps(
+    {
+        'loadBalancingConfig': [{'round_robin': {}}],
+        'methodConfig': [
+            {
+                'name': [
+                    {'service': 'juturna.proto.messaging.MessagingService'}
+                ],
+                'retryPolicy': {
+                    'maxAttempts': 3,
+                    'initialBackoff': '0.1s',
+                    'maxBackoff': '1s',
+                    'backoffMultiplier': 2,
+                    'retryableStatusCodes': ['UNAVAILABLE'],
+                },
+            }
+        ],
+    }
+)
 
 
 class Warp[T_Input, T_Output](Node[T_Input, T_Output]):
@@ -38,6 +65,7 @@ class Warp[T_Input, T_Output](Node[T_Input, T_Output]):
         grpc_port: int,
         timeout: int,
         remote_config: dict,
+        sticky: bool,
         **kwargs,
     ):
         """
@@ -50,7 +78,11 @@ class Warp[T_Input, T_Output](Node[T_Input, T_Output]):
         timeout : int
             Timeout for gRPC calls in seconds.
         remote_config : dict
-            Missing description.
+            Configuration of the remote node, sent with every request.
+        sticky : bool
+            True when the remote service is always the same one, and keeps
+            the node state. False when the service can be any replica behind
+            a load balancer, so the state travels with every request.
         kwargs : dict
             Supernode arguments.
 
@@ -61,19 +93,28 @@ class Warp[T_Input, T_Output](Node[T_Input, T_Output]):
         self._grpc_port = grpc_port
         self._timeout = timeout
         self._remote_config = remote_config
+        self._sticky = sticky
+        self.channel = None
 
         self.logger.info('warp node initialized')
 
     def warmup(self):
         """Warmup the node"""
-        # Setup gRPC channel and stub
-        self.channel = grpc.insecure_channel(
-            f'{self._grpc_host}:{self._grpc_port}',
-            options=[
-                ('grpc.max_send_message_length', 100 * 1024 * 1024),  # 100MB
-                ('grpc.max_receive_message_length', 100 * 1024 * 1024),  # 100MB
-            ],
-        )
+        options = [
+            ('grpc.max_send_message_length', MAX_MESSAGE_LENGTH),
+            ('grpc.max_receive_message_length', MAX_MESSAGE_LENGTH),
+        ]
+        target = f'{self._grpc_host}:{self._grpc_port}'
+
+        if not self._sticky:
+            # every address of the host is a replica: spread the requests
+            target = f'dns:///{target}'
+            options += [
+                ('grpc.service_config', STATELESS_SERVICE_CONFIG),
+                ('grpc.enable_retries', 1),
+            ]
+
+        self.channel = grpc.insecure_channel(target, options=options)
 
         # Create stub: it stubs the remote service for the client-proxy;
         # it will be defined as MessagingServiceImpl on the server side
@@ -83,12 +124,18 @@ class Warp[T_Input, T_Output](Node[T_Input, T_Output]):
 
         self.logger.info(f'warmup node: {self.name}')
 
+    def destroy(self):
+        """Close the gRPC channel"""
+        if self.channel is not None:
+            self.channel.close()
+
     def update(self, message: Message[T_Input], **kwargs):
         """
         Send message via gRPC and wait for response
 
-        The message can contain any payload type (T_Input).
-        Response will contain payload of type T_Output.
+        The message can contain any payload type (T_Input). The response
+        contains a message of type T_Output, which is transmitted, or none
+        when the remote node kept the input without producing anything.
 
         Parameters
         ----------
@@ -101,49 +148,59 @@ class Warp[T_Input, T_Output](Node[T_Input, T_Output]):
         state: State = kwargs['state']
 
         try:
-            self.logger.info('converting message to protobuf...')
-            message_proto = message_to_proto(message)
-            self.logger.debug('creating envelope...')
-            envelope = create_envelope(
-                message=message_proto,
-                creator=self.name,
-                pipe_id=self.pipe_id,
-                state=dict(state),
-                request_type=type(T_Input).__name__,
-                response_type=type(T_Output).__name__,
-                priority=0,
-                timeout=self._timeout,
-                configuration={},
-                metadata={},
-            )
-
-            envelope.configuration.update(self._remote_config)
-
-            self.logger.info(f'sending message (envelope_id={envelope.id})...')
-            self.logger.info(f'sending message id {message.id}')
-
-            response_envelope = self.stub.SendAndReceive(
-                envelope, timeout=self._timeout
-            )
-
-            self.logger.info(
-                f'received response (envelope_id={response_envelope.id})'
-            )
-
-            self.logger.info('converting response to Message...')
-            envelope_dict = deserialize_envelope(response_envelope)
-
-            to_send: Message[T_Output] = envelope_dict['message']
-
-            self.transmit(to_send)
-            self.logger.info(f'transmit: {to_send.version}')
-
-            for k, v in envelope_dict['state'].items():
-                state[k] = v
-
+            if self._sticky:
+                response = self._send_sticky(message, state)
+            else:
+                response = self._send(message, dict(state))
         except grpc.RpcError as e:
             self.logger.error(f'gRPC error: {e.code()} - {e.details()}')
             raise
-        except Exception as e:
-            self.logger.error(f'Error in update: {e}', exc_info=True)
-            raise
+
+        # replaced, not merged, or keys the remote node deleted would come
+        # back; a sticky response without state cannot carry it, and the
+        # service keeps the only copy
+        state.clear()
+        state.update(response['state'] or dict())
+
+        if response['message'] is not None:
+            self.transmit(response['message'])
+
+    def _send_sticky(self, message: Message, state: State) -> dict:
+        try:
+            return self._send(message, None)
+        except grpc.RpcError as e:
+            if e.code() != grpc.StatusCode.FAILED_PRECONDITION:
+                raise
+
+        # the service does not know this node (it restarted, or dropped an
+        # idle state): it starts again from the copy kept here
+        self.logger.info('remote service asked for the state, sending it')
+
+        return self._send(message, dict(state))
+
+    def _send(self, message: Message, state: dict | None) -> dict:
+        envelope = create_envelope(
+            message=message_to_proto(message),
+            creator=self.name,
+            pipe_id=self.pipe_id,
+            state=state,
+            priority=0,
+            timeout=self._timeout,
+            configuration=self._remote_config,
+            metadata={},
+            stateless=not self._sticky,
+        )
+
+        self.logger.debug(f'sending message {message.id} ({envelope.id})')
+
+        response = deserialize_envelope(
+            self.stub.SendAndReceive(envelope, timeout=self._timeout)
+        )
+
+        if response['stateless'] == self._sticky:
+            raise RuntimeError(
+                f'remote service {self._grpc_host}:{self._grpc_port} does '
+                'not support the sticky option: upgrade it'
+            )
+
+        return response
