@@ -95,7 +95,7 @@ class Warp[T_Input, T_Output](Node[T_Input, T_Output]):
         self._remote_config = remote_config
         self._sticky = sticky
         self.channel = None
-        self._dropped_paths: set[str] = set()
+        self._dropped_reported = False
 
         self.logger.info('warp node initialized')
 
@@ -209,8 +209,9 @@ class Warp[T_Input, T_Output](Node[T_Input, T_Output]):
         return response
 
     def _warn_dropped(self, dropped: list[str]):
-        # values that cannot be sent are left out, reported the first time
-        for path in dropped:
-            if path not in self._dropped_paths:
-                self._dropped_paths.add(path)
-                self.logger.warning(f'{path} cannot be sent, it is left out')
+        # reported once: paths holding keys or indices are always new
+        if dropped and not self._dropped_reported:
+            self._dropped_reported = True
+            self.logger.warning(
+                f'{", ".join(dropped)} cannot be sent, left out'
+            )

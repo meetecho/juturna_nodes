@@ -152,13 +152,13 @@ def test_input_values_that_cannot_be_sent_are_left_out(services, caplog):
 
     for n in (1, 2):
         message = Message(creator='src', payload=ObjectPayload(n=n))
-        message.meta['ids'] = {n}
+        message.meta[f'ids_{n}'] = {n}  # a new path for every message
         warp.update(message, state=state)
 
     assert state['pending'] == [1, 2]
     warnings = [r for r in caplog.records if 'cannot be sent' in r.message]
     assert len(warnings) == 1, [r.message for r in warnings]
-    assert "message.meta['ids'] (set)" in warnings[0].message
+    assert "message.meta['ids_1'] (set)" in warnings[0].message
 
     warp.destroy()
 
