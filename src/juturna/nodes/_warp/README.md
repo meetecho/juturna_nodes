@@ -37,8 +37,8 @@ A response from a service that does not support the `sticky` option raises
 `RuntimeError`.
 
 Values of types the remote protocol cannot carry are left out of what is
-sent, and reported with a warning the first time for each path, both here and
-on the remote service. A service started with `--strict` fails the request
+sent, and reported with a single warning that lists their paths, once by this
+node and once for each client by the remote service. A service started with `--strict` fails the request
 with `DATA_LOSS` instead: the update fails, is counted in the node health, and
 the next message goes on.
 
