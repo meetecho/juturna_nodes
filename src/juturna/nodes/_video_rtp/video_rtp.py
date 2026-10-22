@@ -29,7 +29,9 @@ class VideoRtp(Node[BytesPayload, ImagePayload]):
     _SDP_TEMPLATE_NAME: str = 'remote_source.sdp.template'
     _OPTIONS: dict = {
         'protocol_whitelist': 'file,udp,rtp',
-        'buffer_size': '4096',
+        # UDP receive buffer: 4 KB (smaller than the system default) made
+        # keyframes overflow it, losing about half the frames
+        'buffer_size': str(1024 * 1024),
         'stimeout': '1000000',
         'probesize': '32',
         'analyzeduration': '0',
