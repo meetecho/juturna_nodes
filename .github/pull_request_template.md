@@ -7,7 +7,8 @@ Select all the labels that apply to this PR.
 
 - [ ] Bug fix (non-breaking change which fixes an issue)
 - [ ] New feature (non-breaking change which adds functionality)
-- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] New node
+- [ ] Breaking change (fix or feature that would cause existing node functionality to not work as expected)
 - [ ] Documentation update
 - [ ] Code refactoring
 - [ ] Performance improvement
