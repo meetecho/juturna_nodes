@@ -8,7 +8,10 @@ Annotate frames using YOLO models.
 For more info about the models, see here: https://github.com/ultralytics/ultralytics
 """
 
+import numpy as np
+
 from ultralytics import YOLO
+from ultralytics.cfg import DEFAULT_CFG_DICT
 
 from juturna.components import Message
 from juturna.components import Node
@@ -58,6 +61,13 @@ class DetectorYolo(Node[ImagePayload, ImagePayload]):
         self._model = None
         self._classes = None
 
+        # ultralytics 8.4 replaced `half` with `quantize`, and warns on every
+        # predict call that passes `half`, whatever its value
+        if 'quantize' in DEFAULT_CFG_DICT:
+            self._precision = {'quantize': 16 if half else None}
+        else:
+            self._precision = {'half': half}
+
     def warmup(self):
         """Warmup the node"""
         self._model = YOLO(self._model_name)
@@ -66,6 +76,15 @@ class DetectorYolo(Node[ImagePayload, ImagePayload]):
             {v: k for k, v in self._model.names.items()}[t]
             for t in self._targets
         ]
+
+        # the first inference initialises CUDA kernels and takes seconds:
+        # pay it here, before frames start queueing up
+        self._model.predict(
+            np.zeros((640, 640, 3), dtype=np.uint8),
+            verbose=False,
+            classes=self._classes,
+            **self._precision,
+        )
 
         self.logger.info('detector ready')
 
@@ -77,7 +96,7 @@ class DetectorYolo(Node[ImagePayload, ImagePayload]):
             verbose=False,
             classes=self._classes,
             conf=self._confidence,
-            half=self._half,
+            **self._precision,
         )
 
         annotated = results[0].plot()
