@@ -10,14 +10,13 @@ assignees: ''
 **Describe the bug**
 A clear and concise description of what the bug is.
 
-**Affected Components**
-A pointer to the component affected by the bug (juturna core library, a built-in node, a plugin node)
+**Affected Node**
+A pointer to the node affected by the bug.
 
 **To Reproduce**
 Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
+1. Create a pipeline with configuration '...'
+2. Warmup / start / stop or '...'
 4. See error
 
 **Expected behavior**
@@ -32,4 +31,4 @@ If applicable, add logs in a code block to help explain your problem.
  - Juturna Version [e.g. 1.0.1]
 
 **Additional context**
-Add any other context about the problem here
+Add any other context about the problem here.
