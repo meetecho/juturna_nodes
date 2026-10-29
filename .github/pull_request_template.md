@@ -20,7 +20,7 @@ Select all the labels that apply to this PR.
 A clear and concise list of changes introduced by the PR.
 
 ### Affected components
-A pointer to the component affected by the PR (juturna core library, a built-in node,
+A pointer to the node affected by the PR (juturna core library, a built-in node,
 a plugin node).
 
 ### Additional context
