@@ -15,7 +15,7 @@ import av
 from juturna.components import Node
 from juturna.components import Message
 
-from juturna.components import _resource_broker as rb
+from juturna.utils.net_utils import get_available_port
 from juturna.meta import JUTURNA_THREAD_JOIN_TIMEOUT
 from juturna.names import PixelFormat
 from juturna.payloads import BytesPayload, ImagePayload
@@ -94,7 +94,7 @@ class VideoRtp(Node[BytesPayload, ImagePayload]):
     def configure(self):
         """Configure the node"""
         if self._rec_port == 'auto':
-            self._rec_port = rb.get('port')
+            self._rec_port = get_available_port()
 
     def warmup(self):
         """Warmup the node"""
