@@ -21,7 +21,7 @@ from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler
 from http.server import HTTPServer
 
-from juturna.components import _resource_broker as rb
+from juturna.utils.net_utils import get_available_port
 from juturna.components import Node
 from juturna.components import Message
 
@@ -64,7 +64,7 @@ class JsonHTTP(Node[ObjectPayload, ObjectPayload]):
     def configure(self) -> None:
         """Configure the node before warming up"""
         if self._port == 'auto':
-            self._port = rb.get('port')
+            self._port = get_available_port()
 
         self.logger.info(f'port {self._port} requested')
 

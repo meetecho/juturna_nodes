@@ -17,7 +17,7 @@ from juturna.components import Node
 from juturna.components import Message
 
 from juturna.payloads import AudioPayload
-from juturna.components import _resource_broker as rb
+from juturna.utils.net_utils import get_available_port
 from juturna.meta import JUTURNA_THREAD_JOIN_TIMEOUT
 from juturna.transport import Event
 from juturna.transport import WorkerHandle
@@ -130,7 +130,7 @@ class AudioRtp(Node[AudioPayload, AudioPayload]):
     def configure(self):
         """Configure the node"""
         if self._port == 0:
-            self._port = rb.get('port')
+            self._port = get_available_port()
 
     def warmup(self):
         """Warmup the node"""

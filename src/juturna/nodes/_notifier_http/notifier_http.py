@@ -12,7 +12,6 @@ import requests
 from juturna.components import Message
 from juturna.components import Node
 
-from juturna.meta import JUTURNA_DRAIN_TIMEOUT
 from juturna.meta import JUTURNA_MAX_QUEUE_SIZE
 from juturna.meta import JUTURNA_THREAD_JOIN_TIMEOUT
 from juturna.payloads import ObjectPayload
@@ -20,6 +19,9 @@ from juturna.transport import Empty
 from juturna.transport import Queue
 from juturna.transport import Event
 from juturna.transport import WorkerHandle
+
+# the core dropped JUTURNA_DRAIN_TIMEOUT (ea77675); 4 s was its default
+_DRAIN_TIMEOUT = 4.0
 
 
 class NotifierHTTP(Node[ObjectPayload, None]):
@@ -90,12 +92,12 @@ class NotifierHTTP(Node[ObjectPayload, None]):
         self._stop_sender_event.set()
 
         if self._sender_thread:
-            self._sender_thread.join(timeout=JUTURNA_DRAIN_TIMEOUT)
+            self._sender_thread.join(timeout=_DRAIN_TIMEOUT)
 
             if self._sender_thread.is_alive():
                 self.logger.warning(
                     f'sender worker still draining after '
-                    f'{JUTURNA_DRAIN_TIMEOUT}s, '
+                    f'{_DRAIN_TIMEOUT}s, '
                     f'{self._send_queue.qsize()} message(s) may be dropped'
                 )
 
