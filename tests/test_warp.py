@@ -200,6 +200,7 @@ def test_stateless_warp_refuses_a_service_without_the_option():
         pipe_name='pipe',
     )
     warp.pipe_id = 'pipe-1'
+    warp._session = 'session'
 
     class OldService:
         def SendAndReceive(self, envelope, timeout):
@@ -249,3 +250,88 @@ def test_stateless_warp_retries_an_unavailable_service(services):
 
     assert len(calls) == 2 and calls[0] == calls[1], 'request not retried'
     assert dict(state) == {'pending': [1], 'scratch': 1}
+
+
+def test_warp_refuses_a_service_of_another_protocol_version():
+    warp = Warp(
+        grpc_host='old',
+        grpc_port=1,
+        timeout=5,
+        remote_config={},
+        sticky=True,
+        node_name='warp',
+        pipe_name='pipe',
+    )
+    warp.pipe_id = 'pipe-1'
+    warp._session = 'session'
+
+    class OtherVersion:
+        def SendAndReceive(self, envelope, timeout):
+            response = create_envelope(
+                message=None,
+                configuration={},
+                metadata={},
+                creator='remote',
+                pipe_id='pipe-1',
+                state={},
+            )
+            response.protocol_version = 0
+
+            return response
+
+    warp.stub = OtherVersion()
+
+    with pytest.raises(RuntimeError, match='speaks version 0 of the remote'):
+        _send(warp, State(), 1)
+
+
+def test_two_warps_with_the_same_names_keep_their_own_state(services):
+    service = services[0]
+    first, second = _warp(service.port, True), _warp(service.port, True)
+    first_state, second_state = State(), State()
+
+    _send(first, first_state, 1)
+    _send(second, second_state, 7)
+    _send(first, first_state, 2)
+
+    assert first._session != second._session
+    assert first_state['pending'] == [1, 2]
+    assert second_state['pending'] == [7]
+    assert len(service.impl._state_store) == 2
+
+    first.destroy()
+    second.destroy()
+
+
+def test_sticky_warp_ends_its_session_when_destroyed(services):
+    service = services[0]
+    warp = _warp(service.port, True)
+    session = warp._session
+
+    _send(warp, State(), 1)
+
+    assert list(service.impl._state_store) == [('pipe-1', 'warp', session)]
+
+    warp.destroy()
+
+    assert service.impl._state_store == {}
+
+    # again, and with the service gone: nothing to end, nothing raised
+    warp.destroy()
+    warp.warmup()
+    service.close()
+    warp.destroy()
+
+    assert warp._session is None
+
+
+def test_warp_warmed_up_again_starts_a_new_session(services):
+    warp = _warp(services[0].port, True)
+    first = warp._session
+
+    warp.destroy()
+    warp.warmup()
+
+    assert warp._session and warp._session != first
+
+    warp.destroy()

@@ -8,12 +8,14 @@ Generic gRPC remote node using Juturna's protobuf messaging.
 """
 
 import json
+import secrets
 
 import grpc
 
 from juturna.remotizer.c_protos import messaging_service_pb2_grpc
 
 from juturna.remotizer.utils import (
+    PROTOCOL_VERSION,
     message_to_proto,
     create_envelope,
     deserialize_envelope,
@@ -25,6 +27,9 @@ from juturna.components import State
 
 
 MAX_MESSAGE_LENGTH = 100 * 1024 * 1024
+
+# seconds to wait when telling the service that this node is going away
+END_SESSION_TIMEOUT = 2.0
 
 # a stateless request can be sent again safely: the state it carries is only
 # replaced once a response arrives, so a retry starts from the same one
@@ -95,6 +100,7 @@ class Warp[T_Input, T_Output](Node[T_Input, T_Output]):
         self._remote_config = remote_config
         self._sticky = sticky
         self.channel = None
+        self._session = None
         self._dropped_reported = False
 
         self.logger.info('warp node initialized')
@@ -117,6 +123,11 @@ class Warp[T_Input, T_Output](Node[T_Input, T_Output]):
 
         self.channel = grpc.insecure_channel(target, options=options)
 
+        # sent with every request: with the pipeline id and the name of this
+        # node it identifies this run to the service, so that nobody who
+        # only knows those two can reach the state the service keeps for it
+        self._session = secrets.token_hex(16)
+
         # Create stub: it stubs the remote service for the client-proxy;
         # it will be defined as MessagingServiceImpl on the server side
         self.stub = messaging_service_pb2_grpc.MessagingServiceStub(
@@ -126,9 +137,34 @@ class Warp[T_Input, T_Output](Node[T_Input, T_Output]):
         self.logger.info(f'warmup node: {self.name}')
 
     def destroy(self):
-        """Close the gRPC channel"""
-        if self.channel is not None:
-            self.channel.close()
+        """End the session with the service and close the gRPC channel"""
+        if self.channel is None:
+            return
+
+        if self._sticky:
+            self._end_session()
+
+        self.channel.close()
+        self.channel = None
+        self._session = None
+
+    def _end_session(self):
+        # the service drops the state it keeps for this node. Best effort:
+        # a service that cannot be reached drops it later, once idle
+        envelope = create_envelope(
+            message=None,
+            creator=self.name,
+            pipe_id=self.pipe_id,
+            state=None,
+            configuration={},
+            metadata={},
+            session=self._session,
+        )
+
+        try:
+            self.stub.EndSession(envelope, timeout=END_SESSION_TIMEOUT)
+        except grpc.RpcError as e:
+            self.logger.debug(f'session not ended: {e.code()}')
 
     def update(self, message: Message[T_Input], **kwargs):
         """
@@ -184,12 +220,12 @@ class Warp[T_Input, T_Output](Node[T_Input, T_Output]):
             creator=self.name,
             pipe_id=self.pipe_id,
             state=state,
-            priority=0,
             timeout=self._timeout,
             configuration=self._remote_config,
             metadata={},
             stateless=not self._sticky,
             dropped=dropped,
+            session=self._session,
         )
 
         self._warn_dropped(dropped)
@@ -199,6 +235,14 @@ class Warp[T_Input, T_Output](Node[T_Input, T_Output]):
         response = deserialize_envelope(
             self.stub.SendAndReceive(envelope, timeout=self._timeout)
         )
+
+        if response['protocol_version'] != PROTOCOL_VERSION:
+            raise RuntimeError(
+                f'remote service {self._grpc_host}:{self._grpc_port} speaks '
+                f'version {response["protocol_version"]} of the remote '
+                f'protocol, this node version {PROTOCOL_VERSION}: install '
+                'matching versions of juturna on both sides'
+            )
 
         if response['stateless'] == self._sticky:
             raise RuntimeError(
