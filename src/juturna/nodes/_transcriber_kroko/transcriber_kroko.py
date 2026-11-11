@@ -108,7 +108,3 @@ class TranscriberKroko(Node[AudioPayload, ObjectPayload]):
             except Exception as e:
                 self.logger.error(f'Kroko recv error: {e}')
                 return
-
-    # uncomment next_batch to design custom synchronisation policy
-    # def next_batch(sources: dict[str, list[Message]]) -> dict[str, list[int]]:
-    #     ...
