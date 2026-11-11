@@ -33,8 +33,21 @@ node state lives:
   are spread over all the addresses of `grpc_host` (`round_robin`), and a
   request that fails with `UNAVAILABLE` is sent again, up to 3 attempts.
 
-A response from a service that does not support the `sticky` option raises
-`RuntimeError`.
+Every time it warms up, the warp node makes a random session identifier and
+sends it with every request. The service keeps the state of a sticky node
+under the pipeline id, the node name and that session, so another client
+that only knows the first two cannot read or change it, and a pipeline
+started again does not continue from the state of its previous run. When a
+sticky warp node is destroyed it tells the service, which drops the state.
+
+The service and the warp node must speak the same version of the remote
+protocol. A request of another version is refused by the service with
+`UNIMPLEMENTED`, and a response of another version raises `RuntimeError`: in
+both cases the update fails. So does a response from a service that does not
+support the `sticky` option.
+
+The remote service has no authentication and no encryption. Use it on
+trusted networks only.
 
 Values of types the remote protocol cannot carry are left out of what is
 sent, and reported with a single warning that lists their paths, once by this
@@ -45,7 +58,8 @@ the next message goes on.
 ## Arguments
 
 - `grpc_host` (`"localhost"`): host of the remote service.
-- `grpc_port` (`50080`): port of the remote service.
+- `grpc_port` (`50051`): port of the remote service, the default of
+  `python -m juturna remotize`.
 - `timeout` (`30`): seconds to wait for each response.
 - `sticky` (`true`): see above. Set by the `sticky` key of the warped node,
   not inside `warp_configuration`.

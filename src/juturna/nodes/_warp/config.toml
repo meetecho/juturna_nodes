@@ -1,6 +1,6 @@
 [arguments]
 grpc_host = "localhost"
-grpc_port = 50080
+grpc_port = 50051
 timeout = 30
 sticky = true
 
