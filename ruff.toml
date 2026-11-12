@@ -24,8 +24,7 @@ exclude = [
     "dist",
     "node_modules",
     "site-packages",
-    "venv",
-    "tests"
+    "venv"
 ]
 
 line-length = 80
@@ -70,3 +69,4 @@ ignore = [
 
 [lint.per-file-ignores]
 "docs/source/conf.py" = ["D100", "E501"]
+"tests/*" = ["D"]
