@@ -5,7 +5,12 @@
 
 :bdg-primary:`processing`
 
-Transcribe audio packets using kroko-onnx (WIP)
+Transcribe audio packets using kroko-onnx.
+
+.. warning::
+
+    This node is experimental. Its arguments and its output format may change
+    in any release, without a major version bump.
 
 :Node type: ``TranscriberKroko``
 :Input: ``AudioPayload``
