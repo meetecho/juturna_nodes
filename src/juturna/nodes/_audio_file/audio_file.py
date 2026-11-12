@@ -32,8 +32,8 @@ class AudioFile(Node[AudioPayload, AudioPayload]):
         self, file_source: str, block_size: int, audio_rate: int, **kwargs
     ):
         """
-        Parameter
-        ---------
+        Parameters
+        ----------
         file_source : str
             The path of the file to source into the pipeline.
         block_size : int

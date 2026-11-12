@@ -189,6 +189,17 @@ pip install -e ".[all,dev_full]"
 python -c "from juturna.nodes import MyNode"
 ```
 
+Run the test suite, which also checks that every registered node has a valid
+`config.toml` matching its constructor, and a `README.md`:
+
+```bash
+pytest tests/
+```
+
+Tests of nodes whose extra is not installed are skipped. New nodes should come
+with their own tests in `tests/`, whenever they can run without external
+services.
+
 Then run it in a small pipeline, using `juturna validate` and `juturna launch`
 on a pipeline file that includes the node:
 
@@ -485,6 +496,7 @@ Even if you bypass local validation, all commits in a Pull Request are validated
 1. **Commit Lint** - Validates all commit messages in the PR
 2. **Ruff Check** - Ensures code passes linting rules
 3. **Ruff Format** - Ensures code is properly formatted
+4. **Unit Tests** - Runs the test suite on every supported Python version
 
 PRs that fail any check cannot be merged.
 

@@ -1,8 +1,8 @@
 """
 VideoRtp
 
-@author: Antonio Bevilacqua
-@email: b3by.in.th3.sky@gmail.com
+@ Author: Antonio Bevilacqua
+@ Email: abevilacqua@meetecho.com
 
 Consume RTP video streams using PyAv.
 """

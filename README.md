@@ -31,6 +31,9 @@ available through optional extras, so that you only install what you need:
 | `warp`     | `juturna[warp]` (gRPC)           | `Warp`                                   |
 | `all`      | all of the above                 | all nodes                                |
 
+The `vision` extra installs `ultralytics`, which is distributed under the
+AGPL-3.0 license.
+
 ```bash
 pip install "juturna-nodes[av,audio-ml]"
 pip install "juturna-nodes[all]"
@@ -64,7 +67,7 @@ pip install -e ".[all]"
 | --------------------- | ---------------------------------------------------- | ---------- |
 | `VadSilero`           | Voice activity detection with the Silero VAD model   | `audio-ml` |
 | `TranscriberWhisper`  | Transcribe audio with Whisper models                 | `audio-ml` |
-| `TranscriberKroko`    | Transcribe audio with a Kroko server (WIP)           |            |
+| `TranscriberKroko`    | Transcribe audio with a Kroko server (experimental)  |            |
 | `DetectorYolo`        | Detect and annotate objects in frames with YOLO      | `vision`   |
 | `PassthroughIdentity` | Forward input messages after a delay (for testing)   |            |
 | `Warp`                | Run a node remotely, over gRPC                       | `warp`     |

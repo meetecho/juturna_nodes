@@ -1,8 +1,8 @@
 """
 NotifierMongo
 
-@author: Antonio Bevilacqua
-@email: abevilacqua@meetecho.com
+@ Author: Antonio Bevilacqua
+@ Email: abevilacqua@meetecho.com
 
 Transmit messages to a Mongo endpoint.
 """

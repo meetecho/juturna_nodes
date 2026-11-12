@@ -11,7 +11,7 @@ project = 'juturna-nodes'
 copyright = '2026, Meetecho'
 author = 'Antonio Bevilacqua'
 version = _project_meta['version']
-release = 'beta'
+release = version
 
 extensions = [
     'sphinx.ext.autodoc',
@@ -95,5 +95,5 @@ html_theme_options = {
 }
 
 rst_prolog = f"""
-.. |version-badge| replace:: :bdg-secondary-line:`version {version}-{release}`
+.. |version-badge| replace:: :bdg-secondary-line:`version {version}`
 """

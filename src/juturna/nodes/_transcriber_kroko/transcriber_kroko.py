@@ -1,10 +1,10 @@
 """
 TranscriberKroko
 
-@author: Lorenzo Miniero
-@email: lorenzo@meetecho.com
+@ Author: Lorenzo Miniero
+@ Email: lorenzo@meetecho.com
 
-Transcribe audio packets using kroko-onnx (WIP)
+Transcribe audio packets using kroko-onnx (experimental)
 """
 
 import typing

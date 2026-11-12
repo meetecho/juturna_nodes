@@ -21,8 +21,8 @@ This policy covers security vulnerabilities in:
 
 - the juturna-nodes Python plugin collection (source code hosted in this
   repository);
-- the packaging, build and release pipeline (CI/CD, Dockerfile, published
-  packages) used to distribute juturna-nodes.
+- the packaging, build and release pipeline (GitHub Actions workflows,
+  published packages) used to distribute juturna-nodes.
 
 Out of scope:
 
@@ -39,16 +39,15 @@ Out of scope:
 
 Security fixes are provided, on a best-effort basis, for:
 
-| Version                          | Supported |
-| --------------------------------- | :-------: |
-| `main` (latest development)       | ✅        |
-| Latest major release              | ✅        |
-| Previous LTS release (if any)     | ✅        |
-| Older / unmaintained releases     | ❌        |
+| Version                       | Supported |
+| ----------------------------- | :-------: |
+| `main` (latest development)   | ✅        |
+| Latest release                | ✅        |
+| Older releases                | ❌        |
 
 juturna-nodes follows [Semantic Versioning](https://semver.org). Supported
 release lines are also listed in `CHANGELOG.md`. The project is still
-evolving toward production-readiness (see `README.md`), so the set of
+evolving toward production-readiness, so the set of
 actively patched versions may change between minor releases. This table
 is kept up to date.
 

@@ -1,9 +1,9 @@
 """
 FileWatcher
 
-@author: Antonio Bevilacqua
-@email: abevilacqua@meetecho.com
-@created_at: 2025-11-19 15:56:51
+@ Author: Antonio Bevilacqua
+@ Email: abevilacqua@meetecho.com
+@ Created at: 2025-11-19 15:56:51
 
 Watch a location on the filesystem, and fire desired events.
 
