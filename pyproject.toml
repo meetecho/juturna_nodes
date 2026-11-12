@@ -7,16 +7,28 @@ authors = [
     { name = "Paolo Saviano", email = "psaviano@meetecho.com" }
 ]
 maintainers = [
-    { name = "Antonio Bevilacqua", email = "b3by.in.th3.sky@gmail.com" },
+    { name = "Antonio Bevilacqua", email = "abevilacqua@meetecho.com" },
     { name = "Paolo Saviano", email = "psaviano@meetecho.com" }
 ]
 readme = "README.md"
 requires-python = ">=3.12"
 license = "MIT"
 license-files = ["LICENSE"]
+keywords = [
+    "juturna", "pipeline", "real-time", "streaming", "audio", "video", "rtp",
+    "transcription"
+]
 classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Multimedia",
+    "Topic :: Software Development :: Libraries",
 ]
 
 dependencies = [
@@ -64,7 +76,7 @@ dev_full = [
 
 [project.urls]
 Homepage = "https://github.com/meetecho/juturna_nodes"
-Documentation = "https://meetecho.github.io/juturna/index.html"
+Documentation = "https://meetecho.github.io/juturna_nodes/docs/index.html"
 Repository = "https://github.com/meetecho/juturna_nodes"
 Issues = "https://github.com/meetecho/juturna_nodes/issues"
 Changelog = "https://github.com/meetecho/juturna_nodes/blob/main/CHANGELOG.md"
@@ -73,9 +85,15 @@ Changelog = "https://github.com/meetecho/juturna_nodes/blob/main/CHANGELOG.md"
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
+[tool.hatch.build.targets.sdist]
+exclude = ["CLAUDE.md", "uv.lock", ".github", "docs"]
+
 [tool.hatch.build.targets.wheel]
 only-include = ["src/juturna/nodes"]
 sources = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
 
 # development only: resolve juturna from the local checkout until 3.0.0 is
 # published (uv ignores this when building the package)
