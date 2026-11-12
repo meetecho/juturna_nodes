@@ -1,0 +1,48 @@
+name: Unit Tests
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.12", "3.13", "3.14"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "${{ matrix.python-version }}"
+          cache: pip
+
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      # until juturna 3.0.0 is on PyPI, the core is installed from its main
+      # branch: remove this step once it is published
+      - name: Install the juturna core
+        run: >
+          pip install
+          "juturna[warp] @ git+https://github.com/meetecho/juturna@main"
+
+      # the audio-ml and vision extras are left out, as they pull in torch:
+      # the tests of their nodes are skipped
+      - name: Install
+        run: pip install -e ".[av,warp,test]"
+
+      - name: Check that no test will skip for a missing light extra
+        run: python -c "import av, grpc, google.protobuf"
+
+      - name: Run tests
+        run: >
+          pytest tests/ -q
+          -vvv
+          -W error::RuntimeWarning
+          --cov=juturna.nodes --cov-report=term-missing
