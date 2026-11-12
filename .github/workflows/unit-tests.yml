@@ -45,4 +45,4 @@ jobs:
           pytest tests/ -q
           -vvv
           -W error::RuntimeWarning
-          --cov=juturna.nodes --cov-report=term-missing
+          --cov=src/juturna/nodes --cov-report=term-missing
