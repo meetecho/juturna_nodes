@@ -22,6 +22,7 @@ _AVAILABLE_PLUGINS: dict[str, str] = {
     'NotifierMongo': '._notifier_mongo.notifier_mongo',
     'NotifierHTTP': '._notifier_http.notifier_http',
     'NotifierUDP': '._notifier_udp.notifier_udp',
+    'NotifierConsole': '._notifier_console.notifier_console',
     'BrowserOutput': '._browser_output.browser_output',
 }
 
