@@ -79,6 +79,7 @@ pip install -e ".[all]"
 | `NotifierHTTP`  | Send messages to an HTTP endpoint            |       |
 | `NotifierMongo` | Store messages in a MongoDB collection       |       |
 | `NotifierUDP`   | Send messages to a UDP socket                |       |
+| `NotifierConsole` | Print messages on the terminal             |       |
 | `BrowserOutput` | Send messages to the web page hosting it     |       |
 
 Every node folder in `src/juturna/nodes/` includes a `config.toml` file with

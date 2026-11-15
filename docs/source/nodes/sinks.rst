@@ -10,4 +10,5 @@ external destination.
     notifier_http
     notifier_mongo
     notifier_udp
+    notifier_console
     browser_output
