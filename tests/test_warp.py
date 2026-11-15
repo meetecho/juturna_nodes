@@ -94,9 +94,7 @@ def _send(warp, state, n, port=None):
         warp._grpc_port = port
         warp.warmup()
 
-    warp.update(
-        Message(creator='src', payload=ObjectPayload(n=n)), state=state
-    )
+    warp.update(Message(creator='src', payload=ObjectPayload(n=n)), state=state)
 
 
 def test_sticky_warp_sends_its_state_only_when_asked(services):
