@@ -61,9 +61,7 @@ class AudioFile(Node[AudioPayload, AudioPayload]):
         raw_buffer = io.BytesIO()
         dtype = None
 
-        with av.open(
-            self._file_source, mode='r', metadata_errors='ignore'
-        ) as container:
+        with av.open(self._file_source, mode='r') as container:
             frames = container.decode(audio=0)
             frames = AudioFile._ignore_invalid_frames(frames)
             frames = AudioFile._group_frames(frames, 500000)
