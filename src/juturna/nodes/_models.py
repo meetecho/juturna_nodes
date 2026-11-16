@@ -1,10 +1,10 @@
 """
-Sherpa models
+Models
 
 @ Author: Paolo Saviano
 @ Email: psaviano@meetecho.com
 
-Download the files of the known sherpa-onnx models into a local cache.
+Download the files of the known models into a local cache.
 """
 
 import hashlib

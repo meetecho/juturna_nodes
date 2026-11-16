@@ -18,7 +18,7 @@ from juturna.components import Node
 from juturna.payloads import AudioPayload
 from juturna.payloads import ObjectPayload
 
-from .._sherpa_models import fetch
+from .._models import fetch
 
 
 _MODEL_TYPES = ('kitten', 'kokoro')
