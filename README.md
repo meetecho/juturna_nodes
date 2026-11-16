@@ -25,7 +25,7 @@ available through optional extras, so that you only install what you need:
 
 | Extra      | Dependencies                     | Nodes                                    |
 | ---------- | -------------------------------- | ---------------------------------------- |
-| `av`       | `av`                             | `AudioFile`, `AudioRtp`, `VideoRtp`      |
+| `av`       | `av`                             | `AudioFile`, `AudioRtp`, `VideoRtp`, `VideoCapture` |
 | `audio-ml` | `faster-whisper`, `silero-vad`   | `TranscriberWhisper`, `VadSilero`        |
 | `vision`   | `ultralytics`                    | `DetectorYolo`                           |
 | `warp`     | `juturna[warp]` (gRPC)           | `Warp`                                   |
@@ -56,6 +56,7 @@ pip install -e ".[all]"
 | `AudioFile`     | Read an audio file, and chunk it into audio messages        | `av`  |
 | `AudioRtp`      | Consume an RTP audio stream                                 | `av`  |
 | `VideoRtp`      | Consume an RTP video stream                                 | `av`  |
+| `VideoCapture`  | Read video from a file or a webcam                          | `av`  |
 | `FileWatcher`   | Watch a filesystem location, and emit filesystem events     |       |
 | `JsonHTTP`      | Receive JSON content from `POST` requests on an HTTP server |       |
 | `JsonWebsocket` | Expose a websocket server, and receive data from it         |       |

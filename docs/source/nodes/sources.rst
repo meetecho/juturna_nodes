@@ -10,6 +10,7 @@ stream, a file, a server), and feed it into the pipeline.
     audio_file
     audio_rtp
     video_rtp
+    video_capture
     file_watcher
     json_http
     json_websocket

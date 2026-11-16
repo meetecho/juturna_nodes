@@ -26,6 +26,9 @@ Sources
     * - :ref:`VideoRtp <node-video-rtp>`
       - Consume an RTP video stream
       - ``av``
+    * - :ref:`VideoCapture <node-video-capture>`
+      - Read video from a file or a webcam
+      - ``av``
     * - :ref:`FileWatcher <node-file-watcher>`
       - Watch a filesystem location, and emit filesystem events
       - --
