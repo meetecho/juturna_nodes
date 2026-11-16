@@ -14,7 +14,7 @@ API (`POST /api/chat`) with `requests`, so it needs no extra.
 Install Ollama and pull a model before starting the pipeline, for example:
 
 ```console
-ollama pull qwen2.5:0.5b
+ollama pull qwen2.5:1.5b
 ```
 
 On warmup the node sends an empty chat to load the model, so the first
@@ -23,10 +23,17 @@ question is not slowed down; warmup fails if the server is not reachable.
 ## Choosing a model
 
 Any model served by Ollama works: pull it and set `model_name`, nothing else
-changes in the pipeline. The default is the smallest download; larger models
-answer more reliably and take longer and more memory per answer. In our tests
-on CPU, `qwen2.5:0.5b` answered in 0.1–0.3 s, but once named Florence as the
-capital of Italy.
+changes in the pipeline. Larger models answer more reliably and take longer
+and more memory per answer. On 20 short questions, 3 runs each, on CPU:
+
+- `qwen2.5:0.5b` answered 44 of 60 correctly, in 0.28 s (median);
+- `qwen2.5:1.5b`, the default, answered 48 of 60 correctly with the plain
+  voice-assistant prompt, and 55 of 60 with the default prompt, which also
+  asks to write numbers as words, in 0.46 s (median).
+
+The default prompt asks for numbers as words because the TTS lexicon has no
+entries for digits: `SynthesizerSherpa` skips them. The model still writes
+digits now and then (4 answers of 60 in the test above).
 
 | `model_name`   | Download | License |
 | -------------- | -------- | ------- |
@@ -44,7 +51,7 @@ of the model you pick before shipping it in a product.
 | Argument        | Type    | Default                    | Description |
 | --------------- | ------- | -------------------------- | ----------- |
 | `endpoint`      | `str`   | `"http://localhost:11434"` | Base address of the Ollama server |
-| `model_name`    | `str`   | `"qwen2.5:0.5b"`           | Model to chat with, as listed by `ollama list` |
+| `model_name`    | `str`   | `"qwen2.5:1.5b"`           | Model to chat with, as listed by `ollama list` |
 | `system_prompt` | `str`   | short voice-assistant prompt | System message sent before every question; empty for none |
 | `keep_alive`    | `str`   | `"5m"`                     | How long Ollama keeps the model loaded after a request (`"-1"` for ever, `"0"` to unload at once) |
 | `think`         | `bool`  | `false`                    | Let models that support it reason before answering |
@@ -76,6 +83,6 @@ nothing is transmitted.
 {
   "name": "llm",
   "type": "PrompterOllama",
-  "configuration": { "model_name": "qwen2.5:0.5b" }
+  "configuration": { "model_name": "qwen2.5:1.5b" }
 }
 ```

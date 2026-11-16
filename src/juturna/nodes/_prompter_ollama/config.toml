@@ -1,7 +1,7 @@
 [arguments]
 endpoint = "http://localhost:11434"
-model_name = "qwen2.5:0.5b"
-system_prompt = "You are a voice assistant. Answer in one or two short sentences, in plain words, without lists or markdown."
+model_name = "qwen2.5:1.5b"
+system_prompt = "You are a voice assistant. Answer in one or two short sentences, in plain words, without lists or markdown. Write numbers as words, never as digits."
 keep_alive = "5m"
 think = false
 timeout = 60.0
