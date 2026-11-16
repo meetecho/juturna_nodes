@@ -48,7 +48,8 @@ class AudioRtp(Node[AudioPayload, AudioPayload]):
         'probesize': '1024',
         'analyzeduration': '0',
         'flags': 'low_delay',
-        'fflags': 'nobuffer+discardcorrupt',
+        # no 'nobuffer': it drops the packets read while probing the stream
+        'fflags': 'discardcorrupt',
     }
 
     def __init__(
