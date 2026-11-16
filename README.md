@@ -29,6 +29,8 @@ available through optional extras, so that you only install what you need:
 | `audio-ml` | `faster-whisper`, `silero-vad`   | `TranscriberWhisper`, `VadSilero`        |
 | `vision`   | `ultralytics`                    | `DetectorYolo`                           |
 | `onnx`     | `onnxruntime`                    | `DetectorYolox`                          |
+| `sherpa`   | `sherpa-onnx`                    | `TranscriberSherpa`, `SynthesizerSherpa` |
+| `sound`    | `sounddevice`                    | `MicSource`, `SpeakerSink`               |
 | `warp`     | `juturna[warp]` (gRPC)           | `Warp`                                   |
 | `all`      | all of the above                 | all nodes                                |
 
