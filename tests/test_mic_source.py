@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 import pytest
 
@@ -67,3 +69,22 @@ def test_even_presses_leave_push_to_talk_off(pressed, capsys):
         node.toggle()
 
     assert not node._talking.is_set()
+
+
+def test_push_to_talk_listens_to_the_keyboard_after_a_restart(
+    monkeypatch, capsys
+):
+    read_end, write_end = os.pipe()
+    monkeypatch.setattr('sys.stdin', os.fdopen(read_end))
+    node = _mic(push_to_talk=True)
+    node._stream.start = node._stream.stop = lambda: None
+
+    node.start()
+    node.stop()
+    node.start()
+
+    try:
+        assert node._keys.is_alive()
+    finally:
+        node.stop()
+        os.close(write_end)

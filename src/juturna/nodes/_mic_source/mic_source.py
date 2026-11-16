@@ -80,6 +80,7 @@ class MicSource(Node[AudioPayload, AudioPayload]):
     def start(self):
         """Start capturing, and listen to the keyboard for push-to-talk"""
         self._stream.start()
+        self._stop_keys.clear()
 
         if self._push_to_talk:
             self._keys = self._transport.spawn(
