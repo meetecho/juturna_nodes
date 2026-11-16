@@ -18,6 +18,8 @@ from juturna.components import Node
 from juturna.payloads import AudioPayload
 from juturna.payloads import ObjectPayload
 
+from .._sherpa_models import fetch
+
 
 _MODEL_TYPES = ('kitten', 'kokoro')
 
@@ -27,6 +29,7 @@ class SynthesizerSherpa(Node[ObjectPayload, AudioPayload]):
 
     def __init__(
         self,
+        model: str,
         model_dir: str,
         model_type: str,
         lexicon: str,
@@ -38,14 +41,18 @@ class SynthesizerSherpa(Node[ObjectPayload, AudioPayload]):
         """
         Parameters
         ----------
+        model : str
+            Name of a known model, downloaded on first use into the cache.
+            Ignored when model_dir is set.
         model_dir : str
             Folder of a sherpa-onnx TTS model, holding one ONNX file,
-            voices.bin and tokens.txt.
+            voices.bin and tokens.txt; empty to use model.
         model_type : str
             Model family: kitten or kokoro.
         lexicon : str
-            Pronunciation lexicon file, such as lexicon-en-us.txt. Words that
-            are not in it are skipped.
+            Pronunciation lexicon file, such as lexicon-en-us.txt; empty to
+            download lexicon-en-us.txt into the cache. Words that are not in
+            it are skipped.
         speaker_id : int
             Voice to use, among the voices of the model.
         speed : float
@@ -61,7 +68,8 @@ class SynthesizerSherpa(Node[ObjectPayload, AudioPayload]):
         if model_type not in _MODEL_TYPES:
             raise ValueError(f'model_type must be one of {_MODEL_TYPES}')
 
-        self._model_dir = pathlib.Path(model_dir)
+        self._model = model
+        self._model_dir = model_dir
         self._model_type = model_type
         self._lexicon = lexicon
         self._speaker_id = speaker_id
@@ -74,11 +82,19 @@ class SynthesizerSherpa(Node[ObjectPayload, AudioPayload]):
         """Load the model"""
         import sherpa_onnx
 
-        model_files = sorted(self._model_dir.glob('*.onnx'))
+        model_dir = (
+            pathlib.Path(self._model_dir)
+            if self._model_dir
+            else fetch(self._model, self.logger)
+        )
+        lexicon = self._lexicon or str(
+            fetch('lexicon-en-us', self.logger) / 'lexicon-en-us.txt'
+        )
+        model_files = sorted(model_dir.glob('*.onnx'))
 
         if len(model_files) != 1:
             raise FileNotFoundError(
-                f'expected one ONNX file in {self._model_dir}, '
+                f'expected one ONNX file in {model_dir}, '
                 f'found {len(model_files)}'
             )
 
@@ -86,9 +102,9 @@ class SynthesizerSherpa(Node[ObjectPayload, AudioPayload]):
             sherpa_onnx, f'OfflineTts{self._model_type.title()}ModelConfig'
         )(
             model=str(model_files[0]),
-            voices=str(self._model_dir / 'voices.bin'),
-            tokens=str(self._model_dir / 'tokens.txt'),
-            lexicon=self._lexicon,
+            voices=str(model_dir / 'voices.bin'),
+            tokens=str(model_dir / 'tokens.txt'),
+            lexicon=lexicon,
         )
 
         self._tts = sherpa_onnx.OfflineTts(
@@ -100,7 +116,7 @@ class SynthesizerSherpa(Node[ObjectPayload, AudioPayload]):
             )
         )
 
-        self.logger.info(f'model loaded from {self._model_dir}')
+        self.logger.info(f'model loaded from {model_dir}')
 
     def update(self, message: Message[ObjectPayload], **kwargs):
         """Synthesize the text of the message, transmit the audio"""

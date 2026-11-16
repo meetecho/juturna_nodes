@@ -10,6 +10,7 @@ from juturna.payloads import ObjectPayload
 
 def _synthesizer(model_dir='', model_type='kitten', lexicon=''):
     node = SynthesizerSherpa(
+        model='',
         model_dir=model_dir,
         model_type=model_type,
         lexicon=lexicon,

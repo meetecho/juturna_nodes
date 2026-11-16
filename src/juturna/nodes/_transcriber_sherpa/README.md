@@ -18,24 +18,24 @@ pip install "juturna-nodes[sherpa]"
 
 ## Model
 
-The node does not download models. Download a streaming transducer model
-from the sherpa-onnx releases and point `model_dir` at its folder, for
-example the English zipformer (Apache-2.0, 68 MB for the int8 files):
+By default the node downloads the English streaming zipformer (Apache-2.0)
+on first use: the int8 encoder, decoder and joiner and `tokens.txt`, 73 MB,
+from the [Hugging Face repository](https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-06-26)
+at a pinned revision. Each file is checked against its size and SHA-256
+before use. The files are kept in `~/.cache/juturna/models/<model>/` (or
+under `$XDG_CACHE_HOME`), and later runs reuse them.
 
-```console
-curl -LO https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-en-2023-06-26.tar.bz2
-tar xjf sherpa-onnx-streaming-zipformer-en-2023-06-26.tar.bz2
-```
-
-The folder must hold `tokens.txt` and one `encoder*.onnx`, `decoder*.onnx`
-and `joiner*.onnx` file each; when both are present, the `.int8.` files are
-used.
+To use a model you already have, set `model_dir` to its folder; `model` is
+then ignored. The folder must hold `tokens.txt` and one `encoder*.onnx`,
+`decoder*.onnx` and `joiner*.onnx` file each; when both are present, the
+`.int8.` files are used.
 
 ## Arguments
 
 | Argument               | Type    | Default | Description                                         |
 | ---------------------- | ------- | ------- | --------------------------------------------------- |
-| `model_dir`            | `str`   | `""`    | Folder of the streaming transducer model            |
+| `model`                | `str`   | `"sherpa-onnx-streaming-zipformer-en-2023-06-26"` | Model downloaded into the cache; the only known one is the default |
+| `model_dir`            | `str`   | `""`    | Folder of a streaming transducer model, used instead of `model` |
 | `num_threads`          | `int`   | `2`     | CPU threads used by the recognizer                  |
 | `min_trailing_silence` | `float` | `0.8`   | Seconds of silence after speech that close a sentence |
 
@@ -67,8 +67,6 @@ the sentence. `meta` is empty.
 {
   "name": "stt",
   "type": "TranscriberSherpa",
-  "configuration": {
-    "model_dir": "./models/sherpa-onnx-streaming-zipformer-en-2023-06-26"
-  }
+  "configuration": {}
 }
 ```

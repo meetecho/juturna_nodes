@@ -15,15 +15,29 @@ pip install "juturna-nodes[sherpa]"
 
 ## Model and lexicon
 
-The node does not download models. It supports the Kitten and Kokoro model
-families of the sherpa-onnx releases. Since sherpa-onnx 2.0 these models
-need a pronunciation lexicon, a separate download:
+The node supports the Kitten and Kokoro model families of the sherpa-onnx
+releases. Since sherpa-onnx 2.0 these models need a pronunciation lexicon.
 
-```console
-curl -LO https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/kitten-nano-en-v0_8-int8.tar.bz2
-tar xjf kitten-nano-en-v0_8-int8.tar.bz2
-curl -LO https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/lexicon-en-us.txt
-```
+By default the node downloads on first use:
+
+- Kitten nano int8 (Apache-2.0): `model.int8.onnx`, `voices.bin` and
+  `tokens.txt`, 28 MB, from the
+  [Hugging Face repository](https://huggingface.co/csukuangfj2/kitten-nano-en-v0_8-int8)
+  at a pinned revision;
+- when `lexicon` is empty, `lexicon-en-us.txt` (6.3 MB) from the
+  [`tts-models` release](https://github.com/k2-fsa/sherpa-onnx/releases/tag/tts-models)
+  of sherpa-onnx.
+
+Each file is checked against its size and SHA-256 before use. The files are
+kept in `~/.cache/juturna/models/<model>/` (or under `$XDG_CACHE_HOME`), and
+later runs reuse them.
+
+The lexicon is not distributed with this package: the node downloads it from
+the sherpa-onnx release. Its header says it was generated from CMUdict and
+an `en_list` word list; the sherpa-onnx release states no license for it.
+
+To use a model you already have, for example Kokoro, set `model_dir` to its
+folder and `model_type` to its family; `model` is then ignored.
 
 Words missing from the lexicon are skipped, which includes most names.
 Measured on CPU with 2 threads, Kitten nano int8 (Apache-2.0, 29 MB) speaks
@@ -34,9 +48,10 @@ natural voice but is slower than real time.
 
 | Argument      | Type    | Default    | Description |
 | ------------- | ------- | ---------- | ----------- |
-| `model_dir`   | `str`   | `""`       | Model folder, holding one ONNX file, `voices.bin` and `tokens.txt` |
+| `model`       | `str`   | `"kitten-nano-en-v0_8-int8"` | Model downloaded into the cache; the only known one is the default |
+| `model_dir`   | `str`   | `""`       | Model folder, holding one ONNX file, `voices.bin` and `tokens.txt`, used instead of `model` |
 | `model_type`  | `str`   | `"kitten"` | Model family: `kitten` or `kokoro` |
-| `lexicon`     | `str`   | `""`       | Pronunciation lexicon file, such as `lexicon-en-us.txt` |
+| `lexicon`     | `str`   | `""`       | Pronunciation lexicon file; empty to download `lexicon-en-us.txt` |
 | `speaker_id`  | `int`   | `0`        | Voice to use, among the voices of the model |
 | `speed`       | `float` | `1.0`      | Speech speed, 1.0 being the natural speed of the voice |
 | `num_threads` | `int`   | `2`        | CPU threads used by the model |
@@ -70,9 +85,6 @@ and nothing is transmitted.
 {
   "name": "tts",
   "type": "SynthesizerSherpa",
-  "configuration": {
-    "model_dir": "./models/kitten-nano-en-v0_8-int8",
-    "lexicon": "./models/lexicon-en-us.txt"
-  }
+  "configuration": {}
 }
 ```

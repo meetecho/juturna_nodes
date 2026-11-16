@@ -16,8 +16,8 @@ Streaming speech recognition with sherpa-onnx, on CPU and without torch. One mes
 
     $ pip install "juturna-nodes[sherpa]"
 
-The node README describes the model to download, the input and output
-messages, and the limits of the node.
+The node downloads its default model on first use. The node README describes
+the model cache, the input and output messages, and the limits of the node.
 
 Configuration
 -------------

@@ -41,6 +41,7 @@ def test_sentence_is_transmitted_after_trailing_silence():
     )
 
     node = TranscriberSherpa(
+        model='',
         model_dir=_MODEL,
         num_threads=2,
         min_trailing_silence=0.8,

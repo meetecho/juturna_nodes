@@ -16,12 +16,15 @@ from juturna.components import Node
 from juturna.payloads import AudioPayload
 from juturna.payloads import ObjectPayload
 
+from .._sherpa_models import fetch
+
 
 class TranscriberSherpa(Node[AudioPayload, ObjectPayload]):
     """Transcribe audio with a streaming sherpa-onnx transducer model"""
 
     def __init__(
         self,
+        model: str,
         model_dir: str,
         num_threads: int,
         min_trailing_silence: float,
@@ -30,9 +33,13 @@ class TranscriberSherpa(Node[AudioPayload, ObjectPayload]):
         """
         Parameters
         ----------
+        model : str
+            Name of a known model, downloaded on first use into the cache.
+            Ignored when model_dir is set.
         model_dir : str
             Folder of a sherpa-onnx streaming transducer model, holding
-            tokens.txt and the encoder, decoder and joiner ONNX files.
+            tokens.txt and the encoder, decoder and joiner ONNX files; empty
+            to use model.
         num_threads : int
             CPU threads used by the recognizer.
         min_trailing_silence : float
@@ -43,7 +50,8 @@ class TranscriberSherpa(Node[AudioPayload, ObjectPayload]):
         """
         super().__init__(**kwargs)
 
-        self._model_dir = pathlib.Path(model_dir)
+        self._model = model
+        self._model_dir = model_dir
         self._num_threads = num_threads
         self._min_trailing_silence = min_trailing_silence
 
@@ -54,18 +62,24 @@ class TranscriberSherpa(Node[AudioPayload, ObjectPayload]):
         """Load the model and open the recognition stream"""
         import sherpa_onnx
 
+        model_dir = (
+            pathlib.Path(self._model_dir)
+            if self._model_dir
+            else fetch(self._model, self.logger)
+        )
+
         self._recognizer = sherpa_onnx.OnlineRecognizer.from_transducer(
-            tokens=str(self._model_dir / 'tokens.txt'),
-            encoder=_model_file(self._model_dir, 'encoder'),
-            decoder=_model_file(self._model_dir, 'decoder'),
-            joiner=_model_file(self._model_dir, 'joiner'),
+            tokens=str(model_dir / 'tokens.txt'),
+            encoder=_model_file(model_dir, 'encoder'),
+            decoder=_model_file(model_dir, 'decoder'),
+            joiner=_model_file(model_dir, 'joiner'),
             num_threads=self._num_threads,
             enable_endpoint_detection=True,
             rule2_min_trailing_silence=self._min_trailing_silence,
         )
         self._stream = self._recognizer.create_stream()
 
-        self.logger.info(f'model loaded from {self._model_dir}')
+        self.logger.info(f'model loaded from {model_dir}')
 
     def update(self, message: Message[AudioPayload], **kwargs):
         """Feed the audio, transmit a sentence when it ends"""

@@ -1,4 +1,5 @@
 [arguments]
+model = "kitten-nano-en-v0_8-int8"
 model_dir = ""
 model_type = "kitten"
 lexicon = ""
