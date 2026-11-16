@@ -1,0 +1,8 @@
+[arguments]
+device = ""
+sample_rate = 16000
+block_size = 0.2
+push_to_talk = true
+trailing_silence = 1.0
+
+[meta]
