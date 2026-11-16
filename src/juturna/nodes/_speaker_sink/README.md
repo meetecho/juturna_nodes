@@ -1,0 +1,50 @@
+# SpeakerSink
+
+Play the audio of every received message on a speaker, through
+[sounddevice](https://python-sounddevice.readthedocs.io) (PortAudio). Messages
+are played one after the other: the node waits for each one to end before
+taking the next.
+
+- **Role:** sink
+- **Node type:** `SpeakerSink`
+- **Input:** `AudioPayload`
+- **Output:** none
+- **Extra:** `sound`
+
+```console
+pip install "juturna-nodes[sound]"
+```
+
+On Linux PortAudio is a system package (`libportaudio2` on Debian and
+Ubuntu). Warmup fails if the output device does not exist. When a microphone
+in the same pipeline can hear the speaker, use `MicSource` with push-to-talk
+or headphones.
+
+## Arguments
+
+| Argument | Type  | Default | Description |
+| -------- | ----- | ------- | ----------- |
+| `device` | `str` | `""`    | Output device, as a name (or part of it) or an index listed by `python -m sounddevice`; empty for the system default |
+
+## Input message
+
+| Field | Use |
+| --- | --- |
+| `payload.audio` | Mono `float32` samples, required. Values outside `[-1, 1]` are clipped |
+| `payload.sampling_rate` | Required; PortAudio resamples if the device needs another rate |
+
+`meta` is not read. `SynthesizerSherpa` produces this format.
+
+## Output message
+
+The node does not transmit messages.
+
+## Example
+
+```json
+{
+  "name": "speaker",
+  "type": "SpeakerSink",
+  "configuration": {}
+}
+```
