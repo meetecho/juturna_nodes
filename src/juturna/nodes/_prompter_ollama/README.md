@@ -20,6 +20,25 @@ ollama pull qwen2.5:0.5b
 On warmup the node sends an empty chat to load the model, so the first
 question is not slowed down; warmup fails if the server is not reachable.
 
+## Choosing a model
+
+Any model served by Ollama works: pull it and set `model_name`, nothing else
+changes in the pipeline. The default is the smallest download; larger models
+answer more reliably and take longer and more memory per answer. In our tests
+on CPU, `qwen2.5:0.5b` answered in 0.1–0.3 s, but once named Florence as the
+capital of Italy.
+
+| `model_name`   | Download | License |
+| -------------- | -------- | ------- |
+| `qwen2.5:0.5b` | 398 MB   | Apache-2.0 |
+| `gemma3:1b`    | 806 MB   | Gemma Terms of Use |
+| `qwen2.5:1.5b` | 986 MB   | Apache-2.0 |
+| `llama3.2:3b`  | 2.0 GB   | Llama 3.2 Community License |
+| `qwen2.5:7b`   | 4.7 GB   | Apache-2.0 |
+
+Sizes and licenses are those listed by the Ollama registry. Check the license
+of the model you pick before shipping it in a product.
+
 ## Arguments
 
 | Argument        | Type    | Default                    | Description |
