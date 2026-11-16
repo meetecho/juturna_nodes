@@ -104,7 +104,10 @@ class AudioRtp(Node[AudioPayload, AudioPayload]):
         self._block_size = block_size
         self._resampler_format = resampler_format
         self._flush_partial_on_error = flush_partial_on_error
-        self._samples_per_block = int(self._out_rate * self._block_size)
+        # samples are interleaved: a block holds every channel
+        self._samples_per_block = (
+            int(self._out_rate * self._block_size) * self._out_channels
+        )
         self._container = None
         self._resampler = None
         self._sdp_file_path = None
@@ -251,7 +254,7 @@ class AudioRtp(Node[AudioPayload, AudioPayload]):
                 self._elapsed = 0.0
 
     def _emit_chunk(self, audio: np.ndarray):
-        chunk_duration = len(audio) / self._out_rate
+        chunk_duration = len(audio) / (self._out_rate * self._out_channels)
         message = Message[AudioPayload](
             creator=self.name,
             version=self._abs_recv,
