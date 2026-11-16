@@ -15,6 +15,9 @@ _AVAILABLE_PLUGINS: dict[str, str] = {
     'VadSilero': '._vad_silero.vad_silero',
     'TranscriberWhisper': '._transcriber_whisper.transcriber_whisper',
     'TranscriberKroko': '._transcriber_kroko.transcriber_kroko',
+    'TranscriberSherpa': '._transcriber_sherpa.transcriber_sherpa',
+    'PrompterOllama': '._prompter_ollama.prompter_ollama',
+    'SynthesizerSherpa': '._synthesizer_sherpa.synthesizer_sherpa',
     'DetectorYolo': '._detector_yolo.detector_yolo',
     'PassthroughIdentity': '._passthrough_identity.passthrough_identity',
     'Warp': '._warp.warp',
@@ -24,6 +27,7 @@ _AVAILABLE_PLUGINS: dict[str, str] = {
     'NotifierUDP': '._notifier_udp.notifier_udp',
     'NotifierConsole': '._notifier_console.notifier_console',
     'BrowserOutput': '._browser_output.browser_output',
+    'AudioWriter': '._audio_writer.audio_writer',
 }
 
 

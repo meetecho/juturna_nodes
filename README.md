@@ -68,6 +68,9 @@ pip install -e ".[all]"
 | `VadSilero`           | Voice activity detection with the Silero VAD model   | `audio-ml` |
 | `TranscriberWhisper`  | Transcribe audio with Whisper models                 | `audio-ml` |
 | `TranscriberKroko`    | Transcribe audio with a Kroko server (experimental)  |            |
+| `TranscriberSherpa`   | Transcribe audio with sherpa-onnx streaming models   | `sherpa`   |
+| `PrompterOllama`      | Ask a model served by Ollama                         |            |
+| `SynthesizerSherpa`   | Synthesize speech from text with sherpa-onnx         | `sherpa`   |
 | `DetectorYolo`        | Detect and annotate objects in frames with YOLO      | `vision`   |
 | `PassthroughIdentity` | Forward input messages after a delay (for testing)   |            |
 | `Warp`                | Run a node remotely, over gRPC                       | `warp`     |
@@ -80,6 +83,7 @@ pip install -e ".[all]"
 | `NotifierMongo` | Store messages in a MongoDB collection       |       |
 | `NotifierUDP`   | Send messages to a UDP socket                |       |
 | `NotifierConsole` | Print messages on the terminal             |       |
+| `AudioWriter`   | Write audio messages to a WAV file           |       |
 | `BrowserOutput` | Send messages to the web page hosting it     |       |
 
 Every node folder in `src/juturna/nodes/` includes a `config.toml` file with

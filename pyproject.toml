@@ -44,8 +44,9 @@ av = ["av>=19.0.1"]
 warp = ["juturna[warp]"]
 audio-ml = ["faster-whisper", "silero-vad"]
 vision = ["ultralytics"]
+sherpa = ["sherpa-onnx>=2.0.1"]
 
-all = ["juturna-nodes[av,warp,audio-ml,vision]"]
+all = ["juturna-nodes[av,warp,audio-ml,vision,sherpa]"]
 
 doc = [
     "sphinx<9.0,>6.0",
