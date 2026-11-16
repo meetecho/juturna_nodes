@@ -21,6 +21,7 @@ _AVAILABLE_PLUGINS: dict[str, str] = {
     'PrompterOllama': '._prompter_ollama.prompter_ollama',
     'SynthesizerSherpa': '._synthesizer_sherpa.synthesizer_sherpa',
     'DetectorYolo': '._detector_yolo.detector_yolo',
+    'DetectorYolox': '._detector_yolox.detector_yolox',
     'DetectionEvents': '._detection_events.detection_events',
     'PassthroughIdentity': '._passthrough_identity.passthrough_identity',
     'Warp': '._warp.warp',

@@ -28,6 +28,7 @@ available through optional extras, so that you only install what you need:
 | `av`       | `av`                             | `AudioFile`, `AudioRtp`, `VideoRtp`, `VideoCapture` |
 | `audio-ml` | `faster-whisper`, `silero-vad`   | `TranscriberWhisper`, `VadSilero`        |
 | `vision`   | `ultralytics`                    | `DetectorYolo`                           |
+| `onnx`     | `onnxruntime`                    | `DetectorYolox`                          |
 | `warp`     | `juturna[warp]` (gRPC)           | `Warp`                                   |
 | `all`      | all of the above                 | all nodes                                |
 
@@ -74,6 +75,7 @@ pip install -e ".[all]"
 | `PrompterOllama`      | Ask a model served by Ollama                         |            |
 | `SynthesizerSherpa`   | Synthesize speech from text with sherpa-onnx         | `sherpa`   |
 | `DetectorYolo`        | Detect and annotate objects in frames with YOLO      | `vision`   |
+| `DetectorYolox`       | Detect objects in frames with YOLOX on ONNX Runtime  | `onnx`     |
 | `DetectionEvents`     | Turn the detections of frames into JSON events       |            |
 | `PassthroughIdentity` | Forward input messages after a delay (for testing)   |            |
 | `Warp`                | Run a node remotely, over gRPC                       | `warp`     |

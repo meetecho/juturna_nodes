@@ -64,6 +64,9 @@ Processing
     * - :ref:`DetectorYolo <node-detector-yolo>`
       - Detect and annotate objects in frames with YOLO
       - ``vision``
+    * - :ref:`DetectorYolox <node-detector-yolox>`
+      - Detect objects in frames with YOLOX on ONNX Runtime
+      - ``onnx``
     * - :ref:`DetectionEvents <node-detection-events>`
       - Turn the detections of frames into JSON events
       - --

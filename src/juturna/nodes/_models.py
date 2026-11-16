@@ -4,7 +4,7 @@ Models
 @ Author: Paolo Saviano
 @ Email: psaviano@meetecho.com
 
-Download the files of the known models into a local cache.
+Download the files of the known models (sherpa-onnx, YOLOX) into a local cache.
 """
 
 import hashlib
@@ -23,6 +23,9 @@ _STT_SUFFIX = 'epoch-99-avg-1-chunk-16-left-128.int8.onnx'
 _KITTEN = 'csukuangfj2/kitten-nano-en-v0_8-int8'
 _KITTEN_REV = '90dfe12687f7822a90e5afc5931b536ba6caf22a'
 _RELEASES = 'https://github.com/k2-fsa/sherpa-onnx/releases/download'
+_YOLOX = (
+    'https://github.com/Megvii-BaseDetection/YOLOX/releases/download/0.1.1rc0'
+)
 
 # model name -> {file name: (url, size in bytes, sha256)}
 MODELS: dict[str, dict[str, tuple[str, int, str]]] = {
@@ -70,6 +73,27 @@ MODELS: dict[str, dict[str, tuple[str, int, str]]] = {
             f'{_RELEASES}/tts-models/lexicon-en-us.txt',
             6305773,
             '8b67ae549a465eee78f92ecb74644ad90c3c58ce65f19c68baf85878a10ef73a',
+        ),
+    },
+    'yolox_nano': {
+        'yolox_nano.onnx': (
+            f'{_YOLOX}/yolox_nano.onnx',
+            3659407,
+            'c789161ed43c8269fcd4e67c67eeeb4e80c622da2eb296a20bc6007bd18a0b7d',
+        ),
+    },
+    'yolox_tiny': {
+        'yolox_tiny.onnx': (
+            f'{_YOLOX}/yolox_tiny.onnx',
+            20219662,
+            '427cc366d34e27ff7a03e2899b5e3671425c262ea2291f88bb942bc1cc70b0f7',
+        ),
+    },
+    'yolox_s': {
+        'yolox_s.onnx': (
+            f'{_YOLOX}/yolox_s.onnx',
+            35858002,
+            'c5c2d13e59ae883e6af3b45daea64af4833a4951c92d116ec270d9ddbe998063',
         ),
     },
 }

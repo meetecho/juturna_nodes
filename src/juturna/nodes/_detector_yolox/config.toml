@@ -1,0 +1,8 @@
+[arguments]
+model = "yolox_nano"
+targets = []
+confidence = 0.3
+nms = 0.45
+device = "cpu"
+
+[meta]

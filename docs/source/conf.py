@@ -28,6 +28,7 @@ autodoc_mock_imports = [
     'av',
     'faster_whisper',
     'grpc',
+    'onnxruntime',
     'juturna.remotizer.c_protos',
     'juturna.remotizer.utils',
     'silero_vad',
