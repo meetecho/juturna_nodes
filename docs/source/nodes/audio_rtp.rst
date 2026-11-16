@@ -11,7 +11,7 @@ fixed-length chunks of ``block_size`` seconds.
 :Node type: ``AudioRtp``
 :Input: --
 :Output: ``AudioPayload``
-:Extra: ``av``, plus the FFmpeg libraries on the system
+:Extra: ``av``
 
 .. code-block:: console
 
@@ -134,9 +134,9 @@ Limits
 ------
 
 - The end of a stream is not propagated downstream: the node only stops
-  transmitting. A downstream node waiting for silence, such as
-  ``TranscriberSherpa``, keeps its sentence open until more audio comes or the
-  pipeline stops.
+  transmitting. A downstream node waiting for silence, such as a
+  transcriber, keeps its sentence open until more audio comes or the pipeline
+  stops.
 - With ``out_channels: 2``, ``block_size``, ``start`` and ``end`` count the
   interleaved samples as if they were mono: each chunk holds
   ``block_size / 2`` seconds of audio. Use ``out_channels: 1``.
