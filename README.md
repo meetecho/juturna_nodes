@@ -74,6 +74,7 @@ pip install -e ".[all]"
 | `PrompterOllama`      | Ask a model served by Ollama                         |            |
 | `SynthesizerSherpa`   | Synthesize speech from text with sherpa-onnx         | `sherpa`   |
 | `DetectorYolo`        | Detect and annotate objects in frames with YOLO      | `vision`   |
+| `DetectionEvents`     | Turn the detections of frames into JSON events       |            |
 | `PassthroughIdentity` | Forward input messages after a delay (for testing)   |            |
 | `Warp`                | Run a node remotely, over gRPC                       | `warp`     |
 

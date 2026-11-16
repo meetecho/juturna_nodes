@@ -64,6 +64,9 @@ Processing
     * - :ref:`DetectorYolo <node-detector-yolo>`
       - Detect and annotate objects in frames with YOLO
       - ``vision``
+    * - :ref:`DetectionEvents <node-detection-events>`
+      - Turn the detections of frames into JSON events
+      - --
     * - :ref:`PassthroughIdentity <node-passthrough-identity>`
       - Forward input messages after a delay (for testing)
       - --

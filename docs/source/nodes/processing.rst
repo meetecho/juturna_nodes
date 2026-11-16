@@ -14,5 +14,6 @@ transmit the results downstream.
     prompter_ollama
     synthesizer_sherpa
     detector_yolo
+    detection_events
     passthrough_identity
     warp
