@@ -93,6 +93,7 @@ class AudioFile(Node[AudioPayload, AudioPayload]):
             return None
 
         chunk, sample_offset = audio_chunk
+        start = sample_offset / self._rate
 
         return Message[AudioPayload](
             creator=self.name,
@@ -100,8 +101,8 @@ class AudioFile(Node[AudioPayload, AudioPayload]):
                 audio=chunk,
                 sampling_rate=self._rate,
                 channels=1,
-                start=sample_offset,
-                end=sample_offset + self._block_size,
+                start=start,
+                end=start + self._block_size,
             ),
         )
 

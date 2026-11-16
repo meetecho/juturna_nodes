@@ -17,6 +17,9 @@ The whole file is decoded on warmup with PyAV, resampled to mono at
 last chunk is zero-padded to the full chunk length. When the file is over, the
 node stops producing messages.
 
+The payload `start` and `end` are in seconds from the beginning of the file:
+with `block_size: 2`, the chunks cover `0.0`–`2.0`, `2.0`–`4.0`, and so on.
+
 Every message carries the pipeline id in `meta['session_id']`.
 
 ## Arguments
