@@ -18,6 +18,16 @@ _TONE = (b'\x00' * 4 + b'\x80' * 4) * (_PACKET_SAMPLES // 8)
 
 def _start(tmp_path):
     port = get_available_port()
+    node = _node(tmp_path, port)
+    node.warmup()
+    node.start()
+
+    _wait_until_bound(port)
+
+    return node, port
+
+
+def _node(tmp_path, port):
     node = AudioRtp(
         host='127.0.0.1',
         port=port,
@@ -34,12 +44,8 @@ def _start(tmp_path):
     node.pipe_path = str(tmp_path)
     node.sent = list()
     node.transmit = node.sent.append
-    node.warmup()
-    node.start()
 
-    _wait_until_bound(port)
-
-    return node, port
+    return node
 
 
 def _wait_until_bound(port):
@@ -120,3 +126,23 @@ def test_stop_without_traffic_is_quick(tmp_path):
     node.stop()
 
     assert time.monotonic() - started < 5
+
+
+def test_busy_port_is_retried(tmp_path):
+    port = get_available_port()
+
+    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as busy:
+        busy.bind(('127.0.0.1', port))
+        node = _node(tmp_path, port)
+        node.warmup()
+        node.start()
+        # the node fails to open the input while the port is taken
+        time.sleep(1)
+
+    try:
+        _wait_until_bound(port)
+        _send(port, seconds=1, burst=0)
+
+        assert _tone_seconds(node, expected=1) >= 0.99
+    finally:
+        node.stop()

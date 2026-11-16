@@ -29,8 +29,9 @@ and only shows up in the log at `DEBUG` level (`demux terminate while
 reading False`). When the input is closed, the samples still pending are
 transmitted as a last chunk, padded with zeros to `block_size` when
 `flush_partial_on_error` is true, and dropped otherwise. If the input cannot
-be opened at all, the node logs `source unavailable (...), retrying...` and
-tries again after 2 s.
+be opened at all, for example because another process uses the port, the
+node logs `source unavailable (...), retrying...` at `ERROR` level and tries
+again every 2 s, until it succeeds or the node stops.
 
 The UDP receive buffer is 64 KB, so short bursts of packets are not dropped.
 `stop()` returns within a few seconds (up to 3 s in our tests).

@@ -247,7 +247,9 @@ class AudioRtp(Node[AudioPayload, AudioPayload]):
                 self.logger.debug(
                     f'demux terminate while reading {self._stop_event.is_set()}'
                 )
-            except OSError as e:
+            # a busy port raises InvalidDataError, a ValueError: without
+            # this the worker died and the node never received again
+            except (OSError, av.error.FFmpegError) as e:
                 if not self._stop_event.is_set():
                     self.logger.error(f'source unavailable ({e}), retrying...')
                     self._stop_event.wait(2.0)
