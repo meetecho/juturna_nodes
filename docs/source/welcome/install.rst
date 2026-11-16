@@ -60,9 +60,8 @@ are enabled by optional extras:
 Nodes are imported lazily, so a node with missing dependencies only fails when
 it is used, without affecting the others.
 
-Some nodes need system packages as well: the ``av`` nodes rely on the FFmpeg
-libraries, and the machine learning nodes can use a GPU, when available,
-through the ``device`` argument.
+The machine learning nodes can use a GPU, when available, through the
+``device`` argument.
 
 Development extras
 ------------------
