@@ -111,3 +111,12 @@ def test_burst_of_packets_is_received_whole(tmp_path):
         assert _tone_seconds(node, expected=2) >= 1.98
     finally:
         node.stop()
+
+
+def test_stop_without_traffic_is_quick(tmp_path):
+    node, _ = _start(tmp_path)
+
+    started = time.monotonic()
+    node.stop()
+
+    assert time.monotonic() - started < 5

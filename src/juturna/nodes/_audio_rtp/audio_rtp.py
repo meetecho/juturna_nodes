@@ -164,7 +164,9 @@ class AudioRtp(Node[AudioPayload, AudioPayload]):
             self._container = av.open(
                 self.sdp_descriptor,
                 options=self._OPTIONS,
-                timeout=(None, JUTURNA_THREAD_JOIN_TIMEOUT),
+                # without an open timeout, an idle input blocks stop() for
+                # about 10 s
+                timeout=JUTURNA_THREAD_JOIN_TIMEOUT,
             )
             self._stream = self._container.streams.audio[0]
             self._resampler = av.AudioResampler(
