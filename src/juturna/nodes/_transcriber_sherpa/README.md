@@ -47,9 +47,12 @@ then ignored. The folder must hold `tokens.txt` and one `encoder*.onnx`,
 | `payload.sampling_rate` | Rate of `audio`, required; resampled to the model rate internally |
 
 `meta` is not read. The node keeps one recognition stream for all the
-messages it receives, so it expects a single audio source. The last sentence
-is only transmitted after enough silence: a file that ends while someone is
-talking loses its last sentence.
+messages it receives, so it expects a single audio source. A sentence is
+transmitted after enough silence, or when the node stops: when the pipeline
+is stopped, the sentence still open is transmitted to the next nodes, which
+are stopped after it. An audio source that stops sending while the pipeline
+keeps running (a caller hanging up, for example) leaves the sentence open
+until more audio comes.
 
 ## Output message
 

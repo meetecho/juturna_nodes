@@ -10,6 +10,8 @@ sentence, when the speaker stops talking.
 
 import pathlib
 
+import numpy as np
+
 from juturna.components import Message
 from juturna.components import Node
 
@@ -57,6 +59,7 @@ class TranscriberSherpa(Node[AudioPayload, ObjectPayload]):
 
         self._recognizer = None
         self._stream = None
+        self._last = None
 
     def warmup(self):
         """Load the model and open the recognition stream"""
@@ -85,13 +88,39 @@ class TranscriberSherpa(Node[AudioPayload, ObjectPayload]):
         """Feed the audio, transmit a sentence when it ends"""
         payload = message.payload
         self._stream.accept_waveform(payload.sampling_rate, payload.audio)
+        self._last = message
 
+        self._decode()
+
+        if self._recognizer.is_endpoint(self._stream):
+            self._transmit_sentence(message)
+
+    def stop(self):
+        """Stop, then transmit the sentence still open, if any"""
+        super().stop()
+
+        # a kill discards pending data, and may leave a stuck worker still
+        # using the stream
+        if self._last is None or self._kill_event.is_set():
+            return
+
+        # no more audio will come: pad with silence so the model decodes the
+        # last words too (0.66 s cut the last token, 0.8 s was enough)
+        rate = self._last.payload.sampling_rate
+        self._stream.accept_waveform(rate, np.zeros(rate, dtype=np.float32))
+        self._stream.input_finished()
+        self._decode()
+        self._transmit_sentence(self._last)
+
+        # a finished stream takes no more audio, a restart needs a new one
+        self._stream = self._recognizer.create_stream()
+        self._last = None
+
+    def _decode(self):
         while self._recognizer.is_ready(self._stream):
             self._recognizer.decode_stream(self._stream)
 
-        if not self._recognizer.is_endpoint(self._stream):
-            return
-
+    def _transmit_sentence(self, message: Message[AudioPayload]):
         result = self._recognizer.get_result_all(self._stream)
         self._recognizer.reset(self._stream)
 
