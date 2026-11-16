@@ -21,7 +21,8 @@ Each line starts with the name of the node that sent the message
 
 | Payload | What is printed |
 | --- | --- |
-| `ObjectPayload` with a `transcript` list | The `word` fields of the list joined into one line, as sent by `TranscriberWhisper` and `TranscriberKroko`. An empty list prints nothing. |
+| `ObjectPayload` with a `transcript` list | The `word` fields of the list joined into one line, as sent by `TranscriberWhisper`, `TranscriberKroko` and `TranscriberSherpa`. An empty list prints nothing. |
+| `ObjectPayload` with a `text` string | The text, trimmed, as sent by `PrompterOllama`. |
 | Any other `ObjectPayload` | The payload as compact JSON; values that are not JSON types are converted with `str()`. |
 | Any other payload | The payload type, for example `<AudioPayload>`. |
 
