@@ -191,7 +191,9 @@ class AudioRtp(Node[AudioPayload, AudioPayload]):
                                 yield audio_block
 
                 except av.error.InvalidDataError:
-                    self.logger.warn('malformed packet in decoder, discarding')
+                    self.logger.warning(
+                        'malformed packet in decoder, discarding'
+                    )
 
             try:
                 for frame in self._resampler.resample(None):
