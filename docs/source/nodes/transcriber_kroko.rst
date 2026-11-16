@@ -5,7 +5,7 @@
 
 :bdg-primary:`processing`
 
-Transcribe audio packets using kroko-onnx.
+Transcribe audio packets with a kroko-onnx server, reached over a websocket.
 
 .. warning::
 

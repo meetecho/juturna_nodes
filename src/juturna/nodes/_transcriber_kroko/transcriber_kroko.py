@@ -4,7 +4,7 @@ TranscriberKroko
 @ Author: Lorenzo Miniero
 @ Email: lorenzo@meetecho.com
 
-Transcribe audio packets using kroko-onnx (experimental)
+Transcribe audio with a kroko-onnx server over a websocket (experimental)
 """
 
 import typing

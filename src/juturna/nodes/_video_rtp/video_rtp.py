@@ -46,7 +46,7 @@ class VideoRtp(Node[BytesPayload, ImagePayload]):
         rec_port: int | str,
         payload_type: int,
         codec: str,
-        encoding_clock_chan: str,
+        encoding_clock_chan: int,
         **kwargs,
     ):
         """
@@ -61,10 +61,9 @@ class VideoRtp(Node[BytesPayload, ImagePayload]):
             Payload type for the RTP stream.
         codec : str
             The codec used from the remote video source.
-        encoding_clock_chan : str
-            encoding name/clock rate[/channels] for the RTP stream as defined
-            in RFC 4566 (SDP) and in RFC 3555 (MIME type registration for RTP
-            payload formats).
+        encoding_clock_chan : int
+            Clock rate of the RTP stream, in Hz. Not used yet: the SDP
+            descriptor always declares a 90000 Hz clock.
         kwargs : dict
             Superclass arguments.
 
