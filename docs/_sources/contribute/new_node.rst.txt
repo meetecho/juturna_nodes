@@ -35,4 +35,4 @@ request checklist, is in the
 If you are writing nodes for your own project, you do not need to contribute
 them here: package them under ``juturna.contrib.<author>.nodes`` in your own
 repository, and use them in a pipeline as ``contrib.<author>.nodes.MyNode``.
-``juturna stub`` creates the skeleton of such a node for you.
+``python -m juturna stub`` creates the skeleton of such a node for you.
