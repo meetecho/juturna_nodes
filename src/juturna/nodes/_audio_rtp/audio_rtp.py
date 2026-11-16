@@ -178,30 +178,14 @@ class AudioRtp(Node[AudioPayload, AudioPayload]):
                 try:
                     for raw_frame in packet.decode():
                         for frame in self._resampler.resample(raw_frame):
-                            audio_block = frame.to_ndarray()
-                            if audio_block.ndim == 2:
-                                yield (
-                                    audio_block.mean(axis=0)
-                                    if self._out_channels == 1
-                                    else audio_block.T.reshape(-1)
-                                )
-                            else:
-                                yield audio_block
+                            yield _samples(frame)
 
                 except av.error.InvalidDataError:
                     self.logger.warn('malformed packet in decoder, discarding')
 
             try:
                 for frame in self._resampler.resample(None):
-                    audio_block = frame.to_ndarray()
-                    if audio_block.ndim == 2:
-                        yield (
-                            audio_block.mean(axis=0)
-                            if self._out_channels == 1
-                            else audio_block.T.reshape(-1)
-                        )
-                    else:
-                        yield audio_block
+                    yield _samples(frame)
 
             except av.error.EOFError:
                 pass
@@ -281,3 +265,10 @@ class AudioRtp(Node[AudioPayload, AudioPayload]):
                 '_encoding_clock_chan': self._encoding_clock_chan,
             },
         )
+
+
+def _samples(frame: av.AudioFrame) -> np.ndarray:
+    """Flatten a resampled frame, interleaving planar channels"""
+    # packed and mono frames are one row already: no mean, which would turn
+    # integer samples into float64
+    return frame.to_ndarray().T.reshape(-1)
