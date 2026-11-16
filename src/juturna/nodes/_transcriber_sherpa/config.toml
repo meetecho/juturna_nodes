@@ -1,0 +1,6 @@
+[arguments]
+model_dir = ""
+num_threads = 2
+min_trailing_silence = 0.8
+
+[meta]
