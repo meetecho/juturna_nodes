@@ -42,7 +42,8 @@ class AudioRtp(Node[AudioPayload, AudioPayload]):
     _SDP_TEMPLATE_NAME: str = 'remote_source.sdp.template'
     _OPTIONS: dict = {
         'protocol_whitelist': 'file,udp,rtp',
-        'buffer_size': '4096',
+        # socket receive buffer: 4096 bytes dropped bursts of a few packets
+        'buffer_size': '65536',
         'stimeout': '1500000',
         'rw_timeout': '500000',
         'probesize': '1024',

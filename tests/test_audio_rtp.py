@@ -100,3 +100,14 @@ def test_first_packet_is_kept(tmp_path):
         assert _tone_seconds(node, expected=1) >= 0.99
     finally:
         node.stop()
+
+
+def test_burst_of_packets_is_received_whole(tmp_path):
+    node, port = _start(tmp_path)
+
+    try:
+        _send(port, seconds=2, burst=2)
+
+        assert _tone_seconds(node, expected=2) >= 1.98
+    finally:
+        node.stop()
