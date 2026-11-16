@@ -14,3 +14,4 @@ stream, a file, a server), and feed it into the pipeline.
     json_http
     json_websocket
     browser_input
+    mic_source

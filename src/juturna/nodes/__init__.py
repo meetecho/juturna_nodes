@@ -11,6 +11,7 @@ _AVAILABLE_PLUGINS: dict[str, str] = {
     'JsonHTTP': '._json_http.json_http',
     'JsonWebsocket': '._json_websocket.json_websocket',
     'BrowserInput': '._browser_input.browser_input',
+    'MicSource': '._mic_source.mic_source',
     # processing nodes
     'VadSilero': '._vad_silero.vad_silero',
     'TranscriberWhisper': '._transcriber_whisper.transcriber_whisper',
@@ -28,6 +29,7 @@ _AVAILABLE_PLUGINS: dict[str, str] = {
     'NotifierConsole': '._notifier_console.notifier_console',
     'BrowserOutput': '._browser_output.browser_output',
     'AudioWriter': '._audio_writer.audio_writer',
+    'SpeakerSink': '._speaker_sink.speaker_sink',
 }
 
 

@@ -60,6 +60,7 @@ pip install -e ".[all]"
 | `JsonHTTP`      | Receive JSON content from `POST` requests on an HTTP server |       |
 | `JsonWebsocket` | Expose a websocket server, and receive data from it         |       |
 | `BrowserInput`  | Receive messages from the web page hosting a pipeline       |       |
+| `MicSource`     | Capture audio from a microphone, with push-to-talk          | `sound` |
 
 ### Processing
 
@@ -84,6 +85,7 @@ pip install -e ".[all]"
 | `NotifierUDP`   | Send messages to a UDP socket                |       |
 | `NotifierConsole` | Print messages on the terminal             |       |
 | `AudioWriter`   | Write audio messages to a WAV file           |       |
+| `SpeakerSink`   | Play audio messages on a speaker             | `sound` |
 | `BrowserOutput` | Send messages to the web page hosting it     |       |
 
 Every node folder in `src/juturna/nodes/` includes a `config.toml` file with
