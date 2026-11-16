@@ -21,9 +21,9 @@ pip install "juturna-nodes[sherpa]"
 By default the node downloads the English streaming zipformer (Apache-2.0)
 on first use: the int8 encoder, decoder and joiner and `tokens.txt`, 73 MB,
 from the [Hugging Face repository](https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-06-26)
-at a pinned revision. Each file is checked against its size and SHA-256
-before use. The files are kept in `~/.cache/juturna/models/<model>/` (or
-under `$XDG_CACHE_HOME`), and later runs reuse them.
+at a pinned revision. Each file is checked against its size and SHA-256 on
+download. The files are kept in `~/.cache/juturna/models/<model>/` (or
+under `$XDG_CACHE_HOME`), and later runs reuse them after checking their size.
 
 To use a model you already have, set `model_dir` to its folder; `model` is
 then ignored. The folder must hold `tokens.txt` and one `encoder*.onnx`,

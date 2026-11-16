@@ -28,9 +28,9 @@ By default the node downloads on first use:
   [`tts-models` release](https://github.com/k2-fsa/sherpa-onnx/releases/tag/tts-models)
   of sherpa-onnx.
 
-Each file is checked against its size and SHA-256 before use. The files are
+Each file is checked against its size and SHA-256 on download. The files are
 kept in `~/.cache/juturna/models/<model>/` (or under `$XDG_CACHE_HOME`), and
-later runs reuse them.
+later runs reuse them after checking their size.
 
 The lexicon is not distributed with this package: the node downloads it from
 the sherpa-onnx release. Its header says it was generated from CMUdict and
@@ -40,8 +40,8 @@ To use a model you already have, for example Kokoro, set `model_dir` to its
 folder and `model_type` to its family; `model` is then ignored.
 
 Words missing from the lexicon are skipped, which includes most names.
-Measured on CPU with 2 threads, Kitten nano int8 (Apache-2.0, 29 MB) speaks
-5.6 s of audio in about 1.8 s; Kokoro int8 (Apache-2.0, 98 MB) has a more
+Measured on CPU with 2 threads, Kitten nano int8 (Apache-2.0, 28 MB) speaks
+5.6 s of audio in about 1.8 s; Kokoro int8 (Apache-2.0, 140 MB) has a more
 natural voice but is slower than real time.
 
 ## Arguments
