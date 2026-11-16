@@ -61,7 +61,8 @@ The node has no input: it reads the file or the device.
   transmitting.
 - Webcams work on Linux only (V4L2). The resolution and the pixel format are
   the device defaults.
-- RTSP and other network streams are not supported: use `VideoRtp` for RTP.
+- RTSP and other network streams are not supported today: for RTP video use
+  `VideoRtp`.
 
 ## Example
 
