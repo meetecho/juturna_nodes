@@ -1,6 +1,9 @@
 """
 TranscriberSherpa
 
+@ Author: Paolo Saviano
+@ Email: psaviano@meetecho.com
+
 Streaming speech recognition with sherpa-onnx: transmit one message for each
 sentence, when the speaker stops talking.
 """

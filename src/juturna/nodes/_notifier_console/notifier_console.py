@@ -1,6 +1,9 @@
 """
 NotifierConsole
 
+@ Author: Paolo Saviano
+@ Email: psaviano@meetecho.com
+
 Print every received message on the standard output, one line each.
 """
 

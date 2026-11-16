@@ -1,6 +1,9 @@
 """
 SpeakerSink
 
+@ Author: Paolo Saviano
+@ Email: psaviano@meetecho.com
+
 Play the audio of every received message on a speaker.
 """
 

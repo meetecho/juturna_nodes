@@ -1,6 +1,9 @@
 """
 SynthesizerSherpa
 
+@ Author: Paolo Saviano
+@ Email: psaviano@meetecho.com
+
 Text to speech with sherpa-onnx: turn the text of each message into audio.
 """
 

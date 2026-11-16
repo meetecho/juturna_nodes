@@ -1,6 +1,9 @@
 """
 AudioWriter
 
+@ Author: Paolo Saviano
+@ Email: psaviano@meetecho.com
+
 Append the audio of every received message to a WAV file.
 """
 

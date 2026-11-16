@@ -1,6 +1,9 @@
 """
 PrompterOllama
 
+@ Author: Paolo Saviano
+@ Email: psaviano@meetecho.com
+
 Send the text of each message to a model served by Ollama, and transmit the
 answer.
 """

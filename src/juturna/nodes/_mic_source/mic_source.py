@@ -1,6 +1,9 @@
 """
 MicSource
 
+@ Author: Paolo Saviano
+@ Email: psaviano@meetecho.com
+
 Capture audio from a microphone, optionally only while push-to-talk is on.
 """
 
