@@ -42,13 +42,15 @@ class AudioRtp(Node[AudioPayload, AudioPayload]):
     _SDP_TEMPLATE_NAME: str = 'remote_source.sdp.template'
     _OPTIONS: dict = {
         'protocol_whitelist': 'file,udp,rtp',
-        'buffer_size': '4096',
+        # socket receive buffer: 4096 bytes dropped bursts of a few packets
+        'buffer_size': '65536',
         'stimeout': '1500000',
         'rw_timeout': '500000',
         'probesize': '1024',
         'analyzeduration': '0',
         'flags': 'low_delay',
-        'fflags': 'nobuffer+discardcorrupt',
+        # no 'nobuffer': it drops the packets read while probing the stream
+        'fflags': 'discardcorrupt',
     }
 
     def __init__(
@@ -165,7 +167,9 @@ class AudioRtp(Node[AudioPayload, AudioPayload]):
             self._container = av.open(
                 self.sdp_descriptor,
                 options=self._OPTIONS,
-                timeout=(None, JUTURNA_THREAD_JOIN_TIMEOUT),
+                # without an open timeout, an idle input blocks stop() for
+                # about 10 s
+                timeout=JUTURNA_THREAD_JOIN_TIMEOUT,
             )
             self._stream = self._container.streams.audio[0]
             self._resampler = av.AudioResampler(
@@ -184,7 +188,9 @@ class AudioRtp(Node[AudioPayload, AudioPayload]):
                             yield _samples(frame)
 
                 except av.error.InvalidDataError:
-                    self.logger.warn('malformed packet in decoder, discarding')
+                    self.logger.warning(
+                        'malformed packet in decoder, discarding'
+                    )
 
             try:
                 for frame in self._resampler.resample(None):
@@ -228,7 +234,9 @@ class AudioRtp(Node[AudioPayload, AudioPayload]):
                 self.logger.debug(
                     f'demux terminate while reading {self._stop_event.is_set()}'
                 )
-            except OSError as e:
+            # a busy port raises InvalidDataError, a ValueError: without
+            # this the worker died and the node never received again
+            except (OSError, av.error.FFmpegError) as e:
                 if not self._stop_event.is_set():
                     self.logger.error(f'source unavailable ({e}), retrying...')
                     self._stop_event.wait(2.0)
