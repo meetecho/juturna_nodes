@@ -50,9 +50,14 @@ The UDP receive buffer is 64 KB, so short bursts of packets are not dropped.
 | `block_size`             | `int`  | `3`              | Length of each chunk, in seconds |
 | `flush_partial_on_error` | `bool` | `true`           | Transmit the pending samples, padded with zeros, when the input is closed |
 
-For G.711 µ-law at 8 kHz, as sent by
-`ffmpeg ... -ac 1 -ar 8000 -c:a pcm_mulaw -f rtp rtp://127.0.0.1:5004`, use
-`payload_type: 0` and `encoding_clock_chan: "PCMU/8000"`.
+For telephony audio, G.711 µ-law at 8 kHz mono (from a PBX such as
+Asterisk, a Janus RTP forwarder, or
+`ffmpeg ... -ac 1 -ar 8000 -c:a pcm_mulaw -f rtp rtp://127.0.0.1:5004`), use
+`encoding_clock_chan: "PCMU/8000"` (`"PCMU/8000/1"` works the same) and set
+`payload_type` to the type the sender uses: `0` is the static type of PCMU,
+but a sender may be configured with a dynamic one. The string is written as
+is in the SDP `rtpmap` line, and the audio is resampled from 8 kHz to
+`out_rate`. The example at the end of this page receives such a stream.
 
 ## Input message
 
