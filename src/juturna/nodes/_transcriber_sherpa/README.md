@@ -64,6 +64,14 @@ until more audio comes.
 The message keeps the version and the timers of the audio message that closed
 the sentence. `meta` is empty.
 
+## License
+
+- **Weights:** the default model is downloaded from
+  [csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-06-26](https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-06-26),
+  Apache-2.0 on its model card. With `model_dir`, the licence is the one of
+  the model you use.
+- **Runtime:** [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx), Apache-2.0.
+
 ## Example
 
 ```json

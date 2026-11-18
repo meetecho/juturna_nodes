@@ -77,6 +77,15 @@ a `<node name>` timer with the duration of the request. `meta` is empty. If
 the request fails (server down, timeout, HTTP error), the error is logged and
 nothing is transmitted.
 
+## License
+
+- **Runtime:** [Ollama](https://github.com/ollama/ollama), MIT. The node
+  only calls its HTTP API.
+- **Weights:** the licence depends on the model you pull and set in
+  `model_name`. The default `qwen2.5:1.5b` is Qwen2.5 1.5B, Apache-2.0 on the
+  [Qwen/Qwen2.5-1.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct)
+  model card; other models, including other Qwen2.5 sizes, may differ.
+
 ## Example
 
 ```json

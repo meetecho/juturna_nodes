@@ -43,6 +43,14 @@ function.
 | `speech_pad_ms`           | `int`            | `400`   | Padding added to each side of a speech chunk              |
 | `keep`                    | `int`            | `1`     | Number of audio messages the detection runs on            |
 
+## License
+
+- **Code and weights:** [silero-vad](https://github.com/snakers4/silero-vad),
+  MIT (its `LICENSE` file and the PyPI classifier); the model ships inside the
+  `silero-vad` package.
+- **Runtime:** PyTorch, BSD-3-Clause (its
+  [`LICENSE`](https://github.com/pytorch/pytorch/blob/main/LICENSE) file).
+
 ## Example
 
 ```json

@@ -79,6 +79,19 @@ a `<node name>` timer with the synthesis time. If the model produces no audio
 (for example, every word is missing from the lexicon), a warning is logged
 and nothing is transmitted.
 
+## License
+
+- **Weights:** the default model is downloaded from
+  [csukuangfj2/kitten-nano-en-v0_8-int8](https://huggingface.co/csukuangfj2/kitten-nano-en-v0_8-int8),
+  whose card states no licence; it is converted from
+  [KittenML/kitten-tts-nano-0.8-int8](https://huggingface.co/KittenML/kitten-tts-nano-0.8-int8),
+  Apache-2.0 on its model card. With `model_dir`, the licence is the one of
+  the model you use.
+- **Lexicon:** `lexicon-en-us.txt` comes from the sherpa-onnx
+  [`tts-models` release](https://github.com/k2-fsa/sherpa-onnx/releases/tag/tts-models);
+  no source we found states its licence.
+- **Runtime:** [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx), Apache-2.0.
+
 ## Example
 
 ```json
