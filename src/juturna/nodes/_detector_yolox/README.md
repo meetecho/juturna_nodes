@@ -69,9 +69,20 @@ The same payload, `version` and timers as the input, and:
 
 ## License
 
-The YOLOX code and models are released under Apache-2.0 by Megvii; the
-pre and post-processing of this node are ported from the YOLOX ONNXRuntime
-demo. The models are trained on COCO. ONNX Runtime is MIT licensed.
+- **Code:** the pre and post-processing of this node are ported from the
+  YOLOX ONNXRuntime demo, in the
+  [YOLOX repository](https://github.com/Megvii-BaseDetection/YOLOX), which
+  Megvii releases under Apache-2.0 (its `LICENSE` file).
+- **Weights:** `yolox_nano.onnx`, `yolox_tiny.onnx` and `yolox_s.onnx` are
+  assets of the
+  [0.1.1rc0 release](https://github.com/Megvii-BaseDetection/YOLOX/releases/tag/0.1.1rc0)
+  of the same repository. Neither the release notes nor the repository
+  README give them a separate licence, so the Apache-2.0 of the repository
+  is the only one stated. The models are trained on COCO.
+- **Runtime:** ONNX Runtime (`onnxruntime` on PyPI) is MIT licensed.
+
+Unlike `DetectorYolo` (ultralytics, AGPL-3.0), none of these licences is
+copyleft.
 
 ## Example
 
