@@ -1,6 +1,6 @@
 [project]
 name = "juturna-nodes"
-version = "0.1.0"
+version = "0.1.1"
 description = "Officially supported Juturna nodes"
 authors = [
     { name = "Antonio Bevilacqua", email = "abevilacqua@meetecho.com" },
