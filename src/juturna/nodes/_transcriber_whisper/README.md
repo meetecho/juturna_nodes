@@ -20,6 +20,17 @@ to follow a `VadSilero` node:
 - the `meta['speech_timestamps']` of the buffered messages are used to map
   word timestamps back to the original audio timeline.
 
+Each message triggers one transcription of the whole buffer: the audio of the
+last `buffer_size` messages from that upstream node, concatenated. Every chunk
+is therefore transcribed up to `buffer_size` times, and once the buffer is
+full each call processes `buffer_size` chunks of audio (with the default, five
+times the chunk length) to produce one message. `buffer_size` is the bound:
+the buffer never holds more messages, and a message with `meta['silence']`
+empties it, so the cost drops back after each pause. faster-whisper encodes
+audio in 30 s windows (its default `chunk_length`): a buffer shorter than 30 s
+costs one encoder window per call, and a longer one costs more. If the node
+falls behind its input, lower `buffer_size` or send shorter chunks.
+
 The output payload has a `transcript` key, with a list of words:
 
 ```json
