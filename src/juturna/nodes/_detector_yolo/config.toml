@@ -1,6 +1,6 @@
 [arguments]
 model = "yolo11n.pt"
-device = "cuda"
+device = "cpu"
 targets = ["person"]
 confidence = 0.25
 half = true

@@ -90,16 +90,17 @@ class DetectorYolo(Node[ImagePayload, ImagePayload]):
 
     def update(self, message: Message[ImagePayload], **kwargs):
         """Receive a message, transmit a message"""
-        image = message.payload.image
+        # ultralytics reads NumPy arrays as BGR, the frames are RGB
         results = self._model.predict(
-            image,
+            message.payload.image[..., ::-1],
             verbose=False,
             classes=self._classes,
             conf=self._confidence,
             **self._precision,
         )
+        result = results[0]
 
-        annotated = results[0].plot()
+        annotated = np.ascontiguousarray(result.plot()[..., ::-1])
 
         to_send = Message[ImagePayload](
             creator=self.name,
@@ -115,6 +116,19 @@ class DetectorYolo(Node[ImagePayload, ImagePayload]):
             timers_from=message,
         )
 
-        to_send.meta['annotations'] = results[0]
+        to_send.meta['annotations'] = result
+        to_send.meta['detections'] = [
+            {
+                'label': result.names[int(cls)],
+                'confidence': round(conf, 3),
+                'bbox': [round(v) for v in box],
+            }
+            for box, conf, cls in zip(
+                result.boxes.xyxy.tolist(),
+                result.boxes.conf.tolist(),
+                result.boxes.cls.tolist(),
+                strict=True,
+            )
+        ]
 
         self.transmit(to_send)
