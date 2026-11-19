@@ -56,6 +56,21 @@ downloaded.
 | `word_timestamps`    | `bool` | `true`       | Compute word-level timestamps                          |
 | `without_timestamps` | `bool` | `false`      | Skip timestamp generation                              |
 
+## License
+
+- **Code:** [faster-whisper](https://github.com/SYSTRAN/faster-whisper), MIT.
+- **Weights:** a model name such as `tiny` is resolved by faster-whisper to a
+  CTranslate2 conversion on Hugging Face (`tiny` →
+  [Systran/faster-whisper-tiny](https://huggingface.co/Systran/faster-whisper-tiny),
+  MIT on its model card). OpenAI releases the original Whisper code and
+  weights under MIT ([openai/whisper README](https://github.com/openai/whisper#license)).
+- **Runtime:** [CTranslate2](https://github.com/OpenNMT/CTranslate2), MIT.
+- **The `audio-ml` extra** installs faster-whisper and silero-vad together.
+  faster-whisper imports `av` (PyAV, BSD-3-Clause), whose PyPI wheels bundle
+  an FFmpeg that is effectively GPL (see the License section of `AudioRtp`),
+  and depends on onnxruntime (MIT); silero-vad imports PyTorch
+  (BSD-3-Clause).
+
 ## Example
 
 ```json

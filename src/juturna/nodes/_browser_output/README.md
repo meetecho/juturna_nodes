@@ -44,3 +44,9 @@ Nothing goes down the pipeline. The page receives, through `postMessage`:
 
 `kind` is `audio`, `image`, `bytes` or `object`, and `payload` carries the
 fields listed above.
+
+## License
+
+- **Code:** this node is part of juturna-nodes, MIT (its `LICENSE` file).
+- **Pyodide:** the node runs in the browser on
+  [Pyodide](https://github.com/pyodide/pyodide), MPL-2.0.

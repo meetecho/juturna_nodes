@@ -1,7 +1,12 @@
 .. _new-node:
 
-Write a new node
-================
+Contribute a node to juturna-nodes
+==================================
+
+This page is for adding a node to the juturna-nodes collection. To write your
+first node, start from the
+`tutorial <https://meetecho.github.io/juturna/tutorials/first_pipeline.html>`_
+of juturna.
 
 Nodes in this collection live in the ``juturna.nodes`` namespace, one folder
 per node:

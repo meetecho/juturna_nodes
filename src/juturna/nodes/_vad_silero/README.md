@@ -43,6 +43,19 @@ function.
 | `speech_pad_ms`           | `int`            | `400`   | Padding added to each side of a speech chunk              |
 | `keep`                    | `int`            | `1`     | Number of audio messages the detection runs on            |
 
+## License
+
+- **Code and weights:** [silero-vad](https://github.com/snakers4/silero-vad),
+  MIT (its `LICENSE` file and the PyPI classifier); the model ships inside the
+  `silero-vad` package.
+- **Runtime:** PyTorch, BSD-3-Clause (its
+  [`LICENSE`](https://github.com/pytorch/pytorch/blob/main/LICENSE) file).
+- **The `audio-ml` extra** installs faster-whisper and silero-vad together.
+  faster-whisper imports `av` (PyAV, BSD-3-Clause), whose PyPI wheels bundle
+  an FFmpeg that is effectively GPL (see the License section of `AudioRtp`),
+  and depends on onnxruntime (MIT); silero-vad imports PyTorch
+  (BSD-3-Clause).
+
 ## Example
 
 ```json

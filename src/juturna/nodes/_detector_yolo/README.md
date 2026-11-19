@@ -8,6 +8,19 @@ This node needs the `vision` extra, which installs
 distributed under the AGPL-3.0 license, unlike juturna-nodes (MIT): check that
 its terms are compatible with your use before installing it.
 
+The YOLO weights (such as the default `yolo11n.pt`, which ultralytics
+downloads from the releases of
+[ultralytics/assets](https://github.com/ultralytics/assets)) are AGPL-3.0
+as well: that repository is AGPL-3.0, and the
+[Ultralytics/YOLO11](https://huggingface.co/Ultralytics/YOLO11) model card
+declares `agpl-3.0`. Ultralytics also sells an Enterprise License that
+lifts the AGPL-3.0 terms for its software and models
+([ultralytics README](https://github.com/ultralytics/ultralytics#-license)).
+
+The `vision` extra also installs PyTorch (BSD-3-Clause, its `LICENSE`
+file) and opencv-python (Apache-2.0, its license on PyPI), which
+ultralytics depends on.
+
 ## Arguments
 
 | Argument     | Type    | Default        | Description |

@@ -79,6 +79,23 @@ a `<node name>` timer with the synthesis time. If the model produces no audio
 (for example, every word is missing from the lexicon), a warning is logged
 and nothing is transmitted.
 
+## License
+
+The default voice is for demos: its weights and lexicon state no license.
+
+- **Weights:** the default model is downloaded from
+  [csukuangfj2/kitten-nano-en-v0_8-int8](https://huggingface.co/csukuangfj2/kitten-nano-en-v0_8-int8),
+  whose card states no license; it is converted from
+  [KittenML/kitten-tts-nano-0.8-int8](https://huggingface.co/KittenML/kitten-tts-nano-0.8-int8),
+  Apache-2.0 on its model card. With `model_dir`, the license is the one of
+  the model you use.
+- **Lexicon:** `lexicon-en-us.txt` comes from the sherpa-onnx
+  [`tts-models` release](https://github.com/k2-fsa/sherpa-onnx/releases/tag/tts-models);
+  no source we found states its license.
+- **Runtime:** [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx), Apache-2.0.
+- **requests:** Apache-2.0 (the license of requests on PyPI),
+  to download the default model.
+
 ## Example
 
 ```json

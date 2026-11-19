@@ -66,6 +66,13 @@ The node is a source: it receives no messages.
 
 `meta` is empty. `TranscriberSherpa` and `AudioWriter` read this format.
 
+## License
+
+- **Code:** this node is part of juturna-nodes, MIT (its `LICENSE` file).
+- **sounddevice:** MIT (the `License-Expression` of sounddevice on PyPI).
+- **NumPy:** BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0 (the
+  `License-Expression` of numpy on PyPI).
+
 ## Example
 
 ```json

@@ -34,6 +34,12 @@ runs.
 
 The node does not transmit messages.
 
+## License
+
+- **Code:** this node is part of juturna-nodes, MIT (its `LICENSE` file).
+- **NumPy:** BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0 (the
+  `License-Expression` of numpy on PyPI).
+
 ## Example
 
 ```json

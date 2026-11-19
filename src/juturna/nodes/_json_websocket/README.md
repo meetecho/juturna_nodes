@@ -12,3 +12,7 @@ that are then converted into objects. The node produces messages containing
 
 ## Node name: json_websocket
 
+## License
+
+- **Code:** this node is part of juturna-nodes, MIT (its `LICENSE` file).
+- **websockets:** BSD-3-Clause (the `License-Expression` of websockets on PyPI).

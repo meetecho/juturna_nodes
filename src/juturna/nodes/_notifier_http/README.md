@@ -27,6 +27,11 @@ The `endpoint` can be changed at runtime through `set_on_config`.
 | `timeout`      | `int` | `20`                    | Request timeout, in seconds                         |
 | `content_type` | `str` | `application/json`      | `application/json` (message as a JSON object) or `text/plain` (message as a JSON string) |
 
+## License
+
+- **Code:** this node is part of juturna-nodes, MIT (its `LICENSE` file).
+- **requests:** Apache-2.0 (the license of requests on PyPI).
+
 ## Example
 
 ```json

@@ -56,3 +56,9 @@ The decoded message, forwarded unchanged by `update()`.
   memory (`np.float32` for audio, the sent dtype for images).
 - `creator`: the node name.
 - `meta`: exactly the `meta` sent by the page. The node adds nothing.
+
+## License
+
+- **Code:** this node is part of juturna-nodes, MIT (its `LICENSE` file).
+- **Pyodide:** the node runs in the browser on
+  [Pyodide](https://github.com/pyodide/pyodide), MPL-2.0.

@@ -19,6 +19,12 @@ timer.
 | -------- | ----- | ------- | -------------------------------------------------- |
 | `delay`  | `int` | `1`     | Seconds to wait before forwarding each message     |
 
+## License
+
+- **Code:** this node is part of juturna-nodes, MIT (its `LICENSE` file).
+- **Third-party runtime:** none beyond the juturna core (MIT); the node
+  uses the Python standard library.
+
 ## Example
 
 ```json
