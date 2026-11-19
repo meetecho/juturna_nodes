@@ -79,7 +79,7 @@ dev_full = [
 
 [project.urls]
 Homepage = "https://github.com/meetecho/juturna_nodes"
-Documentation = "https://meetecho.github.io/juturna_nodes/docs/index.html"
+Documentation = "https://meetecho.github.io/juturna/catalog/nodes/overview.html"
 Repository = "https://github.com/meetecho/juturna_nodes"
 Issues = "https://github.com/meetecho/juturna_nodes/issues"
 Changelog = "https://github.com/meetecho/juturna_nodes/blob/main/CHANGELOG.md"
