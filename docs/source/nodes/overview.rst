@@ -38,6 +38,9 @@ Sources
     * - :ref:`BrowserInput <node-browser-input>`
       - Receive messages from the web page hosting a browser pipeline
       - --
+    * - :ref:`MicSource <node-mic-source>`
+      - Capture audio from a microphone, with push-to-talk
+      - ``sound``
 
 Processing
 ----------
@@ -58,6 +61,15 @@ Processing
     * - :ref:`TranscriberKroko <node-transcriber-kroko>`
       - Transcribe audio with a Kroko server (WIP)
       - --
+    * - :ref:`TranscriberSherpa <node-transcriber-sherpa>`
+      - Transcribe audio with sherpa-onnx streaming models
+      - ``sherpa``
+    * - :ref:`PrompterOllama <node-prompter-ollama>`
+      - Ask a model served by Ollama
+      - --
+    * - :ref:`SynthesizerSherpa <node-synthesizer-sherpa>`
+      - Synthesize speech from text with sherpa-onnx
+      - ``sherpa``
     * - :ref:`DetectorYolo <node-detector-yolo>`
       - Detect and annotate objects in frames with YOLO
       - ``vision``
@@ -87,6 +99,15 @@ Sinks
     * - :ref:`NotifierUDP <node-notifier-udp>`
       - Send messages to a UDP socket
       - --
+    * - :ref:`NotifierConsole <node-notifier-console>`
+      - Print messages on the terminal
+      - --
+    * - :ref:`AudioWriter <node-audio-writer>`
+      - Write audio messages to a WAV file
+      - --
+    * - :ref:`SpeakerSink <node-speaker-sink>`
+      - Play audio messages on a speaker
+      - ``sound``
     * - :ref:`BrowserOutput <node-browser-output>`
       - Send messages to the web page hosting a browser pipeline
       - --

@@ -10,6 +10,9 @@ transmit the results downstream.
     vad_silero
     transcriber_whisper
     transcriber_kroko
+    transcriber_sherpa
+    prompter_ollama
+    synthesizer_sherpa
     detector_yolo
     passthrough_identity
     warp

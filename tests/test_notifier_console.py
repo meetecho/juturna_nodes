@@ -26,6 +26,13 @@ def test_empty_transcript_prints_nothing(capsys):
     assert capsys.readouterr().out == ''
 
 
+def test_text_field_is_printed_as_is(capsys):
+    payload = ObjectPayload.from_dict({'prompt': 'Hi?', 'text': ' Hello. '})
+    _send(_console(), payload)
+
+    assert capsys.readouterr().out == '[whisper] Hello.\n'
+
+
 def test_other_objects_are_printed_as_compact_json(capsys):
     _send(_console(), ObjectPayload.from_dict({'label': 'cat', 'score': 0.9}))
 

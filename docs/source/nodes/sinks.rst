@@ -11,4 +11,6 @@ external destination.
     notifier_mongo
     notifier_udp
     notifier_console
+    audio_writer
+    speaker_sink
     browser_output

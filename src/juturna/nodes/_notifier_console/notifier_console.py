@@ -1,6 +1,9 @@
 """
 NotifierConsole
 
+@ Author: Paolo Saviano
+@ Email: psaviano@meetecho.com
+
 Print every received message on the standard output, one line each.
 """
 
@@ -31,5 +34,8 @@ def _render(payload: BasePayload) -> str:
     # transcriber nodes send a list of words: print them as text
     if isinstance(payload.get('transcript'), list):
         return ''.join(w.get('word', '') for w in payload['transcript']).strip()
+
+    if isinstance(payload.get('text'), str):
+        return payload['text'].strip()
 
     return json.dumps(dict(payload), default=str, separators=(',', ':'))
