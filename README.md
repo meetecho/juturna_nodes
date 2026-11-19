@@ -25,9 +25,10 @@ available through optional extras, so that you only install what you need:
 
 | Extra      | Dependencies                     | Nodes                                    |
 | ---------- | -------------------------------- | ---------------------------------------- |
-| `av`       | `av`                             | `AudioFile`, `AudioRtp`, `VideoRtp`      |
+| `av`       | `av`                             | `AudioFile`, `AudioRtp`, `VideoRtp`, `VideoCapture` |
 | `audio-ml` | `faster-whisper`, `silero-vad`   | `TranscriberWhisper`, `VadSilero`        |
 | `vision`   | `ultralytics`                    | `DetectorYolo`                           |
+| `onnx`     | `onnxruntime`                    | `DetectorYolox`                          |
 | `sherpa`   | `sherpa-onnx`                    | `TranscriberSherpa`, `SynthesizerSherpa` |
 | `sound`    | `sounddevice`                    | `MicSource`, `SpeakerSink`               |
 | `warp`     | `juturna[warp]` (gRPC)           | `Warp`                                   |
@@ -58,6 +59,7 @@ pip install -e ".[all]"
 | `AudioFile`     | Read an audio file, and chunk it into audio messages        | `av`  |
 | `AudioRtp`      | Consume an RTP audio stream                                 | `av`  |
 | `VideoRtp`      | Consume an RTP video stream                                 | `av`  |
+| `VideoCapture`  | Read video from a file or a webcam                          | `av`  |
 | `FileWatcher`   | Watch a filesystem location, and emit filesystem events     |       |
 | `JsonHTTP`      | Receive JSON content from `POST` requests on an HTTP server |       |
 | `JsonWebsocket` | Expose a websocket server, and receive data from it         |       |
@@ -75,6 +77,8 @@ pip install -e ".[all]"
 | `PrompterOllama`      | Ask a model served by Ollama                         |            |
 | `SynthesizerSherpa`   | Synthesize speech from text with sherpa-onnx         | `sherpa`   |
 | `DetectorYolo`        | Detect and annotate objects in frames with YOLO      | `vision`   |
+| `DetectorYolox`       | Detect objects in frames with YOLOX on ONNX Runtime  | `onnx`     |
+| `DetectionEvents`     | Turn the detections of frames into JSON events       |            |
 | `PassthroughIdentity` | Forward input messages after a delay (for testing)   |            |
 | `Warp`                | Run a node remotely, over gRPC                       | `warp`     |
 

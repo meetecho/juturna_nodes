@@ -32,10 +32,10 @@ jobs:
       # the audio-ml and vision extras are left out, as they pull in torch:
       # the tests of their nodes are skipped
       - name: Install
-        run: pip install -e ".[av,warp,test]"
+        run: pip install -e ".[av,warp,onnx,test]"
 
       - name: Check that no test will skip for a missing light extra
-        run: python -c "import av, grpc, google.protobuf"
+        run: python -c "import av, grpc, google.protobuf, onnxruntime"
 
       - name: Run tests
         run: >

@@ -6,6 +6,7 @@ _AVAILABLE_PLUGINS: dict[str, str] = {
     # source nodes
     'AudioRtp': '._audio_rtp.audio_rtp',
     'VideoRtp': '._video_rtp.video_rtp',
+    'VideoCapture': '._video_capture.video_capture',
     'AudioFile': '._audio_file.audio_file',
     'FileWatcher': '._file_watcher.file_watcher',
     'JsonHTTP': '._json_http.json_http',
@@ -20,6 +21,8 @@ _AVAILABLE_PLUGINS: dict[str, str] = {
     'PrompterOllama': '._prompter_ollama.prompter_ollama',
     'SynthesizerSherpa': '._synthesizer_sherpa.synthesizer_sherpa',
     'DetectorYolo': '._detector_yolo.detector_yolo',
+    'DetectorYolox': '._detector_yolox.detector_yolox',
+    'DetectionEvents': '._detection_events.detection_events',
     'PassthroughIdentity': '._passthrough_identity.passthrough_identity',
     'Warp': '._warp.warp',
     # sink nodes

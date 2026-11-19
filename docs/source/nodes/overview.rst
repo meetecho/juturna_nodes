@@ -26,6 +26,9 @@ Sources
     * - :ref:`VideoRtp <node-video-rtp>`
       - Consume an RTP video stream
       - ``av``
+    * - :ref:`VideoCapture <node-video-capture>`
+      - Read video from a file or a webcam
+      - ``av``
     * - :ref:`FileWatcher <node-file-watcher>`
       - Watch a filesystem location, and emit filesystem events
       - --
@@ -73,6 +76,12 @@ Processing
     * - :ref:`DetectorYolo <node-detector-yolo>`
       - Detect and annotate objects in frames with YOLO
       - ``vision``
+    * - :ref:`DetectorYolox <node-detector-yolox>`
+      - Detect objects in frames with YOLOX on ONNX Runtime
+      - ``onnx``
+    * - :ref:`DetectionEvents <node-detection-events>`
+      - Turn the detections of frames into JSON events
+      - --
     * - :ref:`PassthroughIdentity <node-passthrough-identity>`
       - Forward input messages after a delay (for testing)
       - --
