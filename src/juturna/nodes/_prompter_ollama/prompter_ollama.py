@@ -85,6 +85,8 @@ class PrompterOllama(Node[ObjectPayload, ObjectPayload]):
         self._turns = self._transport.new_queue(local=True)
         self._turn = None
         self._answer = None
+        # set by stop(): the answer in progress ends at its next piece
+        self._stopping = self._transport.new_event()
 
         self.set_source(self._next_sentence)
 
@@ -100,8 +102,17 @@ class PrompterOllama(Node[ObjectPayload, ObjectPayload]):
 
         self.logger.info(f'model {self._model_name} loaded')
 
+    def start(self):
+        """Start the node"""
+        self._stopping.clear()
+
+        super().start()
+
     def stop(self):
         """Stop the node, and drop the answer in progress"""
+        # before super().stop(), which waits for the source call to return
+        self._stopping.set()
+
         super().stop()
 
         # the questions and sentences still queued become stale
@@ -166,7 +177,7 @@ class PrompterOllama(Node[ObjectPayload, ObjectPayload]):
             response.raise_for_status()
 
             for line in response.iter_lines():
-                if message.id != self._turn or self._stop_source_event.is_set():
+                if message.id != self._turn or self._stopping.is_set():
                     # leaving the block closes the connection: Ollama stops
                     return
 

@@ -273,6 +273,12 @@ def test_stop_drops_the_answer_in_progress(server, started):
     assert not _final(node)
     assert _FakeOllama.completed == []
 
+    # after the restart the node answers again
+    _FakeOllama.pieces = ['Back to work.']
+    _FakeOllama.gap = 0.0
+    _ask(node, 'again')
+    _wait(lambda: _final(node))
+
 
 def test_stop_does_not_wait_for_a_sentence(server, started):
     # chunks without text, like a model that is thinking
