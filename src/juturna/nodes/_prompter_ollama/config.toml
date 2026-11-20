@@ -5,5 +5,6 @@ system_prompt = "You are a voice assistant. Answer in one or two short sentences
 keep_alive = "5m"
 think = false
 timeout = 60.0
+stream = true
 
 [meta]

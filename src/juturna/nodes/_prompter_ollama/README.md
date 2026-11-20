@@ -1,8 +1,10 @@
 # PrompterOllama
 
 Send the text of each message to a model served by
-[Ollama](https://ollama.com) and transmit the answer. Every message is a new
-question: the node keeps no conversation history. It talks to the Ollama REST
+[Ollama](https://ollama.com) and transmit the answer sentence by sentence,
+while the model writes it, so a speech synthesizer downstream can start
+speaking before the answer is complete. Every message is a new question: the
+node keeps no conversation history. It talks to the Ollama REST
 API (`POST /api/chat`) with `requests`, so it needs no extra.
 
 - **Role:** processing
@@ -55,7 +57,8 @@ of the model you pick before shipping it in a product.
 | `system_prompt` | `str`   | short voice-assistant prompt | System message sent before every question; empty for none |
 | `keep_alive`    | `str`   | `"5m"`                     | How long Ollama keeps the model loaded after a request (`"-1"` for ever, `"0"` to unload at once) |
 | `think`         | `bool`  | `false`                    | Let models that support it reason before answering |
-| `timeout`       | `float` | `60.0`                     | Seconds to wait for each answer |
+| `timeout`       | `float` | `60.0`                     | Seconds to wait for the connection and between two pieces of the answer, the first one included; it does not bound the whole answer |
+| `stream`        | `bool`  | `true`                     | Transmit the answer one sentence at a time; if `false`, transmit it whole once the model is done |
 
 ## Input message
 
@@ -65,17 +68,41 @@ of the model you pick before shipping it in a product.
 
 `meta` is not read. `TranscriberSherpa` produces this format.
 
+A new question interrupts the answer in progress: the node closes the request,
+transmits no further sentence of the old answer and skips the questions still
+waiting. The sentences already transmitted are not called back: the nodes
+downstream (for instance `SynthesizerSherpa` and `SpeakerSink`) still process
+them.
+
 ## Output message
+
+One message per sentence of the answer, or a single message with the whole
+answer if `stream` is `false`.
 
 | Field | Content |
 | --- | --- |
 | `payload['prompt']` | The question sent to the model |
-| `payload['text']` | The answer of the model, trimmed |
+| `payload['text']` | One sentence of the answer, trimmed |
+| `meta['turn']` | The `id` of the input message, the same for every sentence of an answer |
+| `meta['sequence']` | Position of the sentence in the answer, from 0 |
+| `meta['final']` | `true` on the last message of the answer |
+| `meta['source']` | The `creator` of the input message |
 
-The message keeps the version and the timers of the input message, and adds
-a `<node name>` timer with the duration of the request. `meta` is empty. If
-the request fails (server down, timeout, HTTP error), the error is logged and
-nothing is transmitted.
+A sentence ends at `.`, `!`, `?` or `…` followed by a space, or at a newline;
+a piece shorter than 20 characters is joined to the next one. The rest of the
+answer is transmitted when the model is done, with `final` set, even if it is
+empty.
+
+Each message keeps the version and the timers of the input message, and adds
+a `<node name>` timer with the seconds from the arrival of the question to
+that sentence: on the first sentence it is the time to the first sentence.
+
+If the request fails (server down, timeout, HTTP error, an error reported in
+the stream, connection closed before the end), the error is logged and counted
+in the node `health` under `source_failures`. The sentences already
+transmitted stay, the unfinished one is dropped, and no message is marked
+`final`. An answer interrupted by a new question or by stopping the node has
+no `final` message either.
 
 ## License
 
