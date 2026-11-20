@@ -36,8 +36,8 @@ used in a pipeline by class name (`"type": "AudioRtp"`).
 
 > If you are writing nodes for your own project or organisation, you do not
 > need to contribute them here: package them under
-> `juturna.contrib.<author>.nodes` in your own repository (`juturna stub` sets
-> up that layout for you).
+> `juturna.contrib.<author>.nodes` in your own repository
+> (`python -m juturna stub` sets up that layout for you).
 
 ### Node layout
 
@@ -200,8 +200,8 @@ Tests of nodes whose extra is not installed are skipped. New nodes should come
 with their own tests in `tests/`, whenever they can run without external
 services.
 
-Then run it in a small pipeline, using `juturna validate` and `juturna launch`
-on a pipeline file that includes the node:
+Then run it in a small pipeline, using `python -m juturna validate` and
+`python -m juturna launch` on a pipeline file that includes the node:
 
 ```json
 { "name": "my_node", "type": "MyNode", "configuration": { "threshold": 0.7 } }

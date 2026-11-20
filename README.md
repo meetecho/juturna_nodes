@@ -132,12 +132,13 @@ Installed nodes are used in a pipeline configuration by class name. The node
 The pipeline can be validated and launched with the Juturna CLI:
 
 ```bash
-juturna validate -c live_transcription.json
-juturna launch -c live_transcription.json
+python -m juturna validate -c live_transcription.json
+python -m juturna launch -c live_transcription.json
 ```
 
-Alternatively, `juturna create` interactively builds a pipeline configuration,
-listing all the installed nodes.
+Alternatively, `python -m juturna create` interactively builds a pipeline
+configuration, listing all the installed nodes. It needs the `pipebuilder`
+extra of the core: `pip install "juturna[pipebuilder]"`.
 
 Nodes can also be imported directly, for instance to use them in code or to
 extend them:
