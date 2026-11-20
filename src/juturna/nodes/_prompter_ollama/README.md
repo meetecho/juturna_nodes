@@ -68,9 +68,10 @@ of the model you pick before shipping it in a product.
 
 `meta` is not read. `TranscriberSherpa` produces this format.
 
-A new question interrupts the answer in progress: the node closes the request,
-transmits no further sentence of the old answer and skips the questions still
-waiting. The sentences already transmitted are not called back: the nodes
+A new question interrupts the answer in progress. Once the question reaches
+the node, no further sentence of the old answer is transmitted, the request is
+closed when the next piece of the answer arrives, and the questions still
+waiting are skipped. The sentences already transmitted are not called back: the nodes
 downstream (for instance `SynthesizerSherpa` and `SpeakerSink`) still process
 them.
 
@@ -88,7 +89,7 @@ answer if `stream` is `false`.
 | `meta['final']` | `true` on the last message of the answer |
 | `meta['source']` | The `creator` of the input message |
 
-A sentence ends at `.`, `!`, `?` or `…` followed by a space, or at a newline;
+A sentence ends at `.`, `!`, `?` or `…` followed by whitespace, or at a newline;
 a piece shorter than 20 characters is joined to the next one. The rest of the
 answer is transmitted when the model is done, with `final` set, even if it is
 empty.
