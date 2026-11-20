@@ -71,11 +71,12 @@ Pipelines are validated and launched with the Juturna CLI:
 
 .. code-block:: console
 
-    (.venv) $ juturna validate -c live_transcription.json
-    (.venv) $ juturna launch -c live_transcription.json
+    (.venv) $ python -m juturna validate -c live_transcription.json
+    (.venv) $ python -m juturna launch -c live_transcription.json
 
-``juturna create`` builds a pipeline configuration interactively, listing all
-the installed nodes.
+``python -m juturna create`` builds a pipeline configuration interactively,
+listing all the installed nodes. It needs the ``pipebuilder`` extra of the
+core: ``pip install "juturna[pipebuilder]"``.
 
 Using nodes in code
 -------------------
