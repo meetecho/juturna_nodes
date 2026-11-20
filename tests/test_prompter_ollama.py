@@ -274,6 +274,21 @@ def test_stop_drops_the_answer_in_progress(server, started):
     assert _FakeOllama.completed == []
 
 
+def test_stop_does_not_wait_for_a_sentence(server, started):
+    # chunks without text, like a model that is thinking
+    _FakeOllama.pieces = [''] * 100
+    _FakeOllama.gap = 0.05
+    node = started(_prompter(server))
+    _ask(node, 'think')
+    _wait(lambda: _FakeOllama.requests)
+    time.sleep(0.2)
+
+    begin = time.monotonic()
+    node.stop()
+
+    assert time.monotonic() - begin < 1.0
+
+
 @pytest.mark.parametrize(
     ('status', 'ending', 'sent'),
     [

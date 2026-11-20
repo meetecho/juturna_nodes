@@ -5,7 +5,7 @@
 
 :bdg-primary:`processing`
 
-Send the text of each message to a model served by Ollama, and transmit the answer. Needs a running Ollama server.
+Send the text of each message to a model served by Ollama, and transmit the answer sentence by sentence while the model writes it. Needs a running Ollama server.
 
 :Node type: ``PrompterOllama``
 :Input: ``ObjectPayload``

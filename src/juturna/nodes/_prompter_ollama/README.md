@@ -102,7 +102,8 @@ the stream, connection closed before the end), the error is logged and counted
 in the node `health` under `source_failures`. The sentences already
 transmitted stay, the unfinished one is dropped, and no message is marked
 `final`. An answer interrupted by a new question or by stopping the node has
-no `final` message either.
+no `final` message either. Stopping the node also drops the questions still
+waiting: they are not answered after a restart.
 
 ## License
 
