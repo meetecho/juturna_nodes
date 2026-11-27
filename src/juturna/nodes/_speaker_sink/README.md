@@ -3,7 +3,8 @@
 Play the audio of every received message on a speaker, through
 [sounddevice](https://python-sounddevice.readthedocs.io) (PortAudio). Messages
 are played one after the other: the node waits for each one to end before
-taking the next.
+taking the next. Stopping the node silences it at once: the audio playing is
+cut, and the audio still queued is dropped.
 
 - **Role:** sink
 - **Node type:** `SpeakerSink`
