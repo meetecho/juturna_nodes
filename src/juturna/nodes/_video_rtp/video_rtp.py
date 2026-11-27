@@ -37,7 +37,8 @@ class VideoRtp(Node[BytesPayload, ImagePayload]):
         'analyzeduration': '0',
         'reorder_queue_size': '0',
         'flags': 'low_delay',
-        'fflags': 'nobuffer',
+        # no 'nobuffer': it drops the packets read while probing the stream,
+        # and with them the first keyframe
     }
 
     def __init__(
@@ -133,10 +134,13 @@ class VideoRtp(Node[BytesPayload, ImagePayload]):
             self._container = av.open(
                 str(self.sdp_descriptor),
                 options=self._OPTIONS,
-                timeout=(None, JUTURNA_THREAD_JOIN_TIMEOUT),
+                # without an open timeout, an idle input blocks stop()
+                timeout=JUTURNA_THREAD_JOIN_TIMEOUT,
             )
             self._stream = self._container.streams.video[0]
-            self._stream.thread_type = 'AUTO'
+            # frame threads hold frames back, and lose them when the stream
+            # stops: slices keep decoding parallel without that delay
+            self._stream.thread_type = 'SLICE'
 
             for packet in self._container.demux(self._stream):
                 if self._stop_event.is_set():
