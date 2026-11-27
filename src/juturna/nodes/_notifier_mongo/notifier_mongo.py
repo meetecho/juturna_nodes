@@ -57,7 +57,10 @@ class NotifierMongo(Node[ObjectPayload, None]):
         self._db = self._client[self._database]
         self._cl = self._db[self._collection]
 
-        self.logger.info(f'[{self.name}] set to endpoint {self._endpoint}')
+        # the endpoint is not logged: its URI can hold the credentials
+        self.logger.info(
+            f'[{self.name}] set to {self._database}.{self._collection}'
+        )
 
     def update(self, message: Message[ObjectPayload], **kwargs):
         """Receive a message, transmit a message"""
