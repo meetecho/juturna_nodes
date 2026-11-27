@@ -71,6 +71,13 @@ def test_even_presses_leave_push_to_talk_off(pressed, capsys):
     assert not node._talking.is_set()
 
 
+def test_push_to_talk_on_windows_fails_the_warmup(monkeypatch):
+    monkeypatch.setattr('os.name', 'nt')
+
+    with pytest.raises(ValueError, match='Windows'):
+        _mic(push_to_talk=True).warmup()
+
+
 def test_push_to_talk_without_a_terminal_fails_the_warmup(monkeypatch):
     read_end, write_end = os.pipe()
     os.close(write_end)

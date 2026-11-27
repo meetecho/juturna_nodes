@@ -7,6 +7,7 @@ MicSource
 Capture audio from a microphone, optionally only while push-to-talk is on.
 """
 
+import os
 import select
 import sys
 
@@ -67,6 +68,13 @@ class MicSource(Node[AudioPayload, AudioPayload]):
 
     def warmup(self):
         """Open the microphone"""
+        # select() on the standard input works on POSIX only
+        if self._push_to_talk and os.name == 'nt':
+            raise ValueError(
+                'push_to_talk is not supported on Windows: set push_to_talk '
+                'to false'
+            )
+
         # without a terminal, readline() returns at once and the mic stays mute
         if self._push_to_talk and not sys.stdin.isatty():
             raise ValueError(

@@ -29,7 +29,9 @@ closes the sentence at once. While push-to-talk is off the microphone is
 still read, but the audio is dropped: an assistant that answers through a
 speaker does not hear itself.
 
-Push-to-talk reads the standard input, so:
+Push-to-talk works on POSIX systems (Linux, macOS) only: on Windows the
+warmup fails with an error, so set `push_to_talk` to `false` there. It reads
+the standard input, so:
 
 - run the pipeline in a terminal, with `python -m juturna launch --auto`
   (without `--auto` the launcher reads Enter itself to start and stop the
