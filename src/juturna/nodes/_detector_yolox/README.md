@@ -24,13 +24,13 @@ tiny, 640 px for s) keeping its ratio, padded with grey, and converted to BGR.
 The boxes are mapped back to the pixels of the original frame. Overlapping
 boxes are merged whatever their class, as in the YOLOX demo.
 
-Times on a laptop CPU, with onnxruntime 1.32:
+The models, from the fastest to the slowest:
 
-| Model        | Input  | Download | Time per frame |
-| ------------ | ------ | -------- | -------------- |
-| `yolox_nano` | 416 px | 3.7 MB   | ~10 ms         |
-| `yolox_tiny` | 416 px | 20 MB    | ~22 ms         |
-| `yolox_s`    | 640 px | 36 MB    | ~70-100 ms     |
+| Model        | Input  | Download |
+| ------------ | ------ | -------- |
+| `yolox_nano` | 416 px | 3.7 MB   |
+| `yolox_tiny` | 416 px | 20 MB    |
+| `yolox_s`    | 640 px | 36 MB    |
 
 When the frames come faster than the model, they queue up: limit them at the
 source (for example with the `fps` argument of `VideoCapture`).

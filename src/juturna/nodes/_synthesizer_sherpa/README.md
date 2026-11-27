@@ -40,9 +40,8 @@ To use a model you already have, for example Kokoro, set `model_dir` to its
 folder and `model_type` to its family; `model` is then ignored.
 
 Words missing from the lexicon are skipped, which includes most names.
-Measured on CPU with 2 threads, Kitten nano int8 (Apache-2.0, 28 MB) speaks
-5.6 s of audio in about 1.8 s; Kokoro int8 (Apache-2.0, 140 MB) has a more
-natural voice but is slower than real time.
+Kitten nano int8 (Apache-2.0, 28 MB) is the smaller and faster model; Kokoro
+int8 (Apache-2.0, 140 MB) has a more natural voice but is slower.
 
 ## Arguments
 

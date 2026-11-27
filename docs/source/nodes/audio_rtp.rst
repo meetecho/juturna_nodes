@@ -43,7 +43,7 @@ uses the port, the node logs ``source unavailable (...), retrying...`` at
 stops.
 
 The UDP receive buffer is 64 KB, so short bursts of packets are not dropped.
-``stop()`` returns within a few seconds (up to 3 s in our tests).
+``stop()`` returns within a few seconds.
 
 Configuration
 -------------

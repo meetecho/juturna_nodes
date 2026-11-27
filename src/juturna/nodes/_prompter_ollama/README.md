@@ -26,16 +26,11 @@ question is not slowed down; warmup fails if the server is not reachable.
 
 Any model served by Ollama works: pull it and set `model_name`, nothing else
 changes in the pipeline. Larger models answer more reliably and take longer
-and more memory per answer. On 20 short questions, 3 runs each, on CPU:
-
-- `qwen2.5:0.5b` answered 44 of 60 correctly, in 0.28 s (median);
-- `qwen2.5:1.5b`, the default, answered 48 of 60 correctly with the plain
-  voice-assistant prompt, and 55 of 60 with the default prompt, which also
-  asks to write numbers as words, in 0.46 s (median).
+and more memory per answer. The default is `qwen2.5:1.5b`.
 
 The default prompt asks for numbers as words because the TTS lexicon has no
 entries for digits: `SynthesizerSherpa` skips them. The model still writes
-digits now and then (4 answers of 60 in the test above).
+digits now and then.
 
 | `model_name`   | Download | License |
 | -------------- | -------- | ------- |

@@ -27,10 +27,9 @@ reading False` at `DEBUG` level. Opening the input has no timeout. Any other
 error is logged as `source unavailable (...), retrying...` and the node tries
 again after 2 s.
 
-In our tests (ffmpeg sending H.264 at 10 fps on localhost), the first frame
-came out about 2.3 s after the sender started, every time the stream started
-or resumed after a pause: shorter bursts produced no frame at all. After
-that, every frame was transmitted.
+The first frames are lost every time the stream starts or resumes after a
+pause, and a short burst can produce no frame at all. After that, every frame
+is transmitted.
 
 ## Arguments
 
@@ -72,8 +71,8 @@ The node has no input: it reads the RTP stream.
   every packet failed with `Invalid data found when processing input`. The
   default `codec` is `vp8`, so check your sender before relying on it; H.264
   worked.
-- `stop()` took about 1 s while a stream had been received, but 7 s when no
-  sender had ever connected, because opening the input has no timeout.
+- `stop()` is slower when no sender has ever connected, because opening the
+  input has no timeout.
 
 ## License
 
