@@ -10,7 +10,6 @@ https://github.com/SYSTRAN/faster-whisper
 """
 
 import gc
-import collections
 import time
 import logging
 
@@ -66,6 +65,10 @@ class TranscriberWhisper(Node[AudioPayload, ObjectPayload]):
         """
         super().__init__(**kwargs)
 
+        # with 0, the [-buffer_size:] slice in update() would keep everything
+        if buffer_size < 1:
+            raise ValueError(f'buffer_size must be at least 1: {buffer_size}')
+
         self._only_local = only_local
         self._model = WhisperModel(
             model_name, local_files_only=self._only_local, device=device
@@ -84,19 +87,15 @@ class TranscriberWhisper(Node[AudioPayload, ObjectPayload]):
         logging.getLogger('faster_whisper').setLevel(logging.ERROR)
         self.logger.info(f'trx created, model id {id(self._model)}')
 
-    def warmup(self):
-        """Warmup the node"""
-        self._data = {
-            k: collections.deque(maxlen=self._buffer_size) for k in self.origins
-        }
-
-        self.logger.info(f'warmup sources: {self.origins}')
-
     def update(self, message: Message[AudioPayload], **kwargs):
         """Receive data from upstream, transmit data downstream"""
         self.logger.info(f'received {message.version}')
 
         origin = message.creator
+        # in the state, not on the node: a remote node serves several clients,
+        # and a stateless client sends it with each request (a list, as a
+        # deque cannot be sent)
+        state = kwargs['state']
 
         to_send = Message[ObjectPayload](
             creator=self.name,
@@ -113,16 +112,17 @@ class TranscriberWhisper(Node[AudioPayload, ObjectPayload]):
             to_send.timer(self.name, -1)
 
             self.transmit(to_send)
-            self._data[origin].clear()
+            state.pop(origin, None)
 
             self.logger.info(f'sent {to_send.version}')
 
             return
 
         self.logger.info('transcribing audio content')
-        self._data[origin].append(message)
+        buffer = [*state.get(origin, list()), message][-self._buffer_size :]
+        state[origin] = buffer
 
-        speech = [m.payload.audio for m in self._data[origin]]
+        speech = [m.payload.audio for m in buffer]
         speech = np.concatenate(speech)
 
         transcript, trx_info = self._model.transcribe(
@@ -144,18 +144,15 @@ class TranscriberWhisper(Node[AudioPayload, ObjectPayload]):
                 'word': w.word,
                 'start': float(w.start),
                 'end': float(w.end),
-                'start_abs': float(w.start)
-                + self._data[origin][0].payload.start,
-                'end_abs': float(w.end) + self._data[origin][0].payload.start,
+                'start_abs': float(w.start) + buffer[0].payload.start,
+                'end_abs': float(w.end) + buffer[0].payload.start,
                 'probability': float(w.probability),
             }
             for segment in transcript
             for w in segment.words
         ]
 
-        rescaled = TranscriberWhisper._rescale_trx_words(
-            word_list, self._data[origin]
-        )
+        rescaled = TranscriberWhisper._rescale_trx_words(word_list, buffer)
 
         to_send.payload['transcript'] = rescaled
 

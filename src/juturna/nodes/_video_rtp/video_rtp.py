@@ -99,14 +99,15 @@ class VideoRtp(Node[BytesPayload, ImagePayload]):
     def warmup(self):
         """Warmup the node"""
         self._sdp_file_path = self.sdp_descriptor
+
+    def start(self):
+        """Start the node"""
+        self._stop_event.clear()
         self._t = self._transport.spawn(
             target=self._generate_chunks,
             name=f'{self.name}_rtp',
             daemon=True,
         )
-
-    def start(self):
-        """Start the node"""
         self._t.start()
         super().start()
 
@@ -115,6 +116,7 @@ class VideoRtp(Node[BytesPayload, ImagePayload]):
         self._stop_event.set()
         if self._t:
             self._t.join()
+            self._t = None
         super().stop()
 
     def update(self, message: Message[ImagePayload], **kwargs):

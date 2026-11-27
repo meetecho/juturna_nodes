@@ -46,16 +46,22 @@ class JsonWebsocket(Node[BytesPayload, ObjectPayload]):
     def warmup(self):
         """Prepare node for execution"""
         self._server = serve(self._ws_handler, self._rtx_host, self._rtx_port)
-        self._thread = self._transport.spawn(
-            target=self._server.serve_forever,
-            name=f'{self.name}_ws',
-            daemon=True,
-        )
 
         self.logger.info('ws server created')
 
     def start(self):
         """Start server thread"""
+        # stop() shuts the server down: a restart needs a new one
+        if self._server is None:
+            self._server = serve(
+                self._ws_handler, self._rtx_host, self._rtx_port
+            )
+
+        self._thread = self._transport.spawn(
+            target=self._server.serve_forever,
+            name=f'{self.name}_ws',
+            daemon=True,
+        )
         self._thread.start()
 
         super().start()
@@ -65,8 +71,10 @@ class JsonWebsocket(Node[BytesPayload, ObjectPayload]):
 
         if self._server:
             self._server.shutdown()
+            self._server = None
         if self._thread:
             self._thread.join(timeout=2)
+            self._thread = None
 
     def update(self, message: Message[BytesPayload], **kwargs):  # noqa: D102
         self.logger.info(f'ws server message received: {message.payload.cnt}')

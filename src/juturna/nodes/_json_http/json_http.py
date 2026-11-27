@@ -110,6 +110,8 @@ class JsonHTTP(Node[ObjectPayload, ObjectPayload]):
             # shutdown() blocks forever if serve_forever() never ran
             self._httpd.shutdown()
             self._thread.join(timeout=2)
+            # a second shutdown() leaves the next serve_forever() to exit
+            self._thread = None
 
     def destroy(self) -> None:
         """Destroy the node"""
