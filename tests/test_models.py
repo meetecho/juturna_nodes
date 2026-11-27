@@ -91,3 +91,22 @@ def test_corrupted_download_leaves_no_file(fake_model):
 def test_unknown_model_is_rejected():
     with pytest.raises(ValueError, match='unknown model'):
         _models.fetch('nope', logging.getLogger())
+
+
+def test_download_stops_as_soon_as_it_is_too_large(fake_model, monkeypatch):
+    _, _, folder = fake_model
+    blocks = list()
+
+    class Endless(_Response):
+        def iter_content(self, chunk_size):
+            while len(blocks) < 1000:  # a server sending far too much
+                blocks.append(_DATA)
+                yield _DATA
+
+    monkeypatch.setattr(_models.requests, 'get', lambda *a, **k: Endless(b''))
+
+    with pytest.raises(ValueError, match='expected'):
+        _models.fetch('fake', logging.getLogger())
+
+    assert len(blocks) == 2
+    assert list(folder.iterdir()) == []

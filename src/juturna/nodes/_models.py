@@ -164,6 +164,11 @@ def _download(url: str, path: pathlib.Path, size: int, sha256: str):
                 tmp.write(block)
                 digest.update(block)
 
+                if tmp.tell() > size:
+                    raise ValueError(
+                        f'{url}: more than the expected {size} bytes'
+                    )
+
         written = os.path.getsize(tmp.name)
 
         if written != size or digest.hexdigest() != sha256:
