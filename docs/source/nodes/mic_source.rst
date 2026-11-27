@@ -16,8 +16,8 @@ Capture mono audio from a microphone, optionally only between two presses of Ent
 
     $ pip install "juturna-nodes[mic-source]"
 
-The node README describes the system requirements, the messages and the
-limits of the node.
+The node README describes the system requirements, push-to-talk, the
+messages and the licenses of the node.
 
 Configuration
 -------------

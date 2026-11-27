@@ -17,7 +17,8 @@ Text to speech with sherpa-onnx, on CPU and without torch: the text of each mess
     $ pip install "juturna-nodes[synthesizer-sherpa]"
 
 The node downloads its default model on first use. The node README describes
-the model cache, the input and output messages, and the limits of the node.
+the model cache, the input and output messages, and the licenses of the code
+and the weights.
 
 Configuration
 -------------

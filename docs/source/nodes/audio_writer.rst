@@ -16,8 +16,8 @@ Append the audio of every received message to one 16-bit mono WAV file in the no
 
     $ pip install juturna-nodes
 
-The node README describes the model to download, the input and output
-messages, and the limits of the node.
+The node README describes the input message, the file the node writes, and
+the license of the node.
 
 Configuration
 -------------

@@ -93,7 +93,7 @@ juturna version with the same remote protocol.
 ## License
 
 - **Code:** this node is part of juturna-nodes, MIT (its `LICENSE` file).
-- **grpcio:** Apache-2.0 (the `License-Expression` of grpcio on PyPI).
+- **grpcio:** Apache-2.0 (the `License` field of grpcio on PyPI).
 - **protobuf:** BSD-3-Clause (the license of protobuf on PyPI), pinned by
   the `warp` extra of juturna.
 

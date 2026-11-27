@@ -17,7 +17,7 @@ Play the audio of every received message on a speaker, one message after the oth
     $ pip install "juturna-nodes[speaker-sink]"
 
 The node README describes the system requirements, the messages and the
-limits of the node.
+licenses of the node.
 
 Configuration
 -------------

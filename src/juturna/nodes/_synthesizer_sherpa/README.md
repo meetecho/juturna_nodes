@@ -20,8 +20,8 @@ releases. Since sherpa-onnx 2.0 these models need a pronunciation lexicon.
 
 By default the node downloads on first use:
 
-- Kitten nano int8 (Apache-2.0): `model.int8.onnx`, `voices.bin` and
-  `tokens.txt`, 28 MB, from the
+- Kitten nano int8 (no license stated, see [License](#license)):
+  `model.int8.onnx`, `voices.bin` and `tokens.txt`, 28 MB, from the
   [Hugging Face repository](https://huggingface.co/csukuangfj2/kitten-nano-en-v0_8-int8)
   at a pinned revision;
 - when `lexicon` is empty, `lexicon-en-us.txt` (6.3 MB) from the
@@ -30,7 +30,7 @@ By default the node downloads on first use:
 
 Each file is checked against its size and SHA-256 on download. The files are
 kept in `~/.cache/juturna/models/<model>/` (or under `$XDG_CACHE_HOME`), and
-later runs reuse them after checking their size.
+later runs reuse them after checking their size and SHA-256.
 
 The lexicon is not distributed with this package: the node downloads it from
 the sherpa-onnx release. Its header says it was generated from CMUdict and
@@ -40,7 +40,7 @@ To use a model you already have, for example Kokoro, set `model_dir` to its
 folder and `model_type` to its family; `model` is then ignored.
 
 Words missing from the lexicon are skipped, which includes most names.
-Kitten nano int8 (Apache-2.0, 28 MB) is the smaller and faster model; Kokoro
+Kitten nano int8 (28 MB) is the smaller and faster model; Kokoro
 int8 (Apache-2.0, 140 MB) has a more natural voice but is slower.
 
 ## Arguments
