@@ -70,10 +70,8 @@ class FileWatcher(Node[ObjectPayload, ObjectPayload]):
             ignore_deletions=ignore_deletions,
         )
 
-        self._observer = Observer()
-        self._observer.schedule(
-            self._handler, self._location, recursive=recursive
-        )
+        self._recursive = recursive
+        self._observer: Observer | None = None
 
     def configure(self):
         """Configure the node"""
@@ -92,6 +90,11 @@ class FileWatcher(Node[ObjectPayload, ObjectPayload]):
         # after custom start code, invoke base node start
         super().start()
 
+        # a watchdog Observer is a thread: it can only be started once
+        self._observer = Observer()
+        self._observer.schedule(
+            self._handler, self._location, recursive=self._recursive
+        )
         self._observer.start()
 
     def stop(self):
@@ -99,8 +102,10 @@ class FileWatcher(Node[ObjectPayload, ObjectPayload]):
         # after custom stop code, invoke base node stop
         super().stop()
 
-        self._observer.stop()
-        self._observer.join()
+        if self._observer:
+            self._observer.stop()
+            self._observer.join()
+            self._observer = None
 
     def destroy(self):
         """Destroy the node"""

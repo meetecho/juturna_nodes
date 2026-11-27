@@ -73,14 +73,19 @@ class NotifierHTTP(Node[ObjectPayload, None]):
         """Warmup the node"""
         self.logger.info(f'[{self.name}] set to endpoint {self._endpoint}')
 
+    def start(self):
+        """Start the sender worker"""
+        # a sender still draining after stop() exits once the queue is empty,
+        # as its stop event is still set: wait for it, to keep the order
+        if self._sender_thread:
+            self._sender_thread.join()
+
+        self._stop_sender_event.clear()
         self._sender_thread = self._transport.spawn(
             target=self._sender_loop,
             name=f'{self.name}_sender',
             daemon=True,
         )
-
-    def start(self):
-        """Start the sender worker"""
         self._sender_thread.start()
 
         super().start()

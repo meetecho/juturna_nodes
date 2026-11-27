@@ -146,3 +146,18 @@ def test_busy_port_is_retried(tmp_path):
         assert _tone_seconds(node, expected=1) >= 0.99
     finally:
         node.stop()
+
+
+def test_restarted_node_receives_again(tmp_path):
+    node, port = _start(tmp_path)
+
+    try:
+        node.stop()
+        node.start()
+        _wait_until_bound(port)
+        _send(port, seconds=1, burst=0)
+
+        assert _tone_seconds(node, expected=1) >= 0.99
+    finally:
+        node.stop()
+        node.stop()
