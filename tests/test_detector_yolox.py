@@ -159,7 +159,11 @@ def test_yolox_nano_finds_the_dog(tmp_path, monkeypatch):
         node_name='d',
         pipe_name='p',
     )
-    node.warmup()
+
+    try:
+        node.warmup()
+    except requests.RequestException as e:
+        pytest.skip(f'model not reachable: {e}')
 
     with av.open(str(tmp_path / 'dog.jpg')) as container:
         image = next(container.decode(video=0)).to_ndarray(format='rgb24')
