@@ -103,6 +103,14 @@ def test_decode_keeps_only_targets():
     assert labels == ['dog']
 
 
+def test_decode_drops_a_box_whose_best_class_is_not_a_target():
+    node = _detector(targets=['car'])
+    out = _raw_output(416, {100: (100, 100, 40, 80, 7, 0.8)})  # truck
+    out[100, 5 + 2] = 0.4  # car, second best
+
+    assert node._decode(out, 1.0, 416, 416) == []
+
+
 def test_update_attaches_plain_detections(monkeypatch):
     node = _detector()
     sent = list()

@@ -160,10 +160,11 @@ class DetectorYolox(Node[ImagePayload, ImagePayload]):
         boxes = np.concatenate([centres - sizes / 2, centres + sizes / 2], 1)
         boxes /= ratio
 
-        scores = out[:, 4:5] * out[:, 5:][:, self._classes]
+        # the best class is picked over all of them, then kept if a target
+        scores = out[:, 4:5] * out[:, 5:]
         best = scores.argmax(1)
         best_scores = scores[np.arange(len(best)), best]
-        mask = best_scores > self._confidence
+        mask = (best_scores > self._confidence) & np.isin(best, self._classes)
         boxes, best, best_scores = boxes[mask], best[mask], best_scores[mask]
 
         boxes[:, [0, 2]] = boxes[:, [0, 2]].clip(0, width - 1)
@@ -171,7 +172,7 @@ class DetectorYolox(Node[ImagePayload, ImagePayload]):
 
         return [
             {
-                'label': COCO_CLASSES[self._classes[best[i]]],
+                'label': COCO_CLASSES[best[i]],
                 'confidence': round(float(best_scores[i]), 3),
                 'bbox': [int(v) for v in boxes[i].round()],
             }
