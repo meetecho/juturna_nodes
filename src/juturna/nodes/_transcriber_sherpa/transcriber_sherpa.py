@@ -100,7 +100,9 @@ class TranscriberSherpa(Node[AudioPayload, ObjectPayload]):
         super().stop()
 
         # a kill discards pending data, and may leave a stuck worker still
-        # using the stream
+        # using the stream.
+        # shortcut: reads the private _kill_event of the core, which can change
+        # without notice; switch to a public kill flag once the core has one
         if self._last is None or self._kill_event.is_set():
             return
 
