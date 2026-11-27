@@ -224,3 +224,37 @@ def test_start_keeps_the_source_thread_for_destroy(video):
     node.destroy()
 
     assert node._container is None
+
+
+def test_restart_after_a_pause_resumes_in_real_time(video):
+    received = list()
+
+    class Sink:
+        name = 's'
+
+        def put(self, message):
+            received.append((time.monotonic(), message.meta['pts']))
+
+    def wait_for(count):
+        deadline = time.monotonic() + 5
+
+        while len(received) < count and time.monotonic() < deadline:
+            time.sleep(0.01)
+
+    node = _capture(video)
+    node.add_destination('s', Sink())
+    node.start()
+    wait_for(3)
+    node.stop()  # the source is waiting for the pace of the next frame
+    time.sleep(0.5)  # the pause, 5 frames long
+
+    restarted = time.monotonic()
+    node.start()
+    wait_for(10)
+    node.stop()
+
+    pts = [round(p, 1) for _, p in received]
+    assert pts == [round(0.1 * i, 1) for i in range(10)]
+    # the frames of the pause are not sent in a burst at the restart
+    burst = [t for t, _ in received if restarted <= t < restarted + 0.25]
+    assert len(burst) <= 3

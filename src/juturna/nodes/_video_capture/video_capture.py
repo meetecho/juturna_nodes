@@ -58,6 +58,8 @@ class VideoCapture(Node[ImagePayload, ImagePayload]):
         self._opened_at = 0  # frames sent when the source was opened
         self._sent = 0
         self._reader = None  # the source thread, which owns the container
+        self._pending = None  # frame and pts whose wait a stop interrupted
+        self._stopped_at = None  # monotonic time of the last stop
 
     def warmup(self):
         """Check the source and set the source function"""
@@ -72,10 +74,21 @@ class VideoCapture(Node[ImagePayload, ImagePayload]):
 
     def start(self):
         """Start the node, keeping a handle on its source thread"""
+        # the pause does not count in the pace of the file
+        if self._stopped_at is not None:
+            self._origin += time.monotonic() - self._stopped_at
+            self._stopped_at = None
+
         super().start()
 
         # stop() forgets the thread even when kill() leaves it behind
         self._reader = self._source_thread
+
+    def stop(self):
+        """Stop the node, remembering when, to resume the pace on start"""
+        super().stop()
+
+        self._stopped_at = time.monotonic()
 
     def destroy(self):
         """Close the source, unless a read left behind by kill() still runs"""
@@ -134,8 +147,15 @@ class VideoCapture(Node[ImagePayload, ImagePayload]):
 
         self._container = None
         self._frames = None
+        self._pending = None
 
     def _next_frame(self) -> Message[ImagePayload] | None:
+        if self._pending is not None:
+            frame, pts = self._pending
+            self._pending = None
+
+            return self._paced(frame, pts)
+
         while True:
             try:
                 if self._container is None:
@@ -177,14 +197,20 @@ class VideoCapture(Node[ImagePayload, ImagePayload]):
 
             self._last_pts = pts
 
-            # a camera is paced by the device, a file by its timestamps
-            if not self._camera:
-                delay = self._origin + pts - time.monotonic()
+            return self._paced(frame, pts)
 
-                if delay > 0 and self._stop_source_event.wait(delay):
-                    return None
+    def _paced(self, frame: av.VideoFrame, pts: float) -> Message | None:
+        # a camera is paced by the device, a file by its timestamps
+        if not self._camera:
+            delay = self._origin + pts - time.monotonic()
 
-            return self._message(frame, self._offset + pts)
+            if delay > 0 and self._stop_source_event.wait(delay):
+                # sent on restart, instead of being lost
+                self._pending = frame, pts
+
+                return None
+
+        return self._message(frame, self._offset + pts)
 
     def _end_of_file(self) -> bool:
         """Close the file, and tell whether to read it again"""
