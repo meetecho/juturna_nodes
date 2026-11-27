@@ -8,7 +8,7 @@ from the incoming audio, and only speech is forwarded.
 - **Node type:** `VadSilero`
 - **Input:** `AudioPayload`
 - **Output:** `AudioPayload`
-- **Extra:** `audio-ml` (`pip install "juturna-nodes[audio-ml]"`)
+- **Extra:** `vad-silero` (`pip install "juturna-nodes[vad-silero]"`)
 
 ## How it works
 
@@ -50,11 +50,6 @@ function.
   `silero-vad` package.
 - **Runtime:** PyTorch, BSD-3-Clause (its
   [`LICENSE`](https://github.com/pytorch/pytorch/blob/main/LICENSE) file).
-- **The `audio-ml` extra** installs faster-whisper and silero-vad together.
-  faster-whisper imports `av` (PyAV, BSD-3-Clause), whose PyPI wheels bundle
-  an FFmpeg that is effectively GPL (see the License section of `AudioRtp`),
-  and depends on onnxruntime (MIT); silero-vad imports PyTorch
-  (BSD-3-Clause).
 
 ## Example
 

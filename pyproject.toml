@@ -40,15 +40,27 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-av = ["av>=19.0.1"]
+audio-file = ["av>=19.0.1"]
+audio-rtp = ["av>=19.0.1"]
+video-rtp = ["av>=19.0.1"]
+video-capture = ["av>=19.0.1"]
+mic-source = ["sounddevice>=0.5.6"]
+speaker-sink = ["sounddevice>=0.5.6"]
+transcriber-sherpa = ["sherpa-onnx>=2.0.1"]
+synthesizer-sherpa = ["sherpa-onnx>=2.0.1"]
+transcriber-whisper = ["faster-whisper"]
+vad-silero = ["silero-vad"]
+detector-yolo = ["ultralytics"]
+detector-yolox = ["onnxruntime>=1.32"]
 warp = ["juturna[warp]"]
-audio-ml = ["faster-whisper", "silero-vad"]
-vision = ["ultralytics"]
-sherpa = ["sherpa-onnx>=2.0.1"]
-sound = ["sounddevice>=0.5.6"]
-onnx = ["onnxruntime>=1.32"]
 
-all = ["juturna-nodes[av,warp,audio-ml,vision,sherpa,sound,onnx]"]
+audio = [
+    "juturna-nodes[audio-file,audio-rtp,mic-source,speaker-sink]",
+    "juturna-nodes[transcriber-sherpa,synthesizer-sherpa]",
+    "juturna-nodes[transcriber-whisper,vad-silero]",
+]
+video = ["juturna-nodes[video-rtp,video-capture,detector-yolo,detector-yolox]"]
+all = ["juturna-nodes[audio,video,warp]"]
 
 doc = [
     "sphinx<9.0,>6.0",

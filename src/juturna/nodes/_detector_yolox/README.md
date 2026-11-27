@@ -7,7 +7,7 @@ and attach them to the frame as plain data.
 - **Node type:** `DetectorYolox`
 - **Input:** `ImagePayload`, RGB
 - **Output:** `ImagePayload`, the same frame, with `meta['detections']`
-- **Extra:** `onnx` (`pip install "juturna-nodes[onnx]"`)
+- **Extra:** `detector-yolox` (`pip install "juturna-nodes[detector-yolox]"`)
 
 ## How it works
 

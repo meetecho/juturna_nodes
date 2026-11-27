@@ -7,7 +7,7 @@ frame per message.
 - **Node type:** `VideoCapture`
 - **Input:** none
 - **Output:** `ImagePayload`
-- **Extra:** `av` (`pip install "juturna-nodes[av]"`)
+- **Extra:** `video-capture` (`pip install "juturna-nodes[video-capture]"`)
 
 ## How it works
 

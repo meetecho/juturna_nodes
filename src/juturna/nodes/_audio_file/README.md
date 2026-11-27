@@ -7,7 +7,7 @@ pipeline in real time: one chunk is produced every `block_size` seconds.
 - **Node type:** `AudioFile`
 - **Input:** none
 - **Output:** `AudioPayload`
-- **Extra:** `av` (`pip install "juturna-nodes[av]"`)
+- **Extra:** `audio-file` (`pip install "juturna-nodes[audio-file]"`)
 
 ## How it works
 

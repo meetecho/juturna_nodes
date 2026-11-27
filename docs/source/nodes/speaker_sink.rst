@@ -3,18 +3,18 @@
 ``SpeakerSink``
 ===============
 
-:bdg-primary:`sink` :bdg-secondary-line:`extra: sound`
+:bdg-primary:`sink` :bdg-secondary-line:`extra: speaker-sink`
 
 Play the audio of every received message on a speaker, one message after the other.
 
 :Node type: ``SpeakerSink``
 :Input: ``AudioPayload``
 :Output: --
-:Extra: ``sound``
+:Extra: ``speaker-sink``
 
 .. code-block:: console
 
-    $ pip install "juturna-nodes[sound]"
+    $ pip install "juturna-nodes[speaker-sink]"
 
 The node README describes the system requirements, the messages and the
 limits of the node.

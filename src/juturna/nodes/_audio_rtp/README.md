@@ -7,7 +7,7 @@ fixed-length chunks of `block_size` seconds.
 - **Node type:** `AudioRtp`
 - **Input:** none
 - **Output:** `AudioPayload`
-- **Extra:** `av` (`pip install "juturna-nodes[av]"`)
+- **Extra:** `audio-rtp` (`pip install "juturna-nodes[audio-rtp]"`)
 
 ## How it works
 

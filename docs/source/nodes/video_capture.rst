@@ -3,7 +3,7 @@
 ``VideoCapture``
 ================
 
-:bdg-primary:`source` :bdg-secondary-line:`extra: av`
+:bdg-primary:`source` :bdg-secondary-line:`extra: video-capture`
 
 Read video from a file or from a V4L2 webcam, and transmit one RGB frame per
 message.
@@ -11,11 +11,11 @@ message.
 :Node type: ``VideoCapture``
 :Input: --
 :Output: ``ImagePayload``
-:Extra: ``av``
+:Extra: ``video-capture``
 
 .. code-block:: console
 
-    $ pip install "juturna-nodes[av]"
+    $ pip install "juturna-nodes[video-capture]"
 
 The `node README
 <https://github.com/meetecho/juturna_nodes/blob/main/src/juturna/nodes/_video_capture/README.md>`_

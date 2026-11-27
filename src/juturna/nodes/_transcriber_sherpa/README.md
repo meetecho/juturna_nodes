@@ -10,10 +10,10 @@ results are not transmitted.
 - **Node type:** `TranscriberSherpa`
 - **Input:** `AudioPayload`
 - **Output:** `ObjectPayload`
-- **Extra:** `sherpa`
+- **Extra:** `transcriber-sherpa`
 
 ```console
-pip install "juturna-nodes[sherpa]"
+pip install "juturna-nodes[transcriber-sherpa]"
 ```
 
 ## Model

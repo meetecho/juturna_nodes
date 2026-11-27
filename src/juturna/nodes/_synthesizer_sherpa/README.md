@@ -7,10 +7,10 @@ CPU and without torch: the text of each message becomes one audio message.
 - **Node type:** `SynthesizerSherpa`
 - **Input:** `ObjectPayload`
 - **Output:** `AudioPayload`
-- **Extra:** `sherpa`
+- **Extra:** `synthesizer-sherpa`
 
 ```console
-pip install "juturna-nodes[sherpa]"
+pip install "juturna-nodes[synthesizer-sherpa]"
 ```
 
 ## Model and lexicon

@@ -6,7 +6,7 @@ Receive an RTP video stream with PyAV, and transmit one RGB frame per message.
 - **Node type:** `VideoRtp`
 - **Input:** none
 - **Output:** `ImagePayload`
-- **Extra:** `av` (`pip install "juturna-nodes[av]"`)
+- **Extra:** `video-rtp` (`pip install "juturna-nodes[video-rtp]"`)
 
 ## How it works
 

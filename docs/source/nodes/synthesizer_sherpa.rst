@@ -3,18 +3,18 @@
 ``SynthesizerSherpa``
 =====================
 
-:bdg-primary:`processing` :bdg-secondary-line:`extra: sherpa`
+:bdg-primary:`processing` :bdg-secondary-line:`extra: synthesizer-sherpa`
 
 Text to speech with sherpa-onnx, on CPU and without torch: the text of each message becomes one audio message.
 
 :Node type: ``SynthesizerSherpa``
 :Input: ``ObjectPayload``
 :Output: ``AudioPayload``
-:Extra: ``sherpa``
+:Extra: ``synthesizer-sherpa``
 
 .. code-block:: console
 
-    $ pip install "juturna-nodes[sherpa]"
+    $ pip install "juturna-nodes[synthesizer-sherpa]"
 
 The node downloads its default model on first use. The node README describes
 the model cache, the input and output messages, and the limits of the node.

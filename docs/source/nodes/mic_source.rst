@@ -3,18 +3,18 @@
 ``MicSource``
 =============
 
-:bdg-primary:`source` :bdg-secondary-line:`extra: sound`
+:bdg-primary:`source` :bdg-secondary-line:`extra: mic-source`
 
 Capture mono audio from a microphone, optionally only between two presses of Enter (push-to-talk).
 
 :Node type: ``MicSource``
 :Input: --
 :Output: ``AudioPayload``
-:Extra: ``sound``
+:Extra: ``mic-source``
 
 .. code-block:: console
 
-    $ pip install "juturna-nodes[sound]"
+    $ pip install "juturna-nodes[mic-source]"
 
 The node README describes the system requirements, the messages and the
 limits of the node.

@@ -3,25 +3,25 @@
 ``DetectorYolo``
 ================
 
-:bdg-primary:`processing` :bdg-secondary-line:`extra: vision`
+:bdg-primary:`processing` :bdg-secondary-line:`extra: detector-yolo`
 
 Annotate frames using YOLO models.
 For more info about the models, see here: https://github.com/ultralytics/ultralytics
 
 .. note::
 
-    The ``vision`` extra installs ``ultralytics``, which is distributed under
+    The ``detector-yolo`` extra installs ``ultralytics``, which is distributed under
     the AGPL-3.0 license, unlike juturna-nodes (MIT). Check that its terms are
     compatible with your use before installing it.
 
 :Node type: ``DetectorYolo``
 :Input: ``ImagePayload``
 :Output: ``ImagePayload``
-:Extra: ``vision``
+:Extra: ``detector-yolo``
 
 .. code-block:: console
 
-    $ pip install "juturna-nodes[vision]"
+    $ pip install "juturna-nodes[detector-yolo]"
 
 Configuration
 -------------

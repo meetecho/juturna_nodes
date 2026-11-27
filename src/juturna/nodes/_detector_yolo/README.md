@@ -2,7 +2,7 @@
 
 ## License note
 
-This node needs the `vision` extra, which installs
+This node needs the `detector-yolo` extra, which installs
 [ultralytics](https://github.com/ultralytics/ultralytics). Ultralytics is
 distributed under the AGPL-3.0 license, unlike juturna-nodes (MIT): check that
 its terms are compatible with your use before installing it.
@@ -16,7 +16,7 @@ declares `agpl-3.0`. Ultralytics also sells an Enterprise License that
 lifts the AGPL-3.0 terms for its software and models
 ([ultralytics README](https://github.com/ultralytics/ultralytics#-license)).
 
-The `vision` extra also installs PyTorch (BSD-3-Clause, its `LICENSE`
+The `detector-yolo` extra also installs PyTorch (BSD-3-Clause, its `LICENSE`
 file) and opencv-python (Apache-2.0, its license on PyPI), which
 ultralytics depends on.
 
@@ -27,7 +27,7 @@ frame with the boxes drawn on it.
 - **Node type:** `DetectorYolo`
 - **Input:** `ImagePayload`
 - **Output:** `ImagePayload`, the annotated frame
-- **Extra:** `vision` (`pip install "juturna-nodes[vision]"`), AGPL-3.0
+- **Extra:** `detector-yolo` (`pip install "juturna-nodes[detector-yolo]"`), AGPL-3.0
 
 ## How it works
 

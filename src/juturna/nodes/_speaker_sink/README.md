@@ -9,10 +9,10 @@ taking the next.
 - **Node type:** `SpeakerSink`
 - **Input:** `AudioPayload`
 - **Output:** none
-- **Extra:** `sound`
+- **Extra:** `speaker-sink`
 
 ```console
-pip install "juturna-nodes[sound]"
+pip install "juturna-nodes[speaker-sink]"
 ```
 
 On Linux PortAudio is a system package (`libportaudio2` on Debian and

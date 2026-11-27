@@ -3,18 +3,18 @@
 ``TranscriberSherpa``
 =====================
 
-:bdg-primary:`processing` :bdg-secondary-line:`extra: sherpa`
+:bdg-primary:`processing` :bdg-secondary-line:`extra: transcriber-sherpa`
 
 Streaming speech recognition with sherpa-onnx, on CPU and without torch. One message is transmitted for each sentence, when the speaker stops talking.
 
 :Node type: ``TranscriberSherpa``
 :Input: ``AudioPayload``
 :Output: ``ObjectPayload``
-:Extra: ``sherpa``
+:Extra: ``transcriber-sherpa``
 
 .. code-block:: console
 
-    $ pip install "juturna-nodes[sherpa]"
+    $ pip install "juturna-nodes[transcriber-sherpa]"
 
 The node downloads its default model on first use. The node README describes
 the model cache, the input and output messages, and the limits of the node.

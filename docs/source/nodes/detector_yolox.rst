@@ -3,7 +3,7 @@
 ``DetectorYolox``
 =================
 
-:bdg-primary:`processing` :bdg-secondary-line:`extra: onnx`
+:bdg-primary:`processing` :bdg-secondary-line:`extra: detector-yolox`
 
 Detect objects in frames with a YOLOX model exported to ONNX, on ONNX Runtime,
 and attach them to the frame as plain data.
@@ -11,11 +11,11 @@ and attach them to the frame as plain data.
 :Node type: ``DetectorYolox``
 :Input: ``ImagePayload``
 :Output: ``ImagePayload`` with ``meta['detections']``
-:Extra: ``onnx``
+:Extra: ``detector-yolox``
 
 .. code-block:: console
 
-    $ pip install "juturna-nodes[onnx]"
+    $ pip install "juturna-nodes[detector-yolox]"
 
 The node README describes the models and where they are downloaded, the
 output message, and the limits of the node.

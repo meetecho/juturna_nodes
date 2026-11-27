@@ -23,19 +23,19 @@ Sources
       - Third-party licenses
     * - :ref:`AudioFile <node-audio-file>`
       - Read an audio file, and chunk it into audio messages
-      - ``av``
+      - ``audio-file``
       - GPL (bundled FFmpeg built with x264/x265); PyAV BSD-3-Clause
     * - :ref:`AudioRtp <node-audio-rtp>`
       - Consume an RTP audio stream
-      - ``av``
+      - ``audio-rtp``
       - GPL (bundled FFmpeg built with x264/x265); PyAV BSD-3-Clause
     * - :ref:`VideoRtp <node-video-rtp>`
       - Consume an RTP video stream
-      - ``av``
+      - ``video-rtp``
       - GPL (bundled FFmpeg built with x264/x265); PyAV BSD-3-Clause
     * - :ref:`VideoCapture <node-video-capture>`
       - Read video from a file or a webcam
-      - ``av``
+      - ``video-capture``
       - GPL (bundled FFmpeg built with x264/x265); PyAV BSD-3-Clause
     * - :ref:`FileWatcher <node-file-watcher>`
       - Watch a filesystem location, and emit filesystem events
@@ -55,7 +55,7 @@ Sources
       - MPL-2.0 (Pyodide)
     * - :ref:`MicSource <node-mic-source>`
       - Capture audio from a microphone, with push-to-talk
-      - ``sound``
+      - ``mic-source``
       - MIT
 
 Processing
@@ -71,19 +71,19 @@ Processing
       - Third-party licenses
     * - :ref:`VadSilero <node-vad-silero>`
       - Voice activity detection with the Silero VAD model
-      - ``audio-ml``
-      - MIT; via the audio-ml extra, PyTorch BSD-3-Clause and PyAV with GPL FFmpeg
+      - ``vad-silero``
+      - MIT; PyTorch BSD-3-Clause
     * - :ref:`TranscriberWhisper <node-transcriber-whisper>`
       - Transcribe audio with Whisper models
-      - ``audio-ml``
-      - MIT; via the audio-ml extra, PyTorch BSD-3-Clause and PyAV with GPL FFmpeg
+      - ``transcriber-whisper``
+      - MIT; PyAV with GPL FFmpeg; ONNX Runtime MIT
     * - :ref:`TranscriberKroko <node-transcriber-kroko>`
       - Transcribe audio with a Kroko server
       - --
       - Apache-2.0 server; websockets BSD-3-Clause; models CC-BY-SA (no license text)
     * - :ref:`TranscriberSherpa <node-transcriber-sherpa>`
       - Transcribe audio with sherpa-onnx streaming models
-      - ``sherpa``
+      - ``transcriber-sherpa``
       - Apache-2.0
     * - :ref:`PrompterOllama <node-prompter-ollama>`
       - Ask a model served by Ollama
@@ -91,15 +91,15 @@ Processing
       - MIT; requests Apache-2.0; model license varies (default Apache-2.0)
     * - :ref:`SynthesizerSherpa <node-synthesizer-sherpa>`
       - Synthesize speech from text with sherpa-onnx
-      - ``sherpa``
+      - ``synthesizer-sherpa``
       - Apache-2.0; default voice weights and lexicon state no license
     * - :ref:`DetectorYolo <node-detector-yolo>`
       - Detect and annotate objects in frames with YOLO
-      - ``vision``
+      - ``detector-yolo``
       - AGPL-3.0 (code and weights); PyTorch BSD-3-Clause; opencv-python Apache-2.0
     * - :ref:`DetectorYolox <node-detector-yolox>`
       - Detect objects in frames with YOLOX on ONNX Runtime
-      - ``onnx``
+      - ``detector-yolox``
       - Apache-2.0 (YOLOX, requests); ONNX Runtime MIT
     * - :ref:`DetectionEvents <node-detection-events>`
       - Turn the detections of frames into JSON events
@@ -147,7 +147,7 @@ Sinks
       - --
     * - :ref:`SpeakerSink <node-speaker-sink>`
       - Play audio messages on a speaker
-      - ``sound``
+      - ``speaker-sink``
       - MIT
     * - :ref:`BrowserOutput <node-browser-output>`
       - Send messages to the web page hosting a browser pipeline

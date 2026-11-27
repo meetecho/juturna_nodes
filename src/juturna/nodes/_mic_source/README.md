@@ -9,10 +9,10 @@ of Enter on the terminal that runs the pipeline.
 - **Node type:** `MicSource`
 - **Input:** none
 - **Output:** `AudioPayload`
-- **Extra:** `sound`
+- **Extra:** `mic-source`
 
 ```console
-pip install "juturna-nodes[sound]"
+pip install "juturna-nodes[mic-source]"
 ```
 
 PortAudio comes with the wheel on macOS and Windows; on Linux install the

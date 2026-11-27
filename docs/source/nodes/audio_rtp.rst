@@ -3,7 +3,7 @@
 ``AudioRtp``
 ============
 
-:bdg-primary:`source` :bdg-secondary-line:`extra: av`
+:bdg-primary:`source` :bdg-secondary-line:`extra: audio-rtp`
 
 Receive an RTP audio stream with PyAV, resample it, and transmit it in
 fixed-length chunks of ``block_size`` seconds.
@@ -11,11 +11,11 @@ fixed-length chunks of ``block_size`` seconds.
 :Node type: ``AudioRtp``
 :Input: --
 :Output: ``AudioPayload``
-:Extra: ``av``
+:Extra: ``audio-rtp``
 
 .. code-block:: console
 
-    $ pip install "juturna-nodes[av]"
+    $ pip install "juturna-nodes[audio-rtp]"
 
 How it works
 ------------
