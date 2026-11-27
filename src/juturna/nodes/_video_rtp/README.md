@@ -13,23 +13,26 @@ Receive an RTP video stream with PyAV, and transmit one RGB frame per message.
 On warmup the node writes an SDP file, `_session_in.sdp`, in its pipeline
 folder, describing a stream on `rec_host:rec_port` with `payload_type` and
 `codec` at a 90000 Hz clock. On start, a worker opens that SDP with PyAV,
-decodes every packet and converts each frame to RGB. The frames go through
-the node queue, so `update()` numbers them and transmits them in order.
+decodes every packet and converts each frame to RGB. Decoding uses slice
+threads, so no frame is held back in the decoder or lost when the stream
+stops. The frames go through the node queue, so `update()` numbers them and
+transmits them in order.
 
 Packets that cannot be decoded are skipped, with a warning in the log
 (`error decoding packet: ...`). This is common until the first keyframe
 arrives.
 
-When no packet arrives for `JUTURNA_THREAD_JOIN_TIMEOUT` seconds (2 s by
-default), the read times out, the input is closed and opened again: the node
-waits for the stream to come back, and only logs `demux terminate while
-reading False` at `DEBUG` level. Opening the input has no timeout. Any other
-error is logged as `source unavailable (...), retrying...` and the node tries
-again after 2 s.
+Opening the input and reading from it both time out after
+`JUTURNA_THREAD_JOIN_TIMEOUT` seconds (2 s by default). When no packet arrives
+for that long, the input is closed and opened again: the node waits for the
+stream to come back, and only logs `demux terminate while reading False` at
+`DEBUG` level. Any other error is logged as `source unavailable (...),
+retrying...` and the node tries again after 2 s. `stop()` returns within a few
+seconds, also when no sender has ever connected.
 
-The first frames are lost every time the stream starts or resumes after a
-pause, and a short burst can produce no frame at all. After that, every frame
-is transmitted.
+The packets read while the stream is probed are kept, so a VP8 stream is
+transmitted whole, also after a pause. With an H.264 sender, the frames before
+the second keyframe can be lost every time the stream starts or resumes.
 
 ## Arguments
 
@@ -67,8 +70,6 @@ The node has no input: it reads the RTP stream.
   transmitting.
 - The SDP always carries `a=fmtp:<payload_type> packetization-mode=1`, an
   H.264 parameter, whatever the codec.
-- `stop()` is slower when no sender has ever connected, because opening the
-  input has no timeout.
 
 ## License
 
