@@ -67,10 +67,6 @@ The node has no input: it reads the RTP stream.
   transmitting.
 - The SDP always carries `a=fmtp:<payload_type> packetization-mode=1`, an
   H.264 parameter, whatever the codec.
-- With ffmpeg sending VP8 (`-c:v libvpx -f rtp`), our test decoded no frame:
-  every packet failed with `Invalid data found when processing input`. The
-  default `codec` is `vp8`, so check your sender before relying on it; H.264
-  worked.
 - `stop()` is slower when no sender has ever connected, because opening the
   input has no timeout.
 
