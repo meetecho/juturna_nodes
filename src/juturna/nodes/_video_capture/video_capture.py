@@ -86,9 +86,12 @@ class VideoCapture(Node[ImagePayload, ImagePayload]):
 
     def stop(self):
         """Stop the node, remembering when, to resume the pace on start"""
-        super().stop()
+        # before super().stop(), whose drain is part of the pause; a second
+        # stop keeps the first time
+        if self._stopped_at is None:
+            self._stopped_at = time.monotonic()
 
-        self._stopped_at = time.monotonic()
+        super().stop()
 
     def destroy(self):
         """Close the source, unless a read left behind by kill() still runs"""
@@ -204,7 +207,13 @@ class VideoCapture(Node[ImagePayload, ImagePayload]):
         if not self._camera:
             delay = self._origin + pts - time.monotonic()
 
-            if delay > 0 and self._stop_source_event.wait(delay):
+            if delay > 0:
+                self._stop_source_event.wait(delay)
+
+            # also when late, without a wait: the core drops what a stopped
+            # source returns. shortcut: a stop during _message still loses
+            # the frame, fix it when the core hands back a dropped message
+            if self._stop_source_event.is_set():
                 # sent on restart, instead of being lost
                 self._pending = frame, pts
 

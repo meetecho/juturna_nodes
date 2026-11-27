@@ -226,6 +226,30 @@ def test_start_keeps_the_source_thread_for_destroy(video):
     assert node._container is None
 
 
+def test_late_frame_is_kept_for_the_restart_when_stopped(video):
+    node = _capture(video)
+    node._next_frame()
+    node._origin -= 10  # the source is late: no wait before the next frame
+    node._stop_source_event.set()
+
+    assert node._paced(next(node._frames), 0.1) is None
+
+    node._stop_source_event.clear()
+    message = node._next_frame()
+
+    assert round(message.meta['pts'], 1) == 0.1
+
+
+def test_second_stop_keeps_the_time_of_the_first(video):
+    node = _capture(video)
+    node.start()
+    node.stop()
+    first = node._stopped_at
+    node.stop()
+
+    assert node._stopped_at == first
+
+
 def test_restart_after_a_pause_resumes_in_real_time(video):
     received = list()
 
