@@ -40,12 +40,27 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-av = ["av>=19.0.1"]
+audio-file = ["av>=19.0.1"]
+audio-rtp = ["av>=19.0.1"]
+video-rtp = ["av>=19.0.1"]
+video-capture = ["av>=19.0.1"]
+mic-source = ["sounddevice>=0.5.6"]
+speaker-sink = ["sounddevice>=0.5.6"]
+transcriber-sherpa = ["sherpa-onnx>=2.0.1"]
+synthesizer-sherpa = ["sherpa-onnx>=2.0.1"]
+transcriber-whisper = ["faster-whisper"]
+vad-silero = ["silero-vad"]
+detector-yolo = ["ultralytics"]
+detector-yolox = ["onnxruntime>=1.32"]
 warp = ["juturna[warp]"]
-audio-ml = ["faster-whisper", "silero-vad"]
-vision = ["ultralytics"]
 
-all = ["juturna-nodes[av,warp,audio-ml,vision]"]
+audio = [
+    "juturna-nodes[audio-file,audio-rtp,mic-source,speaker-sink]",
+    "juturna-nodes[transcriber-sherpa,synthesizer-sherpa]",
+    "juturna-nodes[transcriber-whisper,vad-silero]",
+]
+video = ["juturna-nodes[video-rtp,video-capture,detector-yolo,detector-yolox]"]
+all = ["juturna-nodes[audio,video,warp]"]
 
 doc = [
     "sphinx<9.0,>6.0",
@@ -76,7 +91,7 @@ dev_full = [
 
 [project.urls]
 Homepage = "https://github.com/meetecho/juturna_nodes"
-Documentation = "https://meetecho.github.io/juturna_nodes/docs/index.html"
+Documentation = "https://meetecho.github.io/juturna/catalog/nodes/overview.html"
 Repository = "https://github.com/meetecho/juturna_nodes"
 Issues = "https://github.com/meetecho/juturna_nodes/issues"
 Changelog = "https://github.com/meetecho/juturna_nodes/blob/main/CHANGELOG.md"

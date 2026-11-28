@@ -7,7 +7,7 @@ Transcribe audio with Whisper models, through
 - **Node type:** `TranscriberWhisper`
 - **Input:** `AudioPayload`
 - **Output:** `ObjectPayload`
-- **Extra:** `audio-ml` (`pip install "juturna-nodes[audio-ml]"`)
+- **Extra:** `transcriber-whisper` (`pip install "juturna-nodes[transcriber-whisper]"`)
 
 ## How it works
 
@@ -19,6 +19,17 @@ to follow a `VadSilero` node:
   empty transcript;
 - the `meta['speech_timestamps']` of the buffered messages are used to map
   word timestamps back to the original audio timeline.
+
+Each message triggers one transcription of the whole buffer: the audio of the
+last `buffer_size` messages from that upstream node, concatenated. Every chunk
+is therefore transcribed up to `buffer_size` times, and once the buffer is
+full each call processes `buffer_size` chunks of audio (with the default, five
+times the chunk length) to produce one message. `buffer_size` is the bound:
+the buffer never holds more messages, and a message with `meta['silence']`
+empties it, so the cost drops back after each pause. faster-whisper encodes
+audio in 30 s windows (its default `chunk_length`): a buffer shorter than 30 s
+costs one encoder window per call, and a longer one costs more. If the node
+falls behind its input, lower `buffer_size` or send shorter chunks.
 
 The output payload has a `transcript` key, with a list of words:
 
@@ -55,6 +66,20 @@ downloaded.
 | `device`             | `str`  | `cuda`       | Where to run the model (`cpu` or `cuda`)               |
 | `word_timestamps`    | `bool` | `true`       | Compute word-level timestamps                          |
 | `without_timestamps` | `bool` | `false`      | Skip timestamp generation                              |
+
+## License
+
+- **Code:** [faster-whisper](https://github.com/SYSTRAN/faster-whisper), MIT.
+- **Weights:** a model name such as `tiny` is resolved by faster-whisper to a
+  CTranslate2 conversion on Hugging Face (`tiny` →
+  [Systran/faster-whisper-tiny](https://huggingface.co/Systran/faster-whisper-tiny),
+  MIT on its model card). OpenAI releases the original Whisper code and
+  weights under MIT ([openai/whisper README](https://github.com/openai/whisper#license)).
+- **Runtime:** [CTranslate2](https://github.com/OpenNMT/CTranslate2), MIT.
+- **The `transcriber-whisper` extra** installs faster-whisper, which imports
+  `av` (PyAV, BSD-3-Clause), whose PyPI wheels bundle an FFmpeg that is
+  effectively GPL (see the License section of `AudioRtp`), and depends on
+  onnxruntime (MIT).
 
 ## Example
 

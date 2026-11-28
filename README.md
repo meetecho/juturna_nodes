@@ -20,22 +20,26 @@ library as a dependency.
 pip install juturna-nodes
 ```
 
-Nodes with heavy dependencies (media libraries, machine learning models) are
-available through optional extras, so that you only install what you need:
+Nodes with heavy dependencies (media libraries, machine learning models)
+are available through optional extras, so that you only install what you need.
+Each of these nodes has its own extra, named after the node folder with
+dashes (`audio-rtp` for `AudioRtp`, `detector-yolox` for `DetectorYolox`).
+The [Available nodes](#available-nodes) tables list the extra of each node,
+and `pyproject.toml` lists the packages each extra installs.
 
-| Extra      | Dependencies                     | Nodes                                    |
-| ---------- | -------------------------------- | ---------------------------------------- |
-| `av`       | `av`                             | `AudioFile`, `AudioRtp`, `VideoRtp`      |
-| `audio-ml` | `faster-whisper`, `silero-vad`   | `TranscriberWhisper`, `VadSilero`        |
-| `vision`   | `ultralytics`                    | `DetectorYolo`                           |
-| `warp`     | `juturna[warp]` (gRPC)           | `Warp`                                   |
-| `all`      | all of the above                 | all nodes                                |
+Three groups install several extras at once:
 
-The `vision` extra installs `ultralytics`, which is distributed under the
-AGPL-3.0 license.
+| Group   | Extras                                                                 |
+| ------- | ---------------------------------------------------------------------- |
+| `audio` | `audio-file`, `audio-rtp`, `mic-source`, `speaker-sink`, `transcriber-sherpa`, `synthesizer-sherpa`, `transcriber-whisper`, `vad-silero` |
+| `video` | `video-rtp`, `video-capture`, `detector-yolo`, `detector-yolox`        |
+| `all`   | `audio`, `video` and `warp`                                            |
+
+The `detector-yolo` extra (and so the `video` and `all` groups) installs
+`ultralytics`, which is distributed under the AGPL-3.0 license.
 
 ```bash
-pip install "juturna-nodes[av,audio-ml]"
+pip install "juturna-nodes[audio-rtp,transcriber-whisper]"
 pip install "juturna-nodes[all]"
 ```
 
@@ -53,22 +57,29 @@ pip install -e ".[all]"
 
 | Node            | Description                                                 | Extra |
 | --------------- | ----------------------------------------------------------- | ----- |
-| `AudioFile`     | Read an audio file, and chunk it into audio messages        | `av`  |
-| `AudioRtp`      | Consume an RTP audio stream                                 | `av`  |
-| `VideoRtp`      | Consume an RTP video stream                                 | `av`  |
+| `AudioFile`     | Read an audio file, and chunk it into audio messages        | `audio-file` |
+| `AudioRtp`      | Consume an RTP audio stream                                 | `audio-rtp` |
+| `VideoRtp`      | Consume an RTP video stream                                 | `video-rtp` |
+| `VideoCapture`  | Read video from a file or a webcam                          | `video-capture` |
 | `FileWatcher`   | Watch a filesystem location, and emit filesystem events     |       |
 | `JsonHTTP`      | Receive JSON content from `POST` requests on an HTTP server |       |
 | `JsonWebsocket` | Expose a websocket server, and receive data from it         |       |
 | `BrowserInput`  | Receive messages from the web page hosting a pipeline       |       |
+| `MicSource`     | Capture audio from a microphone, with push-to-talk          | `mic-source` |
 
 ### Processing
 
 | Node                  | Description                                          | Extra      |
 | --------------------- | ---------------------------------------------------- | ---------- |
-| `VadSilero`           | Voice activity detection with the Silero VAD model   | `audio-ml` |
-| `TranscriberWhisper`  | Transcribe audio with Whisper models                 | `audio-ml` |
+| `VadSilero`           | Voice activity detection with the Silero VAD model   | `vad-silero` |
+| `TranscriberWhisper`  | Transcribe audio with Whisper models                 | `transcriber-whisper` |
 | `TranscriberKroko`    | Transcribe audio with a Kroko server (experimental)  |            |
-| `DetectorYolo`        | Detect and annotate objects in frames with YOLO      | `vision`   |
+| `TranscriberSherpa`   | Transcribe audio with sherpa-onnx streaming models   | `transcriber-sherpa` |
+| `PrompterOllama`      | Ask a model served by Ollama                         |            |
+| `SynthesizerSherpa`   | Synthesize speech from text with sherpa-onnx         | `synthesizer-sherpa` |
+| `DetectorYolo`        | Detect and annotate objects in frames with YOLO      | `detector-yolo` |
+| `DetectorYolox`       | Detect objects in frames with YOLOX on ONNX Runtime  | `detector-yolox` |
+| `DetectionEvents`     | Turn the detections of frames into JSON events       |            |
 | `PassthroughIdentity` | Forward input messages after a delay (for testing)   |            |
 | `Warp`                | Run a node remotely, over gRPC                       | `warp`     |
 
@@ -80,6 +91,8 @@ pip install -e ".[all]"
 | `NotifierMongo` | Store messages in a MongoDB collection       |       |
 | `NotifierUDP`   | Send messages to a UDP socket                |       |
 | `NotifierConsole` | Print messages on the terminal             |       |
+| `AudioWriter`   | Write audio messages to a WAV file           |       |
+| `SpeakerSink`   | Play audio messages on a speaker             | `speaker-sink` |
 | `BrowserOutput` | Send messages to the web page hosting it     |       |
 
 Every node folder in `src/juturna/nodes/` includes a `config.toml` file with

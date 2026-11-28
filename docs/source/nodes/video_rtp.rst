@@ -3,18 +3,18 @@
 ``VideoRtp``
 ============
 
-:bdg-primary:`source` :bdg-secondary-line:`extra: av`
+:bdg-primary:`source` :bdg-secondary-line:`extra: video-rtp`
 
 Consume RTP video streams using PyAv.
 
 :Node type: ``VideoRtp``
 :Input: --
 :Output: ``ImagePayload``
-:Extra: ``av``
+:Extra: ``video-rtp``
 
 .. code-block:: console
 
-    $ pip install "juturna-nodes[av]"
+    $ pip install "juturna-nodes[video-rtp]"
 
 Configuration
 -------------

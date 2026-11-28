@@ -25,36 +25,67 @@ Extras
 ------
 
 The base installation includes all the nodes with lightweight dependencies.
-Nodes that need heavy dependencies (media libraries, machine learning models)
-are enabled by optional extras:
+Each node that needs heavy dependencies (media libraries, machine learning
+models) has its own optional extra, named after the node folder with dashes:
 
 .. list-table::
     :header-rows: 1
 
     * - Extra
       - Dependencies
-      - Nodes
-    * - ``av``
+      - Node
+    * - ``audio-file``
       - ``av``
-      - :ref:`AudioFile <node-audio-file>`, :ref:`AudioRtp <node-audio-rtp>`,
-        :ref:`VideoRtp <node-video-rtp>`
-    * - ``audio-ml``
-      - ``faster-whisper``, ``silero-vad``
-      - :ref:`TranscriberWhisper <node-transcriber-whisper>`,
-        :ref:`VadSilero <node-vad-silero>`
-    * - ``vision``
+      - :ref:`AudioFile <node-audio-file>`
+    * - ``audio-rtp``
+      - ``av``
+      - :ref:`AudioRtp <node-audio-rtp>`
+    * - ``video-rtp``
+      - ``av``
+      - :ref:`VideoRtp <node-video-rtp>`
+    * - ``video-capture``
+      - ``av``
+      - :ref:`VideoCapture <node-video-capture>`
+    * - ``mic-source``
+      - ``sounddevice``
+      - :ref:`MicSource <node-mic-source>`
+    * - ``speaker-sink``
+      - ``sounddevice``
+      - :ref:`SpeakerSink <node-speaker-sink>`
+    * - ``transcriber-sherpa``
+      - ``sherpa-onnx``
+      - :ref:`TranscriberSherpa <node-transcriber-sherpa>`
+    * - ``synthesizer-sherpa``
+      - ``sherpa-onnx``
+      - :ref:`SynthesizerSherpa <node-synthesizer-sherpa>`
+    * - ``transcriber-whisper``
+      - ``faster-whisper``
+      - :ref:`TranscriberWhisper <node-transcriber-whisper>`
+    * - ``vad-silero``
+      - ``silero-vad``
+      - :ref:`VadSilero <node-vad-silero>`
+    * - ``detector-yolo``
       - ``ultralytics``
       - :ref:`DetectorYolo <node-detector-yolo>`
+    * - ``detector-yolox``
+      - ``onnxruntime``
+      - :ref:`DetectorYolox <node-detector-yolox>`
     * - ``warp``
       - ``juturna[warp]``
       - :ref:`Warp <node-warp>`
-    * - ``all``
-      - all of the above
-      - all nodes
+
+Three groups install several extras at once:
+
+- ``audio``: ``audio-file``, ``audio-rtp``, ``mic-source``, ``speaker-sink``,
+  ``transcriber-sherpa``, ``synthesizer-sherpa``, ``transcriber-whisper`` and
+  ``vad-silero``
+- ``video``: ``video-rtp``, ``video-capture``, ``detector-yolo`` and
+  ``detector-yolox``
+- ``all``: ``audio``, ``video`` and ``warp``
 
 .. code-block:: console
 
-    (.venv) $ pip install "juturna-nodes[av,audio-ml]"
+    (.venv) $ pip install "juturna-nodes[audio-rtp,transcriber-whisper]"
     (.venv) $ pip install "juturna-nodes[all]"
 
 Nodes are imported lazily, so a node with missing dependencies only fails when

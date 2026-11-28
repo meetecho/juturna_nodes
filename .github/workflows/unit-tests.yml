@@ -29,13 +29,15 @@ jobs:
           pip install
           "juturna[warp] @ git+https://github.com/meetecho/juturna@main"
 
-      # the audio-ml and vision extras are left out, as they pull in torch:
-      # the tests of their nodes are skipped
+      # only the light extras: vad-silero and detector-yolo pull in torch,
+      # so the tests of their nodes, and of transcriber-whisper, are skipped
       - name: Install
-        run: pip install -e ".[av,warp,test]"
+        run: >
+          pip install -e
+          ".[audio-file,audio-rtp,video-rtp,video-capture,detector-yolox,warp,test]"
 
       - name: Check that no test will skip for a missing light extra
-        run: python -c "import av, grpc, google.protobuf"
+        run: python -c "import av, grpc, google.protobuf, onnxruntime"
 
       - name: Run tests
         run: >

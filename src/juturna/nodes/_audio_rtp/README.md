@@ -7,7 +7,7 @@ fixed-length chunks of `block_size` seconds.
 - **Node type:** `AudioRtp`
 - **Input:** none
 - **Output:** `AudioPayload`
-- **Extra:** `av` (`pip install "juturna-nodes[av]"`)
+- **Extra:** `audio-rtp` (`pip install "juturna-nodes[audio-rtp]"`)
 
 ## How it works
 
@@ -33,7 +33,7 @@ node logs `source unavailable (...), retrying...` at `ERROR` level and tries
 again every 2 s, until it succeeds or the node stops.
 
 The UDP receive buffer is 64 KB, so short bursts of packets are not dropped.
-`stop()` returns within a few seconds (up to 3 s in our tests).
+`stop()` returns within a few seconds.
 
 ## Arguments
 
@@ -49,9 +49,14 @@ The UDP receive buffer is 64 KB, so short bursts of packets are not dropped.
 | `block_size`             | `int`  | `3`              | Length of each chunk, in seconds |
 | `flush_partial_on_error` | `bool` | `true`           | Transmit the pending samples, padded with zeros, when the input is closed |
 
-For G.711 µ-law at 8 kHz, as sent by
-`ffmpeg ... -ac 1 -ar 8000 -c:a pcm_mulaw -f rtp rtp://127.0.0.1:5004`, use
-`payload_type: 0` and `encoding_clock_chan: "PCMU/8000"`.
+For telephony audio, G.711 µ-law at 8 kHz mono (from a PBX such as
+Asterisk, a Janus RTP forwarder, or
+`ffmpeg ... -ac 1 -ar 8000 -c:a pcm_mulaw -f rtp rtp://127.0.0.1:5004`), use
+`encoding_clock_chan: "PCMU/8000"` (`"PCMU/8000/1"` works the same) and set
+`payload_type` to the type the sender uses: `0` is the static type of PCMU,
+but a sender may be configured with a dynamic one. The string is written as
+is in the SDP `rtpmap` line, and the audio is resampled from 8 kHz to
+`out_rate`. The example at the end of this page receives such a stream.
 
 ## Input message
 
@@ -61,7 +66,7 @@ The node has no input: it reads the RTP stream.
 
 | Field | Content |
 | --- | --- |
-| `payload.audio` | `out_rate * block_size` samples, with the dtype of `resampler_format` (but see the limits for integer formats); with `out_channels: 2` the samples are interleaved |
+| `payload.audio` | `out_rate * block_size` samples, with the dtype of `resampler_format`; with `out_channels: 2` the samples are interleaved |
 | `payload.sampling_rate` | `out_rate` |
 | `payload.channels` | `out_channels` |
 | `payload.audio_format` | `resampler_format` |
@@ -76,12 +81,24 @@ The node has no input: it reads the RTP stream.
   transmitting. A downstream node waiting for silence, such as a
   transcriber, keeps its sentence open until more audio comes or the pipeline
   stops.
-- With `out_channels: 2`, `block_size`, `start` and `end` count the
-  interleaved samples as if they were mono: each chunk holds `block_size / 2`
-  seconds of audio. Use `out_channels: 1`.
-- With `out_channels: 1` and an integer `resampler_format` (`s16`, `s32`,
-  `u8` and their planar forms), the audio is converted to `float64` while
-  `payload.audio_format` still names the integer format. Use `flt` or `dblp`.
+
+## License
+
+- **Code:** this node is part of juturna-nodes, MIT (its `LICENSE` file).
+- **PyAV:** BSD-3-Clause (the `License-Expression` of av on PyPI).
+- **FFmpeg:** effectively GPL. The PyAV wheels on PyPI bundle their own
+  FFmpeg: av 19.0.2 ships FFmpeg 9.0.2 from the
+  [pyav-ffmpeg 9.0.2-4 build](https://github.com/PyAV-Org/pyav-ffmpeg/releases/tag/9.0.2-4),
+  which links x264 and x265 (GPL-2.0-or-later). The FFmpeg
+  [legal page](https://ffmpeg.org/legal.html) says that when its GPL parts
+  are used, "the GPL applies to all of FFmpeg". The libraries still report
+  "LGPL version 3 or later" only because a pyav-ffmpeg patch to FFmpeg's
+  `configure` moves x264 and x265 out of the libraries that need
+  `--enable-gpl`. A PyAV built from source against an LGPL build of FFmpeg
+  (without x264, x265 or other GPL parts) avoids the GPL. (Checked on
+  2026-11-18 on av 19.0.2.)
+- **NumPy:** BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0 (the
+  `License-Expression` of numpy on PyPI).
 
 ## Example
 

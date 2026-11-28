@@ -90,6 +90,13 @@ above, without the values the remote protocol cannot carry.
 `warp` (`pip install "juturna-nodes[warp]"`). The remote service must run a
 juturna version with the same remote protocol.
 
+## License
+
+- **Code:** this node is part of juturna-nodes, MIT (its `LICENSE` file).
+- **grpcio:** Apache-2.0 (the `License` field of grpcio on PyPI).
+- **protobuf:** BSD-3-Clause (the license of protobuf on PyPI), pinned by
+  the `warp` extra of juturna.
+
 ## Example
 
 ```json

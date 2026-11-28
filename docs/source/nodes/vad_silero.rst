@@ -3,7 +3,7 @@
 ``VadSilero``
 =============
 
-:bdg-primary:`processing` :bdg-secondary-line:`extra: audio-ml`
+:bdg-primary:`processing` :bdg-secondary-line:`extra: vad-silero`
 
 Use the Silero VAD model to perform voice activity detection on audio content.
 Find the model here: https://github.com/snakers4/silero-vad
@@ -11,11 +11,11 @@ Find the model here: https://github.com/snakers4/silero-vad
 :Node type: ``VadSilero``
 :Input: ``AudioPayload``
 :Output: ``AudioPayload``
-:Extra: ``audio-ml``
+:Extra: ``vad-silero``
 
 .. code-block:: console
 
-    $ pip install "juturna-nodes[audio-ml]"
+    $ pip install "juturna-nodes[vad-silero]"
 
 Configuration
 -------------

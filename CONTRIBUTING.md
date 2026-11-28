@@ -163,9 +163,9 @@ declared in `pyproject.toml`.
 - **Lightweight, pure-Python packages** (HTTP clients, websockets, database
   drivers, ...) go in the main `dependencies` list.
 - **Heavy packages** (machine learning frameworks, models, media libraries)
-  go in an optional extra. Use an existing extra when the node fits one
-  (`av`, `warp`, `audio-ml`, `vision`), otherwise add a new one, and include
-  it in `all`.
+  go in an optional extra of the node, named after the node folder with
+  dashes (`audio-rtp` for `_audio_rtp`). Include it in the `audio` or `video`
+  group when the node belongs to one, otherwise directly in `all`.
 
 Always specify a minimum version you tested the node with.
 

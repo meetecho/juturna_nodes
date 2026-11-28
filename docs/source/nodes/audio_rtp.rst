@@ -3,7 +3,7 @@
 ``AudioRtp``
 ============
 
-:bdg-primary:`source` :bdg-secondary-line:`extra: av`
+:bdg-primary:`source` :bdg-secondary-line:`extra: audio-rtp`
 
 Receive an RTP audio stream with PyAV, resample it, and transmit it in
 fixed-length chunks of ``block_size`` seconds.
@@ -11,11 +11,11 @@ fixed-length chunks of ``block_size`` seconds.
 :Node type: ``AudioRtp``
 :Input: --
 :Output: ``AudioPayload``
-:Extra: ``av``
+:Extra: ``audio-rtp``
 
 .. code-block:: console
 
-    $ pip install "juturna-nodes[av]"
+    $ pip install "juturna-nodes[audio-rtp]"
 
 How it works
 ------------
@@ -43,7 +43,7 @@ uses the port, the node logs ``source unavailable (...), retrying...`` at
 stops.
 
 The UDP receive buffer is 64 KB, so short bursts of packets are not dropped.
-``stop()`` returns within a few seconds (up to 3 s in our tests).
+``stop()`` returns within a few seconds.
 
 Configuration
 -------------
@@ -113,8 +113,8 @@ Output message
       - Content
     * - ``payload.audio``
       - ``out_rate * block_size`` samples, with the dtype of
-        ``resampler_format`` (but see the limits for integer formats); with
-        ``out_channels: 2`` the samples are interleaved
+        ``resampler_format``; with ``out_channels: 2`` the samples are
+        interleaved
     * - ``payload.sampling_rate``
       - ``out_rate``
     * - ``payload.channels``
@@ -137,13 +137,6 @@ Limits
   transmitting. A downstream node waiting for silence, such as a
   transcriber, keeps its sentence open until more audio comes or the pipeline
   stops.
-- With ``out_channels: 2``, ``block_size``, ``start`` and ``end`` count the
-  interleaved samples as if they were mono: each chunk holds
-  ``block_size / 2`` seconds of audio. Use ``out_channels: 1``.
-- With ``out_channels: 1`` and an integer ``resampler_format`` (``s16``,
-  ``s32``, ``u8`` and their planar forms), the audio is converted to
-  ``float64`` while ``payload.audio_format`` still names the integer format.
-  Use ``flt`` or ``dblp``.
 
 Pipeline usage
 --------------

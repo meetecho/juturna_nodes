@@ -17,6 +17,7 @@ _OPTIONAL_MODULES = {
     'av',
     'faster_whisper',
     'grpc',
+    'onnxruntime',
     'silero_vad',
     'torch',
     'ultralytics',

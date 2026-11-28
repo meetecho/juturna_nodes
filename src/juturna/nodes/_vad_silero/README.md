@@ -8,7 +8,7 @@ from the incoming audio, and only speech is forwarded.
 - **Node type:** `VadSilero`
 - **Input:** `AudioPayload`
 - **Output:** `AudioPayload`
-- **Extra:** `audio-ml` (`pip install "juturna-nodes[audio-ml]"`)
+- **Extra:** `vad-silero` (`pip install "juturna-nodes[vad-silero]"`)
 
 ## How it works
 
@@ -42,6 +42,14 @@ function.
 | `min_silence_duration_ms` | `int`            | `2000`  | Silence to wait after speech ends before cutting          |
 | `speech_pad_ms`           | `int`            | `400`   | Padding added to each side of a speech chunk              |
 | `keep`                    | `int`            | `1`     | Number of audio messages the detection runs on            |
+
+## License
+
+- **Code and weights:** [silero-vad](https://github.com/snakers4/silero-vad),
+  MIT (its `LICENSE` file and the PyPI classifier); the model ships inside the
+  `silero-vad` package.
+- **Runtime:** PyTorch, BSD-3-Clause (its
+  [`LICENSE`](https://github.com/pytorch/pytorch/blob/main/LICENSE) file).
 
 ## Example
 
