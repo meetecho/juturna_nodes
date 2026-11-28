@@ -212,17 +212,24 @@
 <li class="toctree-l2"><a class="reference internal" href="audio_file.html"><code class="docutils literal notranslate"><span class="pre">AudioFile</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="audio_rtp.html"><code class="docutils literal notranslate"><span class="pre">AudioRtp</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="video_rtp.html"><code class="docutils literal notranslate"><span class="pre">VideoRtp</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="video_capture.html"><code class="docutils literal notranslate"><span class="pre">VideoCapture</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="file_watcher.html"><code class="docutils literal notranslate"><span class="pre">FileWatcher</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="json_http.html"><code class="docutils literal notranslate"><span class="pre">JsonHTTP</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="json_websocket.html"><code class="docutils literal notranslate"><span class="pre">JsonWebsocket</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="browser_input.html"><code class="docutils literal notranslate"><span class="pre">BrowserInput</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mic_source.html"><code class="docutils literal notranslate"><span class="pre">MicSource</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="processing.html">Processing</a><input aria-label="Toggle navigation of Processing" checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="vad_silero.html"><code class="docutils literal notranslate"><span class="pre">VadSilero</span></code></a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">TranscriberWhisper</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="transcriber_kroko.html"><code class="docutils literal notranslate"><span class="pre">TranscriberKroko</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="transcriber_sherpa.html"><code class="docutils literal notranslate"><span class="pre">TranscriberSherpa</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="prompter_ollama.html"><code class="docutils literal notranslate"><span class="pre">PrompterOllama</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="synthesizer_sherpa.html"><code class="docutils literal notranslate"><span class="pre">SynthesizerSherpa</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="detector_yolo.html"><code class="docutils literal notranslate"><span class="pre">DetectorYolo</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="detector_yolox.html"><code class="docutils literal notranslate"><span class="pre">DetectorYolox</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="detection_events.html"><code class="docutils literal notranslate"><span class="pre">DetectionEvents</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="passthrough_identity.html"><code class="docutils literal notranslate"><span class="pre">PassthroughIdentity</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="warp.html"><code class="docutils literal notranslate"><span class="pre">Warp</span></code></a></li>
 </ul>
@@ -232,13 +239,15 @@
 <li class="toctree-l2"><a class="reference internal" href="notifier_mongo.html"><code class="docutils literal notranslate"><span class="pre">NotifierMongo</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="notifier_udp.html"><code class="docutils literal notranslate"><span class="pre">NotifierUDP</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="notifier_console.html"><code class="docutils literal notranslate"><span class="pre">NotifierConsole</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="audio_writer.html"><code class="docutils literal notranslate"><span class="pre">AudioWriter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="speaker_sink.html"><code class="docutils literal notranslate"><span class="pre">SpeakerSink</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="browser_output.html"><code class="docutils literal notranslate"><span class="pre">BrowserOutput</span></code></a></li>
 </ul>
 </li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Contribute</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../contribute/new_node.html">Write a new node</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribute/new_node.html">Contribute a node to juturna-nodes</a></li>
 </ul>
 
 </div>
@@ -279,7 +288,7 @@
         <article role="main" id="furo-main-content">
           <section id="transcriberwhisper">
 <span id="node-transcriber-whisper"></span><h1><code class="docutils literal notranslate"><span class="pre">TranscriberWhisper</span></code><a class="headerlink" href="#transcriberwhisper" title="Link to this heading">¶</a></h1>
-<p><span class="sd-sphinx-override sd-badge sd-bg-primary sd-bg-text-primary">processing</span> <span class="sd-sphinx-override sd-badge sd-outline-secondary sd-text-secondary">extra: audio-ml</span></p>
+<p><span class="sd-sphinx-override sd-badge sd-bg-primary sd-bg-text-primary">processing</span> <span class="sd-sphinx-override sd-badge sd-outline-secondary sd-text-secondary">extra: transcriber-whisper</span></p>
 <p>Transcribe audio packets using whisper models.
 For a full list of available models, see here:
 <a class="reference external" href="https://github.com/SYSTRAN/faster-whisper" rel="noreferrer" target="_blank">https://github.com/SYSTRAN/faster-whisper<svg version="1.1" width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true" style="display: inline-block; margin-left: 0.125em; vertical-align: -0.125em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;"><path d="M15 3h6v6m-11 5L21 3m-3 10v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg></a></p>
@@ -294,10 +303,10 @@ For a full list of available models, see here:
 <dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">ObjectPayload</span></code></p>
 </dd>
 <dt class="field-even">Extra<span class="colon">:</span></dt>
-<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">audio-ml</span></code></p>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">transcriber-whisper</span></code></p>
 </dd>
 </dl>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">"juturna-nodes[audio-ml]"</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">"juturna-nodes[transcriber-whisper]"</span>
 </pre></div>
 </div>
 <section id="configuration">

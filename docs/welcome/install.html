@@ -212,17 +212,24 @@
 <li class="toctree-l2"><a class="reference internal" href="../nodes/audio_file.html"><code class="docutils literal notranslate"><span class="pre">AudioFile</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../nodes/audio_rtp.html"><code class="docutils literal notranslate"><span class="pre">AudioRtp</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../nodes/video_rtp.html"><code class="docutils literal notranslate"><span class="pre">VideoRtp</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nodes/video_capture.html"><code class="docutils literal notranslate"><span class="pre">VideoCapture</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../nodes/file_watcher.html"><code class="docutils literal notranslate"><span class="pre">FileWatcher</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../nodes/json_http.html"><code class="docutils literal notranslate"><span class="pre">JsonHTTP</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../nodes/json_websocket.html"><code class="docutils literal notranslate"><span class="pre">JsonWebsocket</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../nodes/browser_input.html"><code class="docutils literal notranslate"><span class="pre">BrowserInput</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nodes/mic_source.html"><code class="docutils literal notranslate"><span class="pre">MicSource</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../nodes/processing.html">Processing</a><input aria-label="Toggle navigation of Processing" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../nodes/vad_silero.html"><code class="docutils literal notranslate"><span class="pre">VadSilero</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../nodes/transcriber_whisper.html"><code class="docutils literal notranslate"><span class="pre">TranscriberWhisper</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../nodes/transcriber_kroko.html"><code class="docutils literal notranslate"><span class="pre">TranscriberKroko</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nodes/transcriber_sherpa.html"><code class="docutils literal notranslate"><span class="pre">TranscriberSherpa</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nodes/prompter_ollama.html"><code class="docutils literal notranslate"><span class="pre">PrompterOllama</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nodes/synthesizer_sherpa.html"><code class="docutils literal notranslate"><span class="pre">SynthesizerSherpa</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../nodes/detector_yolo.html"><code class="docutils literal notranslate"><span class="pre">DetectorYolo</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nodes/detector_yolox.html"><code class="docutils literal notranslate"><span class="pre">DetectorYolox</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nodes/detection_events.html"><code class="docutils literal notranslate"><span class="pre">DetectionEvents</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../nodes/passthrough_identity.html"><code class="docutils literal notranslate"><span class="pre">PassthroughIdentity</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../nodes/warp.html"><code class="docutils literal notranslate"><span class="pre">Warp</span></code></a></li>
 </ul>
@@ -232,13 +239,15 @@
 <li class="toctree-l2"><a class="reference internal" href="../nodes/notifier_mongo.html"><code class="docutils literal notranslate"><span class="pre">NotifierMongo</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../nodes/notifier_udp.html"><code class="docutils literal notranslate"><span class="pre">NotifierUDP</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../nodes/notifier_console.html"><code class="docutils literal notranslate"><span class="pre">NotifierConsole</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nodes/audio_writer.html"><code class="docutils literal notranslate"><span class="pre">AudioWriter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nodes/speaker_sink.html"><code class="docutils literal notranslate"><span class="pre">SpeakerSink</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../nodes/browser_output.html"><code class="docutils literal notranslate"><span class="pre">BrowserOutput</span></code></a></li>
 </ul>
 </li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Contribute</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../contribute/new_node.html">Write a new node</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribute/new_node.html">Contribute a node to juturna-nodes</a></li>
 </ul>
 
 </div>
@@ -296,43 +305,82 @@ manually:</p>
 <section id="extras">
 <h2>Extras<a class="headerlink" href="#extras" title="Link to this heading">¶</a></h2>
 <p>The base installation includes all the nodes with lightweight dependencies.
-Nodes that need heavy dependencies (media libraries, machine learning models)
-are enabled by optional extras:</p>
+Each node that needs heavy dependencies (media libraries, machine learning
+models) has its own optional extra, named after the node folder with dashes:</p>
 <div class="table-wrapper docutils container">
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Extra</p></th>
 <th class="head"><p>Dependencies</p></th>
-<th class="head"><p>Nodes</p></th>
+<th class="head"><p>Node</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">av</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">audio-file</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">av</span></code></p></td>
-<td><p><a class="reference internal" href="../nodes/audio_file.html#node-audio-file"><span class="std std-ref">AudioFile</span></a>, <a class="reference internal" href="../nodes/audio_rtp.html#node-audio-rtp"><span class="std std-ref">AudioRtp</span></a>,
-<a class="reference internal" href="../nodes/video_rtp.html#node-video-rtp"><span class="std std-ref">VideoRtp</span></a></p></td>
+<td><p><a class="reference internal" href="../nodes/audio_file.html#node-audio-file"><span class="std std-ref">AudioFile</span></a></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">audio-ml</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">faster-whisper</span></code>, <code class="docutils literal notranslate"><span class="pre">silero-vad</span></code></p></td>
-<td><p><a class="reference internal" href="../nodes/transcriber_whisper.html#node-transcriber-whisper"><span class="std std-ref">TranscriberWhisper</span></a>,
-<a class="reference internal" href="../nodes/vad_silero.html#node-vad-silero"><span class="std std-ref">VadSilero</span></a></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">audio-rtp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">av</span></code></p></td>
+<td><p><a class="reference internal" href="../nodes/audio_rtp.html#node-audio-rtp"><span class="std std-ref">AudioRtp</span></a></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">vision</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">video-rtp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">av</span></code></p></td>
+<td><p><a class="reference internal" href="../nodes/video_rtp.html#node-video-rtp"><span class="std std-ref">VideoRtp</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">video-capture</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">av</span></code></p></td>
+<td><p><a class="reference internal" href="../nodes/video_capture.html#node-video-capture"><span class="std std-ref">VideoCapture</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mic-source</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sounddevice</span></code></p></td>
+<td><p><a class="reference internal" href="../nodes/mic_source.html#node-mic-source"><span class="std std-ref">MicSource</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">speaker-sink</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sounddevice</span></code></p></td>
+<td><p><a class="reference internal" href="../nodes/speaker_sink.html#node-speaker-sink"><span class="std std-ref">SpeakerSink</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">transcriber-sherpa</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sherpa-onnx</span></code></p></td>
+<td><p><a class="reference internal" href="../nodes/transcriber_sherpa.html#node-transcriber-sherpa"><span class="std std-ref">TranscriberSherpa</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">synthesizer-sherpa</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sherpa-onnx</span></code></p></td>
+<td><p><a class="reference internal" href="../nodes/synthesizer_sherpa.html#node-synthesizer-sherpa"><span class="std std-ref">SynthesizerSherpa</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">transcriber-whisper</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">faster-whisper</span></code></p></td>
+<td><p><a class="reference internal" href="../nodes/transcriber_whisper.html#node-transcriber-whisper"><span class="std std-ref">TranscriberWhisper</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">vad-silero</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">silero-vad</span></code></p></td>
+<td><p><a class="reference internal" href="../nodes/vad_silero.html#node-vad-silero"><span class="std std-ref">VadSilero</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">detector-yolo</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">ultralytics</span></code></p></td>
 <td><p><a class="reference internal" href="../nodes/detector_yolo.html#node-detector-yolo"><span class="std std-ref">DetectorYolo</span></a></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">warp</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">detector-yolox</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">onnxruntime</span></code></p></td>
+<td><p><a class="reference internal" href="../nodes/detector_yolox.html#node-detector-yolox"><span class="std std-ref">DetectorYolox</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">warp</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">juturna[warp]</span></code></p></td>
 <td><p><a class="reference internal" href="../nodes/warp.html#node-warp"><span class="std std-ref">Warp</span></a></p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">all</span></code></p></td>
-<td><p>all of the above</p></td>
-<td><p>all nodes</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(.venv)</span> <span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">"juturna-nodes[av,audio-ml]"</span>
+<p>Three groups install several extras at once:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">audio</span></code>: <code class="docutils literal notranslate"><span class="pre">audio-file</span></code>, <code class="docutils literal notranslate"><span class="pre">audio-rtp</span></code>, <code class="docutils literal notranslate"><span class="pre">mic-source</span></code>, <code class="docutils literal notranslate"><span class="pre">speaker-sink</span></code>,
+<code class="docutils literal notranslate"><span class="pre">transcriber-sherpa</span></code>, <code class="docutils literal notranslate"><span class="pre">synthesizer-sherpa</span></code>, <code class="docutils literal notranslate"><span class="pre">transcriber-whisper</span></code> and
+<code class="docutils literal notranslate"><span class="pre">vad-silero</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">video</span></code>: <code class="docutils literal notranslate"><span class="pre">video-rtp</span></code>, <code class="docutils literal notranslate"><span class="pre">video-capture</span></code>, <code class="docutils literal notranslate"><span class="pre">detector-yolo</span></code> and
+<code class="docutils literal notranslate"><span class="pre">detector-yolox</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">all</span></code>: <code class="docutils literal notranslate"><span class="pre">audio</span></code>, <code class="docutils literal notranslate"><span class="pre">video</span></code> and <code class="docutils literal notranslate"><span class="pre">warp</span></code></p></li>
+</ul>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(.venv)</span> <span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">"juturna-nodes[audio-rtp,transcriber-whisper]"</span>
 <span class="gp gp-VirtualEnv">(.venv)</span> <span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">"juturna-nodes[all]"</span>
 </pre></div>
 </div>

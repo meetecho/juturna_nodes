@@ -3,18 +3,18 @@
 ``AudioFile``
 =============
 
-:bdg-primary:`source` :bdg-secondary-line:`extra: av`
+:bdg-primary:`source` :bdg-secondary-line:`extra: audio-file`
 
 Read an audio file and chunk it into smaller audio messages.
 
 :Node type: ``AudioFile``
 :Input: --
 :Output: ``AudioPayload``
-:Extra: ``av``
+:Extra: ``audio-file``
 
 .. code-block:: console
 
-    $ pip install "juturna-nodes[av]"
+    $ pip install "juturna-nodes[audio-file]"
 
 Configuration
 -------------

@@ -212,17 +212,24 @@
 <li class="toctree-l2"><a class="reference internal" href="audio_file.html"><code class="docutils literal notranslate"><span class="pre">AudioFile</span></code></a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">AudioRtp</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="video_rtp.html"><code class="docutils literal notranslate"><span class="pre">VideoRtp</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="video_capture.html"><code class="docutils literal notranslate"><span class="pre">VideoCapture</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="file_watcher.html"><code class="docutils literal notranslate"><span class="pre">FileWatcher</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="json_http.html"><code class="docutils literal notranslate"><span class="pre">JsonHTTP</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="json_websocket.html"><code class="docutils literal notranslate"><span class="pre">JsonWebsocket</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="browser_input.html"><code class="docutils literal notranslate"><span class="pre">BrowserInput</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mic_source.html"><code class="docutils literal notranslate"><span class="pre">MicSource</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="processing.html">Processing</a><input aria-label="Toggle navigation of Processing" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="vad_silero.html"><code class="docutils literal notranslate"><span class="pre">VadSilero</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="transcriber_whisper.html"><code class="docutils literal notranslate"><span class="pre">TranscriberWhisper</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="transcriber_kroko.html"><code class="docutils literal notranslate"><span class="pre">TranscriberKroko</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="transcriber_sherpa.html"><code class="docutils literal notranslate"><span class="pre">TranscriberSherpa</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="prompter_ollama.html"><code class="docutils literal notranslate"><span class="pre">PrompterOllama</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="synthesizer_sherpa.html"><code class="docutils literal notranslate"><span class="pre">SynthesizerSherpa</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="detector_yolo.html"><code class="docutils literal notranslate"><span class="pre">DetectorYolo</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="detector_yolox.html"><code class="docutils literal notranslate"><span class="pre">DetectorYolox</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="detection_events.html"><code class="docutils literal notranslate"><span class="pre">DetectionEvents</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="passthrough_identity.html"><code class="docutils literal notranslate"><span class="pre">PassthroughIdentity</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="warp.html"><code class="docutils literal notranslate"><span class="pre">Warp</span></code></a></li>
 </ul>
@@ -232,13 +239,15 @@
 <li class="toctree-l2"><a class="reference internal" href="notifier_mongo.html"><code class="docutils literal notranslate"><span class="pre">NotifierMongo</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="notifier_udp.html"><code class="docutils literal notranslate"><span class="pre">NotifierUDP</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="notifier_console.html"><code class="docutils literal notranslate"><span class="pre">NotifierConsole</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="audio_writer.html"><code class="docutils literal notranslate"><span class="pre">AudioWriter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="speaker_sink.html"><code class="docutils literal notranslate"><span class="pre">SpeakerSink</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="browser_output.html"><code class="docutils literal notranslate"><span class="pre">BrowserOutput</span></code></a></li>
 </ul>
 </li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Contribute</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../contribute/new_node.html">Write a new node</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribute/new_node.html">Contribute a node to juturna-nodes</a></li>
 </ul>
 
 </div>
@@ -279,7 +288,7 @@
         <article role="main" id="furo-main-content">
           <section id="audiortp">
 <span id="node-audio-rtp"></span><h1><code class="docutils literal notranslate"><span class="pre">AudioRtp</span></code><a class="headerlink" href="#audiortp" title="Link to this heading">¶</a></h1>
-<p><span class="sd-sphinx-override sd-badge sd-bg-primary sd-bg-text-primary">source</span> <span class="sd-sphinx-override sd-badge sd-outline-secondary sd-text-secondary">extra: av</span></p>
+<p><span class="sd-sphinx-override sd-badge sd-bg-primary sd-bg-text-primary">source</span> <span class="sd-sphinx-override sd-badge sd-outline-secondary sd-text-secondary">extra: audio-rtp</span></p>
 <p>Receive an RTP audio stream with PyAV, resample it, and transmit it in
 fixed-length chunks of <code class="docutils literal notranslate"><span class="pre">block_size</span></code> seconds.</p>
 <dl class="field-list simple">
@@ -293,10 +302,10 @@ fixed-length chunks of <code class="docutils literal notranslate"><span class="p
 <dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">AudioPayload</span></code></p>
 </dd>
 <dt class="field-even">Extra<span class="colon">:</span></dt>
-<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">av</span></code></p>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">audio-rtp</span></code></p>
 </dd>
 </dl>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">"juturna-nodes[av]"</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">"juturna-nodes[audio-rtp]"</span>
 </pre></div>
 </div>
 <section id="how-it-works">
@@ -321,7 +330,7 @@ uses the port, the node logs <code class="docutils literal notranslate"><span cl
 <code class="docutils literal notranslate"><span class="pre">ERROR</span></code> level and tries again every 2 s, until it succeeds or the node
 stops.</p>
 <p>The UDP receive buffer is 64 KB, so short bursts of packets are not dropped.
-<code class="docutils literal notranslate"><span class="pre">stop()</span></code> returns within a few seconds (up to 3 s in our tests).</p>
+<code class="docutils literal notranslate"><span class="pre">stop()</span></code> returns within a few seconds.</p>
 </section>
 <section id="configuration">
 <h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">¶</a></h2>
@@ -422,8 +431,8 @@ closed</p></td>
 <tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">payload.audio</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">out_rate</span> <span class="pre">*</span> <span class="pre">block_size</span></code> samples, with the dtype of
-<code class="docutils literal notranslate"><span class="pre">resampler_format</span></code> (but see the limits for integer formats); with
-<code class="docutils literal notranslate"><span class="pre">out_channels:</span> <span class="pre">2</span></code> the samples are interleaved</p></td>
+<code class="docutils literal notranslate"><span class="pre">resampler_format</span></code>; with <code class="docutils literal notranslate"><span class="pre">out_channels:</span> <span class="pre">2</span></code> the samples are
+interleaved</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">payload.sampling_rate</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">out_rate</span></code></p></td>
@@ -454,13 +463,6 @@ more than 2 s</p></td>
 transmitting. A downstream node waiting for silence, such as a
 transcriber, keeps its sentence open until more audio comes or the pipeline
 stops.</p></li>
-<li><p>With <code class="docutils literal notranslate"><span class="pre">out_channels:</span> <span class="pre">2</span></code>, <code class="docutils literal notranslate"><span class="pre">block_size</span></code>, <code class="docutils literal notranslate"><span class="pre">start</span></code> and <code class="docutils literal notranslate"><span class="pre">end</span></code> count the
-interleaved samples as if they were mono: each chunk holds
-<code class="docutils literal notranslate"><span class="pre">block_size</span> <span class="pre">/</span> <span class="pre">2</span></code> seconds of audio. Use <code class="docutils literal notranslate"><span class="pre">out_channels:</span> <span class="pre">1</span></code>.</p></li>
-<li><p>With <code class="docutils literal notranslate"><span class="pre">out_channels:</span> <span class="pre">1</span></code> and an integer <code class="docutils literal notranslate"><span class="pre">resampler_format</span></code> (<code class="docutils literal notranslate"><span class="pre">s16</span></code>,
-<code class="docutils literal notranslate"><span class="pre">s32</span></code>, <code class="docutils literal notranslate"><span class="pre">u8</span></code> and their planar forms), the audio is converted to
-<code class="docutils literal notranslate"><span class="pre">float64</span></code> while <code class="docutils literal notranslate"><span class="pre">payload.audio_format</span></code> still names the integer format.
-Use <code class="docutils literal notranslate"><span class="pre">flt</span></code> or <code class="docutils literal notranslate"><span class="pre">dblp</span></code>.</p></li>
 </ul>
 </section>
 <section id="pipeline-usage">
